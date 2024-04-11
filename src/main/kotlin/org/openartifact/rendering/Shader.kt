@@ -1,16 +1,14 @@
-package org.openartifact.gamecore
+package org.openartifact.rendering
 
 import org.lwjgl.opengl.GL20.*
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 
 /**
  * A class for managing and rendering Shaders written in GLSL
  */
 class Shader(vertexShaderFile: File, fragmentShaderFile: File) {
 
-    private var programID: Int = 0
+    var programId: Int = 0
 
     init {
         // Load and compile vertex shader
@@ -28,15 +26,15 @@ class Shader(vertexShaderFile: File, fragmentShaderFile: File) {
         checkShaderCompilation(fragmentShaderID, "Fragment Shader")
 
         // Link the program
-        programID = glCreateProgram()
-        glAttachShader(programID, vertexShaderID)
-        glAttachShader(programID, fragmentShaderID)
-        glLinkProgram(programID)
-        checkProgramLinking(programID)
+        programId = glCreateProgram()
+        glAttachShader(programId, vertexShaderID)
+        glAttachShader(programId, fragmentShaderID)
+        glLinkProgram(programId)
+        checkProgramLinking(programId)
 
         // Clean up shaders as they are now linked into the program
-        glDetachShader(programID, vertexShaderID)
-        glDetachShader(programID, fragmentShaderID)
+        glDetachShader(programId, vertexShaderID)
+        glDetachShader(programId, fragmentShaderID)
         glDeleteShader(vertexShaderID)
         glDeleteShader(fragmentShaderID)
     }
@@ -58,12 +56,12 @@ class Shader(vertexShaderFile: File, fragmentShaderFile: File) {
     }
 
     fun use() {
-        glUseProgram(programID)
+        glUseProgram(programId)
     }
 
     fun cleanup() {
-        if (programID != 0) {
-            glDeleteProgram(programID)
+        if (programId != 0) {
+            glDeleteProgram(programId)
         }
     }
 }

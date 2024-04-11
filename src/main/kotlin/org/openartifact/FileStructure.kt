@@ -2,7 +2,10 @@ package org.openartifact
 
 import java.io.File
 
+private val logger = Artifact.getLogger("FileStructure")
+
 fun initializeStructure() {
+    logger.info("Initializing FileStructure")
     getEngineDirectory()?.mkdir()
     getProjectsDirectory().mkdir()
 }

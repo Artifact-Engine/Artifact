@@ -1,4 +1,12 @@
 package org.openartifact.rendering
 
-class Renderer {
+/**
+ * Defines functions a render needs to function.
+ */
+interface Renderer {
+
+    fun init()
+    fun render()
+    fun shutdown()
+
 }
