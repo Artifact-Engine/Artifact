@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory
 
 object Engine {
 
-    lateinit var gameWindow: Window
-    lateinit var renderer: Renderer
+    var gameWindow: Window
+    var renderer: Renderer
 
     var engineState = EngineState.Unknown
 
