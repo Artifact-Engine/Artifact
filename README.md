@@ -3,8 +3,8 @@
     <a href="https://github.com/meo209/Artifact">
         <img src="docs/artifact.svg" alt="Logo" width="80" height="80">
     </a>
-    <h3>Artifact</h3>
-    <h5>3D Game Engine written in Kotlin</h5>
+    <h2>Artifact</h2>
+    <h4>3D Game Engine written in Kotlin</h4>
 </div>
 
 <details>
