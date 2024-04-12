@@ -1,10 +1,11 @@
-package org.openartifact
+package org.openartifact.configuration
 
+import org.slf4j.LoggerFactory
 import java.io.File
 
-private val logger = Artifact.getLogger("FileStructure")
+private val logger = LoggerFactory.getLogger("ArtFile manager")
 
-fun initializeStructure() {
+fun initializeFileStructure() {
     logger.info("Initializing FileStructure")
     getEngineDirectory()?.mkdir()
     getProjectsDirectory().mkdir()

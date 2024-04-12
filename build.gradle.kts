@@ -14,17 +14,18 @@ repositories {
 
 dependencies {
 
+    // Gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
     // GLM
     implementation("io.github.kotlin-graphics:glm:0.9.9.1-12")
 
-    // SLF4J
+    // SLF4J and SLF4J Simple Provider
+    implementation("org.slf4j:slf4j-simple:2.1.0-alpha1")
     implementation("org.slf4j:slf4j-api:2.1.0-alpha1")
 
-    // Kotlinx json serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
-    // Kevet Event System
-    implementation("com.github.meo209:Kevet:0bf7452ce4")
+    // Kotlinx
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta")
 
     // LWJGL Dependencies
     implementation(platform("org.lwjgl:lwjgl-bom:3.3.3"))

@@ -1,7 +1,10 @@
-import org.openartifact.Artifact
+import org.openartifact.Engine
+import org.openartifact.Project
 
 fun main(args: Array<String>) {
 
-    Artifact.initialize()
+    val gameProject = Project("Game")
+    val engine = Engine(gameProject)
+
 
 }

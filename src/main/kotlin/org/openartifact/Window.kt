@@ -1,6 +1,5 @@
 package org.openartifact
 
-import com.github.meo209.kevet.notify
 import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
@@ -8,14 +7,15 @@ import org.lwjgl.opengl.GL.*
 import org.lwjgl.opengl.GL30.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
-import org.openartifact.events.EventKeyAction
+import org.openartifact.scripting.event.events.EventKeyAction
+import org.openartifact.scripting.event.notify
 
 
 data class Window(val width: Int, val height: Int, val title: String) {
 
     var window: Long = -1
 
-    fun initializeWindow() {
+    init {
         initializeGLFW()
         render()
         shutdown()
@@ -80,12 +80,12 @@ data class Window(val width: Int, val height: Int, val title: String) {
         // bindings available for use.
         createCapabilities()
 
-        Artifact.renderer.init()
+        Engine.renderer.init()
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
         while (!glfwWindowShouldClose(window)) {
-            Artifact.renderer.render()
+            Engine.renderer.render()
 
             glfwSwapBuffers(window) // swap the color buffers
 
@@ -96,7 +96,7 @@ data class Window(val width: Int, val height: Int, val title: String) {
     }
 
     private fun shutdown() {
-        Artifact.renderer.shutdown()
+        Engine.renderer.shutdown()
 
         // Free the window callbacks and destroy the window
         Callbacks.glfwFreeCallbacks(window)

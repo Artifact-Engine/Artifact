@@ -3,8 +3,6 @@ package org.openartifact.rendering.renderers
 import glm_.glm
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
-import org.lwjgl.opengl.GL15.*
-import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.*
 import org.openartifact.rendering.Renderer
 import org.openartifact.rendering.Shader
@@ -20,7 +18,7 @@ class DefaultRenderer: Renderer {
     private lateinit var mvp: Mat4
 
     override fun init() {
-        glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         vertexArrayId = glGenVertexArrays()
         glBindVertexArray(vertexArrayId)
@@ -140,12 +138,11 @@ class DefaultRenderer: Renderer {
         // Pass the float array to glUniformMatrix4fv
         glUniformMatrix4fv(matrixId, false, mvp.array)
 
-        /*
-        glUniform3f(GL20.glGetUniformLocation(shader.programId, "col"),
+        /*glUniform3f(glGetUniformLocation(shader.programId, "col"),
             (0..1).random().toFloat(),
             (0..1).random().toFloat(),
-            (0..1).random().toFloat())
-         */
+            (0..1).random().toFloat())*/
+
 
         glEnableVertexAttribArray(0)
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
