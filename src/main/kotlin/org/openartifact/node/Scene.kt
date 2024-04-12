@@ -1,6 +1,4 @@
-package org.openartifact.node.fixed
-
-import org.openartifact.node.Node
+package org.openartifact.node
 
 /**
  * Holds multiple nodes and manages them.

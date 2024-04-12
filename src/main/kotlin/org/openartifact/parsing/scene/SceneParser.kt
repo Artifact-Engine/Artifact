@@ -1,7 +1,7 @@
 package org.openartifact.parsing.scene
 
 import com.google.gson.Gson
-import org.openartifact.node.fixed.Scene
+import org.openartifact.node.Scene
 
 /**
  * Manages the parsing of scenes and handling the process
