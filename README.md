@@ -27,7 +27,7 @@
 
 ## About Artifact
 Artifact is a desktop 3D game engine written in Kotlin.
-It started as a side project by [meo209](https://gitub.com/meo209) in april 2024.
+It started as a side project by [meo209](https://github.com/meo209) in april 2024.
 
 ## Getting Started
 Currently, Artifact is in a too early phase of development to be used as a real game engine.
