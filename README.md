@@ -4,7 +4,7 @@
         <img src="docs/artifact.svg" alt="Logo" width="80" height="80">
     </a>
     <h2>Artifact</h2>
-    <h4>3D Game Engine written in Kotlin</h4>
+    <h4>Multithreaded 3D Game Engine written in Kotlin</h4>
 </div>
 
 <details>
