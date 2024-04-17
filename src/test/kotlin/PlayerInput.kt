@@ -1,14 +1,17 @@
-import org.lwjgl.glfw.GLFW
-import org.openartifact.input.isKeyPressed
-import org.openartifact.node.Node
 import org.openartifact.scripting.Scriptable
+import org.openartifact.scripting.event.events.KeyRepeatEvent
+import org.openartifact.scripting.event.handler
 
-class PlayerInput: Scriptable<Node>() {
+class PlayerInput: Scriptable(TODO()) {
+
+    init {
+        handler<KeyRepeatEvent>({
+            println(it.key)
+        })
+    }
 
     override fun update() {
-        if (isKeyPressed(GLFW.GLFW_KEY_A)) {
-            println("A")
-        }
+
     }
 
 }

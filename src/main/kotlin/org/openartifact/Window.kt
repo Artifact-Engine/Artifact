@@ -7,7 +7,9 @@ import org.lwjgl.opengl.GL.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.openartifact.configuration.vSync
-import org.openartifact.scripting.event.events.EventKeyAction
+import org.openartifact.scripting.event.events.KeyPressEvent
+import org.openartifact.scripting.event.events.KeyReleaseEvent
+import org.openartifact.scripting.event.events.KeyRepeatEvent
 import org.openartifact.scripting.event.notify
 
 data class Window(val width: Int, val height: Int, val title: String, var window: Long = 0) {
@@ -40,7 +42,11 @@ data class Window(val width: Int, val height: Int, val title: String, var window
             require(window != MemoryUtil.NULL) { "Failed to create the GLFW window" }
 
             glfwSetKeyCallback(window) { _, key, scancode, action, mods ->
-                notify(EventKeyAction(key, scancode, action, mods))
+                when (action) {
+                    GLFW_PRESS -> notify(KeyPressEvent(key, scancode))
+                    GLFW_RELEASE -> notify(KeyReleaseEvent(key, scancode))
+                    GLFW_REPEAT -> notify(KeyRepeatEvent(key, scancode))
+                }
             }
 
             centerWindow()
