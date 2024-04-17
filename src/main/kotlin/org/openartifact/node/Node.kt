@@ -5,6 +5,10 @@ package org.openartifact.node
  */
 open class Node {
 
+    /**
+     * List of components on this node
+     * @see Component
+     */
     val components = mutableListOf<Component>()
 
 }

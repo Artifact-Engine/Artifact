@@ -29,7 +29,9 @@ open class Scriptable(val nodeParent: Node): Component() {
     open fun start() {}
 
     /**
-     * Returns a component
+     * Returns a component of the current node [nodeParent]
+     * @see Node
+     * @see Component
      */
     inline fun <reified T: Component>getComponent(): Component? {
         return nodeParent.components.find { it is T }

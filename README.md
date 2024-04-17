@@ -14,47 +14,54 @@
             <a href="#about-artifact">About Artifact</a>
         </li>
         <li>
-            <a href="#usage">Usage</a>
+            <a href="#technology">Technology</a>
             <ul>
-                <li><a href="#nodes">Nodes</a></li>
-                <li><a href="#components">Components</a></li>
-                <li><a href="#events">Events</a></li>
+                <li><a href="#list-of-nodes">List of nodes</a></li>
+                <li><a href="#list-of-components">List of components</a></li>
+                <li><a href="#list-of-events">List of events</a></li>
             </ul>
         </li>
         <li>
-            <a href="#acknowledgments">Acknowledgments</a>
+            <a href="#acknowledgements">Acknowledgements</a>
         </li>
     </ol>
 </details>
 
 ## About Artifact
 Artifact is a desktop 3D game engine written in Kotlin.
-It started as a side project by [meo209](https://github.com/meo209) in april 2024.
 
-## Getting Started
-Currently, Artifact is in a too early phase of development to be used as a real game engine.
+## Getting started
+Currently, Artifact is in a too early stage of development to be used as a real game engine.
 Sorry :(
 
-## Usage
+## Technology
 
-Artifact employs a node and component-based architecture, wherein a node represents an object that can be placed within a scene.
+Artifact uses a node- and component-based architecture, where a node is an object that can be placed in a scene.
 A component is an element that can be attached to a node.
-Nodes have the capacity to possess numerous children, yet they can only accommodate a single instance of each component type.
+Nodes have the ability to have many children, but can only contain a single instance of each component type.
 
-For example, a node named Player of type Translation could have one PlayerInput script-component attached to it.
-The Player node can have unlimited amounts of children. For example a sprite children to render a texture.
-
-### Nodes
+### List of nodes
 - Translation
 
-### Components
+### List of components
 - Scriptable
 
-## Events
+### List of events
 - KeyPressEvent
 - KeyReleaseEvent
 - KeyRepeatEvent
 
-## Acknowledgments
+## Q&A
+
+### Do you have a Roadmap?
+Yes, we do! Check it out at [Taiga.io](https://tree.taiga.io/project/meo209-artifact-game-engine/kanban).
+
+### Can i contribute?
+Yes, you can! Please contribute to improve the engine or fix bugs. Just make a PR and we'll take a look.
+
+### Do you accept donations?
+No, not at the moment. But we are planning to open a Ko-Fi.
+
+## Acknowledgements
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.
 

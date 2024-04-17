@@ -14,7 +14,7 @@ object Engine {
 
     var engineState = EngineState.Unknown
 
-    var scriptables = mutableListOf<Scriptable<*>>()
+    var scriptables = mutableListOf<Scriptable>()
 
     private var logger: Logger = LoggerFactory.getLogger("Artifact Engine")
 
