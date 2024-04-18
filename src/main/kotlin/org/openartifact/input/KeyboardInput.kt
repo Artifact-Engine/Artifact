@@ -1,8 +1,7 @@
 package org.openartifact.input
 
 import org.lwjgl.glfw.GLFW.*
-import org.openartifact.Engine
-import org.openartifact.Project
+import org.openartifact.core.Engine
 
 /**
  * Returns true if the specified key is currently pressed

@@ -1,14 +1,14 @@
-package org.openartifact.rendering.renderers
+package org.openartifact.node.fixed.cube
 
 import glm_.glm
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
 import org.lwjgl.opengl.GL30.*
-import org.openartifact.rendering.Renderer
+import org.openartifact.node.NodeRenderer
 import org.openartifact.rendering.Shader
 import java.io.File
 
-class DefaultRenderer: Renderer {
+class CubeRenderer: NodeRenderer<CubeNode>() {
 
     private var vertexArrayId = 0
     private var vertexBuffer = 0
@@ -18,8 +18,6 @@ class DefaultRenderer: Renderer {
     private lateinit var mvp: Mat4
 
     override fun init() {
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
         vertexArrayId = glGenVertexArrays()
         glBindVertexArray(vertexArrayId)
 
@@ -128,8 +126,6 @@ class DefaultRenderer: Renderer {
     }
 
     override fun render() {
-        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT) // clear the framebuffer
-
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LESS)
 

@@ -1,4 +1,4 @@
-package org.openartifact
+package org.openartifact.core
 
 import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW.*
@@ -11,10 +11,15 @@ import org.openartifact.scripting.event.events.KeyPressEvent
 import org.openartifact.scripting.event.events.KeyReleaseEvent
 import org.openartifact.scripting.event.events.KeyRepeatEvent
 import org.openartifact.scripting.event.notify
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 data class Window(val width: Int, val height: Int, val title: String, var window: Long = 0) {
 
+    private var logger: Logger = LoggerFactory.getLogger(javaClass)
+
     init {
+        logger.info("Starting GraphicsThread")
         GraphicsThread().start()
     }
 
@@ -92,7 +97,8 @@ data class Window(val width: Int, val height: Int, val title: String, var window
          */
         private fun update() {
             Engine.renderer.render()
-            Engine.scriptables.forEach { it.update() }
+            //Engine.scriptables.forEach { it.update() }
+            //TODO("Reimplement scriptables")
         }
 
         override fun run() {
