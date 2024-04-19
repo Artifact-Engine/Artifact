@@ -1,4 +1,4 @@
-package org.openartifact.scripting.event
+package org.openartifact.core.event
 
 /**
  * An interface for objects that want to be notified of events.
@@ -12,10 +12,5 @@ interface EventListener {
      * @param event the event to handle
      */
     suspend fun handle(event: Event)
-
-    /**
-     * The priority of the event listener (sorted by descending)
-     */
-    val priority: Int
 
 }

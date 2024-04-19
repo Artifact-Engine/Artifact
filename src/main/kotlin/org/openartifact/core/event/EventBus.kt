@@ -1,4 +1,4 @@
-package org.openartifact.scripting.event
+package org.openartifact.core.event
 
 import kotlinx.coroutines.*
 import kotlin.reflect.KClass
@@ -17,7 +17,6 @@ private val listeners: MutableMap<KClass<out Any>, MutableList<EventListener>> =
 fun register(eventClass: KClass<*>, listener: EventListener) {
     val eventListeners = listeners.getOrPut(eventClass) { ArrayList() }
     eventListeners.add(listener)
-    eventListeners.sortByDescending { it.priority }
 }
 
 /**
@@ -47,8 +46,6 @@ inline fun <reified T : Any> handler(crossinline callback: suspend (T) -> Unit, 
             if (event is T)
                 callback(event)
         }
-
-        override val priority: Int = priority
     }
     register(T::class, listener)
 }

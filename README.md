@@ -22,6 +22,9 @@
             </ul>
         </li>
         <li>
+            <a href="#dependencies">Dependencies</a>
+        </li>
+        <li>
             <a href="#acknowledgements">Acknowledgements</a>
         </li>
     </ol>
@@ -41,15 +44,13 @@ A component is an element that can be attached to a node.
 Nodes have the ability to have many children, but can only contain a single instance of each component type.
 
 ### List of nodes
-- Translation
+
 
 ### List of components
-- Scriptable
+
 
 ### List of events
-- KeyPressEvent
-- KeyReleaseEvent
-- KeyRepeatEvent
+
 
 ## Q&A
 
@@ -61,6 +62,17 @@ Yes, you can! Please contribute to improve the engine or fix bugs. Just make a P
 
 ### Do you accept donations?
 No, not at the moment. But we are planning to open a Ko-Fi.
+
+## Dependencies
+[LWJGL](https://www.lwjgl.org/)
+<br>
+[SKML](https://github.com/meo209/SKML)
+<br>
+[Clikt](https://github.com/ajalt/clikt)
+<br>
+[SLF4J](https://www.slf4j.org/)
+<br>
+[kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 
 ## Acknowledgements
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.
