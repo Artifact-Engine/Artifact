@@ -11,6 +11,6 @@ interface EventListener {
      *
      * @param event the event to handle
      */
-    suspend fun handle(event: Event)
+    suspend fun handle(event : Event)
 
 }

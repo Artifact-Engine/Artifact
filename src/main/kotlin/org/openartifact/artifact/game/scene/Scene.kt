@@ -6,13 +6,13 @@ import org.openartifact.artifact.game.Node
 /**
  * Holds a collection of nodes
  */
-class Scene(val name: String) {
+class Scene(val name : String) {
 
-    constructor(name: String, nodes: MutableList<Node>) : this(name) {
+    constructor(name : String, nodes : MutableList<Node>) : this(name) {
         this.nodes = nodes
     }
 
-    var nodes: MutableList<Node> = mutableListOf()
+    var nodes : MutableList<Node> = mutableListOf()
 
     /**
      * Performs necessary operations to load the scene

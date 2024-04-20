@@ -1,12 +1,14 @@
 package org.openartifact.artifact.core.event
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KClass
 
 /**
  * listeners a map of event types to a list of event listeners
  */
-private val listeners: MutableMap<KClass<out Any>, MutableList<EventListener>> = HashMap()
+private val listeners : MutableMap<KClass<out Any>, MutableList<EventListener>> = HashMap()
 
 /**
  * Registers an event listener for a specific event type
@@ -14,7 +16,7 @@ private val listeners: MutableMap<KClass<out Any>, MutableList<EventListener>> =
  * @param eventClass the class of the event to listen for
  * @param listener the event listener to register
  */
-fun register(eventClass: KClass<*>, listener: EventListener) {
+fun register(eventClass : KClass<*>, listener : EventListener) {
     val eventListeners = listeners.getOrPut(eventClass) { ArrayList() }
     eventListeners.add(listener)
 }
@@ -24,7 +26,7 @@ fun register(eventClass: KClass<*>, listener: EventListener) {
  *
  * @param event the event to notify listeners of
  */
-fun notify(event: Event) {
+fun notify(event : Event) {
     runBlocking {
         listeners[event::class]?.map { listener ->
             async {
@@ -40,9 +42,9 @@ fun notify(event: Event) {
  * @param T the type of event to listen for
  * @param callback the function to call when an event of type [T] is received
  */
-inline fun <reified T : Any> handler(crossinline callback: suspend (T) -> Unit, priority: Int = 0) {
+inline fun <reified T : Any> handler(crossinline callback : suspend (T) -> Unit, priority : Int = 0) {
     val listener = object : EventListener {
-        override suspend fun handle(event: Event) {
+        override suspend fun handle(event : Event) {
             if (event is T)
                 callback(event)
         }

@@ -75,6 +75,8 @@ No, not at the moment. But we are planning to open a Ko-Fi.
 [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 <br>
 [Gson](https://github.com/google/gson)
+<br>
+[Kotlin-reflect](https://kotlinlang.org/docs/reflection.html)
 
 ## Acknowledgements
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.

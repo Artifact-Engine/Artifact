@@ -36,6 +36,9 @@ val kotlinVersion = project.properties["kotlin_version"].toString()
 
 dependencies {
 
+    // Kotlin-reflect
+    implementation(kotlin("reflect"))
+
     // Gson
     implementation("com.google.code.gson:gson:2.10.1")
 

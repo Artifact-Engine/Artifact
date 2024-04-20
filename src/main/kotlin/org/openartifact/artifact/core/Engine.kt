@@ -13,26 +13,28 @@ object Engine {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    lateinit var application: Application
+    lateinit var application : Application
 
     private const val BASE_PKG = "org.openartifact.artifact"
     const val NODE_PGK = "$BASE_PKG.game.nodes"
     const val COMPONENT_PGK = "$BASE_PKG.game.components"
 
-    private fun constructTempScene(): Scene {
+    private fun constructTempScene() : Scene {
         val scene = Scene("TempScene")
         val node = CubeNode()
-        node.components.add(TransformComponent(
-            Vec3(0.0f, 0.0f, 0.0f),
-            Vec3(0.0f, 0.0f, 0.0f),
-            Vec3(1.0f, 1.0f, 1.0f)
-        ))
+        node.components.add(
+            TransformComponent(
+                Vec3(0.0f, 0.0f, 0.0f),
+                Vec3(0.0f, 0.0f, 0.0f),
+                Vec3(1.0f, 1.0f, 1.0f)
+            )
+        )
         scene.nodes.add(node)
 
         return scene
     }
 
-    fun init(projectFile: File) {
+    fun init(projectFile : File) {
         logger.info("Trying to read application...")
 
         application = readApplicationFromFile(projectFile)

@@ -2,7 +2,6 @@ import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.options.help
 import com.github.ajalt.clikt.parameters.options.option
 import org.openartifact.artifact.core.Engine
-import org.openartifact.artifact.core.event.register
 import org.slf4j.LoggerFactory
 import java.io.File
 
@@ -23,10 +22,12 @@ class StartCommand : CliktCommand() {
 
         require(projectFile.isDirectory) { "Project can only be a directory." }
 
-        logger.info(when (projectFile.exists()) {
-            true -> "Project found."
-            false -> "Project not found!"
-        })
+        logger.info(
+            when (projectFile.exists()) {
+                true -> "Project found."
+                false -> "Project not found!"
+            }
+        )
 
         logger.info("Initializing Artifact")
 
