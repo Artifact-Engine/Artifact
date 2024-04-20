@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.events
+package org.openartifact.artifact.core.event.events
 
 import org.openartifact.artifact.core.event.Event
 import org.openartifact.artifact.game.scene.Scene

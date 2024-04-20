@@ -1,8 +1,10 @@
 package org.openartifact.artifact.core
 
+import com.google.gson.Gson
 import org.openartifact.artifact.game.scene.Scene
 import org.openartifact.artifact.game.scene.readScene
 import org.openartifact.artifact.utils.requireDirectory
+import org.openartifact.artifact.utils.requireFile
 import org.slf4j.LoggerFactory
 import java.io.File
 
@@ -37,5 +39,12 @@ fun readApplicationFromFile(file : File) : Application {
         scenes[sceneFile] = readScene(sceneFile)
     }
 
-    return Application(scenes)
+    val settingsFile = requireFile(resourcesDir, "settings.json")
+
+    val applicationSettings = readApplicationSettings(settingsFile)
+
+    return Application(applicationSettings, scenes)
 }
+
+private fun readApplicationSettings(file : File): ApplicationSettings =
+    Gson().fromJson(file.readText(), ApplicationSettings::class.java)

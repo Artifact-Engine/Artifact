@@ -14,9 +14,13 @@ object Engine {
     const val COMPONENT_PGK = "$BASE_PKG.game.components"
 
     fun init(projectFile : File) {
-        logger.info("Trying to read application...")
+        logger.info("Reading application...")
 
         application = readApplicationFromFile(projectFile)
+
+        val scene = application.getCurrentScene()
+
+        println(scene.nodes)
     }
 
 }
