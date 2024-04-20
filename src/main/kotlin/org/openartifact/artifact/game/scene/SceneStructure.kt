@@ -10,17 +10,13 @@ import org.openartifact.artifact.utils.requireFile
 import java.io.File
 import java.lang.reflect.Type
 
-fun validateSceneStructure(sceneFile : File) {
-
-    requireFile(sceneFile, "nodes.json")
-    requireFile(sceneFile, "settings.json")
-
-}
-
 fun readScene(sceneFile : File) : Scene {
+    val nodesFile = requireFile(sceneFile, "nodes.json")
+    val settingsFile = requireFile(sceneFile, "settings.json")
 
+    val scene = Scene(readSettings(settingsFile.readText()), readNodes(nodesFile.readText()))
 
-    TODO()
+    return scene
 }
 
 fun writeNodes(scene : Scene) : String =
@@ -34,6 +30,8 @@ fun readNodes(source : String) : List<Node> {
         .create().fromJson(source, listType)
 }
 
+fun readSettings(source : String) : SceneSettings =
+    Gson().fromJson(source, SceneSettings::class.java)
 
 class NodeDeserializer : JsonDeserializer<Node> {
 

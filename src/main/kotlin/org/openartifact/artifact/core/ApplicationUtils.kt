@@ -1,16 +1,12 @@
 package org.openartifact.artifact.core
 
 import org.openartifact.artifact.game.scene.Scene
-import org.openartifact.artifact.game.scene.validateSceneStructure
+import org.openartifact.artifact.game.scene.readScene
 import org.openartifact.artifact.utils.requireDirectory
 import org.slf4j.LoggerFactory
 import java.io.File
 
 private val logger = LoggerFactory.getLogger("ApplicationReader")
-
-private fun validateResources(file : File) {
-
-}
 
 fun readApplicationFromFile(file : File) : Application {
 
@@ -36,12 +32,9 @@ fun readApplicationFromFile(file : File) : Application {
     scenesFiles.forEach { sceneFile ->
         require(sceneFile.isDirectory) { "Scene '${sceneFile.name}' must be a directory!" }
 
-        validateSceneStructure(sceneFile)
-
-        logger.debug("Scene '${sceneFile.name}' passed validation tests.")
         logger.debug("Reading '${sceneFile.name}'...")
 
-        //scenes[sceneFile] = readScene(sceneFile)
+        scenes[sceneFile] = readScene(sceneFile)
     }
 
     return Application(scenes)
