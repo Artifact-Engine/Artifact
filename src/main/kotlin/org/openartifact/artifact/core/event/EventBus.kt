@@ -1,4 +1,4 @@
-package org.openartifact.core.event
+package org.openartifact.artifact.core.event
 
 import kotlinx.coroutines.*
 import kotlin.reflect.KClass

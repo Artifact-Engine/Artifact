@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.22"
 }
 
 group = "org.openartifact"
@@ -33,7 +32,15 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 
+val kotlinVersion = project.properties["kotlin_version"].toString()
+
 dependencies {
+
+    // Gson
+    implementation("com.google.code.gson:gson:2.10.1")
+
+    // glm
+    implementation("io.github.kotlin-graphics:glm:0.9.9.1-12")
 
     // SLF4J
     implementation("org.slf4j:slf4j-api:2.0.13")

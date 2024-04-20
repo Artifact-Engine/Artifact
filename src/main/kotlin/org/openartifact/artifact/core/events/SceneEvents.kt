@@ -1,6 +1,7 @@
-package org.openartifact.core.events
+package org.openartifact.artifact.core.events
 
-import org.openartifact.core.event.Event
+import org.openartifact.artifact.game.scene.Scene
+import org.openartifact.artifact.core.event.Event
 
 open class SceneEvent(val scene: Scene) : Event
 

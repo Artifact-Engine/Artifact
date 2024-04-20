@@ -66,13 +66,15 @@ No, not at the moment. But we are planning to open a Ko-Fi.
 ## Dependencies
 [LWJGL](https://www.lwjgl.org/)
 <br>
-[SKML](https://github.com/meo209/SKML)
+[glm](https://github.com/kotlin-graphics/glm)
 <br>
 [Clikt](https://github.com/ajalt/clikt)
 <br>
 [SLF4J](https://www.slf4j.org/)
 <br>
 [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+<br>
+[Gson](https://github.com/google/gson)
 
 ## Acknowledgements
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.

@@ -1,4 +1,4 @@
-package org.openartifact.core.event
+package org.openartifact.artifact.core.event
 
 /**
  * An interface for objects that want to be notified of events.
