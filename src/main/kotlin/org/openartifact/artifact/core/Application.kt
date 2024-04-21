@@ -12,15 +12,13 @@ private val logger = LoggerFactory.getLogger("ApplicationReader")
 
 class Application() {
 
-    val settings: ApplicationSettings
-    val scenes: Map<File, Scene>
+    val settings : ApplicationSettings
+    val scenes : HashMap<File, Scene>
+
+    private var activeScene : Scene? = null
 
     init {
         val rootDir = File(Engine::class.java.getResource("/game").file)
-
-        rootDir.listFiles().forEach {
-            println(it.name + " ${it.isDirectory}")
-        }
 
         val scenesDir = requireDirectory(rootDir, "scenes")
 
@@ -30,9 +28,10 @@ class Application() {
         logger.info("Found scenes: ${scenesFiles.size}")
         logger.debug("Scenes: ${scenesFiles.map { it.name }}")
 
-        val scenesMap: MutableMap<File, Scene> = mutableMapOf()
+        val scenesMap : HashMap<File, Scene> = hashMapOf()
 
         scenesFiles.forEach { sceneFile ->
+            requireDirectory(sceneFile)
             require(sceneFile.isDirectory) { "Scene '${sceneFile.name}' must be a directory!" }
 
             logger.debug("Reading '${sceneFile.name}'...")
@@ -46,14 +45,34 @@ class Application() {
 
         this.settings = applicationSettings
         this.scenes = scenesMap
+
+        activeScene = getScene(settings.currentScene)
+        activeScene?.load()
     }
 
-    private fun readApplicationSettings(file : File): ApplicationSettings =
+    private fun readApplicationSettings(file : File) : ApplicationSettings =
         Gson().fromJson(file.readText(), ApplicationSettings::class.java)
 
-    fun getScene(name: String): Scene =
+    fun writeApplicationSettings(applicationSettings : ApplicationSettings) : String =
+        Gson().toJson(applicationSettings, ApplicationSettings::class.java)
+
+    fun getScene(name : String) : Scene =
         scenes.values.find { it.sceneSettings.name == name } ?: throw IllegalArgumentException("Scene not found: $name")
 
-    fun getCurrentScene(): Scene =
-        getScene(settings.currentScene)
+    fun update() {
+        activeScene?.update()
+    }
+
+    fun rest() {
+        activeScene?.rest()
+    }
+
+    fun getActiveScene() : Scene =
+        activeScene !!
+
+    fun switchScene(scene : String) {
+        activeScene?.rest()
+        activeScene = getScene(scene)
+        activeScene?.load()
+    }
 }

@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.rendering
+package org.openartifact.artifact.core.graphics
 
 enum class RendererType {
 

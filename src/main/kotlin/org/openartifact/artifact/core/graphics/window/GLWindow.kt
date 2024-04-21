@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.rendering.window
+package org.openartifact.artifact.core.graphics.window
 
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
@@ -57,8 +57,6 @@ class GLWindow : Window {
         glfwShowWindow(window)
     }
 
-    private var i = 0
-
     override fun render() {
         GL.createCapabilities()
 
@@ -75,6 +73,8 @@ class GLWindow : Window {
 
             processInput()
 
+            Engine.application.update()
+
             glfwSwapBuffers(window)
 
             glfwPollEvents()
@@ -89,6 +89,8 @@ class GLWindow : Window {
     override fun initWindow() {
         initAPI()
         render()
+
+        Engine.application.rest()
 
         glfwFreeCallbacks(window)
         glfwDestroyWindow(window)

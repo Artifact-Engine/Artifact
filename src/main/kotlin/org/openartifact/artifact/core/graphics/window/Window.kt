@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.rendering.window
+package org.openartifact.artifact.core.graphics.window
 
 interface Window {
 

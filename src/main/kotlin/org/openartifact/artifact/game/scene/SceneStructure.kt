@@ -5,7 +5,6 @@ import com.google.gson.reflect.TypeToken
 import org.openartifact.artifact.core.Engine
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
-import org.openartifact.artifact.utils.getClass
 import org.openartifact.artifact.utils.requireFile
 import java.io.File
 import java.lang.reflect.Type
@@ -39,9 +38,9 @@ class NodeDeserializer : JsonDeserializer<Node> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = getClass<Node>("${Engine.NODE_PGK}.$type")
+        val kClass = Engine.nodeClasses.find { it.simpleName == type }
 
-        return context.deserialize(json, kClass.java)
+        return context.deserialize(json, kClass?.java)
     }
 
 }
@@ -52,9 +51,9 @@ class ComponentDeserializer : JsonDeserializer<Component> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = getClass<Component>("${Engine.COMPONENT_PGK}.$type")
+        val kClass = Engine.componentClasses.find { it.simpleName == type }
 
-        return context.deserialize(json, kClass.java)
+        return context.deserialize(json, kClass?.java)
     }
 
 }

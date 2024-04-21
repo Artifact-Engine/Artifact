@@ -1,5 +1,9 @@
 package org.openartifact.artifact.utils
 
+/**
+ * Has issues with resources. Can't say if file exists or not.
+ */
+
 import java.io.File
 
 fun getChildFile(file : File, childFileName : String) : File =
@@ -12,6 +16,14 @@ fun requireDirectory(file : File, directoryName : String) : File {
     }
 
     return requiredDirectory
+}
+
+fun requireDirectory(file : File) : File {
+    require(file.exists() && file.isDirectory) {
+        "The ${file.name} directory needs to include a ${file.name} directory!"
+    }
+
+    return file
 }
 
 fun requireFile(file : File, fileName : String) : File {

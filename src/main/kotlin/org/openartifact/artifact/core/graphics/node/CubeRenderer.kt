@@ -1,9 +1,9 @@
-package org.openartifact.artifact.game.nodes.renderer
+package org.openartifact.artifact.core.graphics.node
 
 import org.openartifact.artifact.game.NodeRenderer
 import org.openartifact.artifact.game.nodes.CubeNode
 
-class CubeRenderer: NodeRenderer<CubeNode> {
+class CubeRenderer : NodeRenderer<CubeNode> {
 
     override fun initRender() {
 

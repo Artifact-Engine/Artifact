@@ -3,6 +3,7 @@ package org.openartifact.artifact.utils
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
+
 /**
  * Searched for a class in a specific package
  */

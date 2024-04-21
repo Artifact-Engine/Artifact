@@ -26,7 +26,7 @@ class Scene(val sceneSettings : SceneSettings) {
     /**
      * Performs necessary operations to unload the scene
      */
-    fun unload() {
+    fun rest() {
         nodes.forEach { node ->
             node.rest()
         }
