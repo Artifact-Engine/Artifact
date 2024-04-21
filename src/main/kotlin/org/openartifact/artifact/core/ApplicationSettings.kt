@@ -1,3 +1,5 @@
 package org.openartifact.artifact.core
 
-data class ApplicationSettings(val name : String, val currentScene : String)
+import org.openartifact.artifact.core.rendering.RendererType
+
+data class ApplicationSettings(val name : String, val currentScene : String, val rendererType : RendererType)

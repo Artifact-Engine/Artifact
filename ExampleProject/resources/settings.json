@@ -1,4 +1,5 @@
 {
   "name": "ExampleProject",
-  "currentScene": "ExampleSceneName"
+  "currentScene": "ExampleSceneName",
+  "rendererType": "OpenGL"
 }
