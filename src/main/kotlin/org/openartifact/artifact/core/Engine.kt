@@ -22,6 +22,12 @@ object Engine {
 
         application = readApplicationFromFile(projectFile)
 
+        logger.debug("EngineApp: ${application.settings.mainClass}")
+
+        //engineApp = createInstance<EngineApp>(application.settings.mainClass)!!
+
+        //engineApp.boot()
+
         logger.debug("Detected rendering API: ${application.settings.rendererType}")
 
         logger.debug("Creating window...")

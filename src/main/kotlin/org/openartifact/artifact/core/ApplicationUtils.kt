@@ -15,7 +15,8 @@ fun readApplicationFromFile(file : File) : Application {
     val files = file.listFiles()
 
     val srcDir = requireDirectory(file, "src")
-    val resourcesDir = requireDirectory(file, "resources")
+    val mainDir = requireDirectory(srcDir, "main")
+    val resourcesDir = requireDirectory(mainDir, "resources")
 
     // Validate resources
     val scenesDir = requireDirectory(resourcesDir, "scenes")
@@ -43,7 +44,7 @@ fun readApplicationFromFile(file : File) : Application {
 
     val applicationSettings = readApplicationSettings(settingsFile)
 
-    return Application(applicationSettings, scenes)
+    return Application(applicationSettings, scenes, file)
 }
 
 private fun readApplicationSettings(file : File): ApplicationSettings =

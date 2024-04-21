@@ -8,6 +8,8 @@ import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Engine
+import org.openartifact.artifact.core.event.events.KeyPressEvent
+import org.openartifact.artifact.core.event.notify
 
 
 class GLWindow : Window {
@@ -30,10 +32,9 @@ class GLWindow : Window {
         glfwSetKeyCallback(
             window
         ) { window : Long, key : Int, scancode : Int, action : Int, mods : Int ->
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) glfwSetWindowShouldClose(
-                window,
-                true
-            )
+            when (action) {
+                GLFW_PRESS -> notify(KeyPressEvent(key))
+            }
         }
 
         stackPush().use { stack ->
@@ -42,7 +43,7 @@ class GLWindow : Window {
 
             glfwGetWindowSize(window, pWidth, pHeight)
 
-            val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())!!
+            val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor()) !!
 
             glfwSetWindowPos(
                 window,
@@ -71,10 +72,16 @@ class GLWindow : Window {
         while (! glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
+            processInput()
+
             glfwSwapBuffers(window)
 
             glfwPollEvents()
         }
+    }
+
+    override fun processInput() {
+
     }
 
     init {
