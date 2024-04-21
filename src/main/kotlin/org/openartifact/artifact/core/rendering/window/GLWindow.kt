@@ -16,7 +16,7 @@ class GLWindow : Window {
 
     private var window : Long = 0
 
-    override fun init() {
+    override fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
 
         require(glfwInit()) { "Failed to initialize GLFW" }
@@ -57,13 +57,14 @@ class GLWindow : Window {
         glfwShowWindow(window)
     }
 
+    private var i = 0
+
     override fun render() {
         GL.createCapabilities()
 
         glViewport(0, 0, 800, 600)
 
         glfwSetFramebufferSizeCallback(window) { _, width, height ->
-            println("Adjusting to $width:$height")
             glViewport(0, 0, width, height)
         }
 
@@ -80,12 +81,13 @@ class GLWindow : Window {
         }
     }
 
-    override fun processInput() {
+    /**
+     * Unused because of easier handling using [glfwSetKeyCallback]
+     */
+    override fun processInput() {}
 
-    }
-
-    init {
-        init()
+    override fun initWindow() {
+        initAPI()
         render()
 
         glfwFreeCallbacks(window)
