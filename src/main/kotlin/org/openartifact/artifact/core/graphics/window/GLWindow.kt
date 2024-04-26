@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Engine
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.event.events.KeyPressEvent
 import org.openartifact.artifact.core.event.notify
 
@@ -25,7 +26,7 @@ class GLWindow : Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
 
-        window = glfwCreateWindow(800, 600, "Artifact <${Engine.application.settings.name}> OpenGL", NULL, NULL)
+        window = glfwCreateWindow(800, 600, "Artifact <${GameContext.getCurrentContext().application.profile.displayTitle}> OpenGL", NULL, NULL)
 
         require(window != NULL) { "Failed to create GLFW window" }
 
@@ -69,11 +70,11 @@ class GLWindow : Window {
         glClearColor(0.0f, 0.0f, 0.2f, 1.0f)
 
         while (! glfwWindowShouldClose(window)) {
-            glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+            glClear(GL_COLOR_BUFFER_BIT)
 
             processInput()
 
-            Engine.application.update()
+            GameContext.getCurrentContext().application.update()
 
             glfwSwapBuffers(window)
 
@@ -90,7 +91,7 @@ class GLWindow : Window {
         initAPI()
         render()
 
-        Engine.application.rest()
+        GameContext.getCurrentContext().application.rest()
 
         glfwFreeCallbacks(window)
         glfwDestroyWindow(window)

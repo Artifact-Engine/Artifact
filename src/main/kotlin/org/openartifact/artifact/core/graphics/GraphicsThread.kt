@@ -1,6 +1,6 @@
 package org.openartifact.artifact.core.graphics
 
-import org.openartifact.artifact.core.Engine.application
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.graphics.window.GLWindow
 import org.openartifact.artifact.core.graphics.window.Window
 import org.openartifact.artifact.game.Node
@@ -17,8 +17,8 @@ class GraphicsThread : Thread("Graphics") {
 
     override fun run() {
         logger.debug("Creating window...")
-        window = when (application.settings.rendererType) {
-            RendererType.OpenGL -> GLWindow()
+        window = when (GameContext.getCurrentContext().application.profile.renderAPI) {
+            RenderAPI.OpenGL -> GLWindow()
         }
         window.initWindow()
     }

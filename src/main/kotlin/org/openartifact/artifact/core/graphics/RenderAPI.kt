@@ -1,6 +1,6 @@
 package org.openartifact.artifact.core.graphics
 
-enum class RendererType {
+enum class RenderAPI {
 
     OpenGL,
     /* Vulkan */ /* Not usable */

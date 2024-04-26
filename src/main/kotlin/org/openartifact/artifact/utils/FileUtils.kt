@@ -4,6 +4,8 @@ package org.openartifact.artifact.utils
  * Has issues with resources. Can't say if file exists or not.
  */
 
+import org.openartifact.artifact.core.Engine
+import org.openartifact.artifact.core.GameContext
 import java.io.File
 
 fun getChildFile(file : File, childFileName : String) : File =
@@ -31,6 +33,14 @@ fun requireFile(file : File, fileName : String) : File {
     require(requiredFile.exists() && requiredFile.isFile) {
         "The ${file.name} directory needs to include a $fileName file!"
     }
-
     return requiredFile
 }
+
+fun getEngineDir() : File =
+    File(System.getProperty("user.home"), ".artifactengine")
+
+fun getProjectsDir() : File =
+    File(getEngineDir(), "projects")
+
+fun getProjectDir() : File =
+    File(getProjectsDir(), GameContext.getCurrentContext().application.profile.projectId)
