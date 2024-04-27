@@ -2,7 +2,6 @@ package org.openartifact.artifact.game.scene
 
 import org.openartifact.artifact.game.Node
 
-
 /**
  * Holds a collection of nodes
  */
@@ -14,12 +13,28 @@ class Scene(val profile : SceneProfile) {
 
     var nodes : MutableList<Node> = mutableListOf()
 
+    private fun recursiveOperation(node: Node, operation: (Node) -> Unit) {
+        operation(node)
+        node.children.forEach { child ->
+            recursiveOperation(child, operation)
+        }
+    }
+
     /**
      * Performs necessary operations to load the scene
      */
     fun load() {
         nodes.forEach { node ->
-            node.awake()
+            recursiveOperation(node, Node::awake)
+        }
+    }
+
+    /**
+     * Performs necessary operations to unload the scene
+     */
+    fun update() {
+        nodes.forEach { node ->
+            recursiveOperation(node, Node::update)
         }
     }
 
@@ -28,17 +43,9 @@ class Scene(val profile : SceneProfile) {
      */
     fun rest() {
         nodes.forEach { node ->
-            node.rest()
+            recursiveOperation(node, Node::rest)
         }
     }
 
-    /**
-     * Performs necessary operations to update the scene
-     */
-    fun update() {
-        nodes.forEach { node ->
-            node.update()
-        }
-    }
 
 }

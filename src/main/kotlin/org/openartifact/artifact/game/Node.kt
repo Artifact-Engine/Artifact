@@ -1,32 +1,44 @@
 package org.openartifact.artifact.game
 
-open class Node {
+import org.openartifact.artifact.core.graphics.node.NodeRenderer
+
+open class Node() {
+
+    var parent : Node? = null
+
+    constructor(renderer : NodeRenderer<out Node>) : this() {
+        this.renderer = renderer
+    }
+
+    var renderer : NodeRenderer<out Node>? = null
 
     val type = javaClass.simpleName
 
+    open val children : MutableList<Node> = mutableListOf()
     open val components : MutableList<Component> = mutableListOf()
 
-
-    fun <T> getComponent() {
-        TODO()
-    }
-
-    fun awake() {
+    open fun awake() {
         components.forEach {
             it.awake()
         }
+
+        renderer?.initRender()
     }
 
-    fun update() {
+    open fun update() {
         components.forEach {
             it.update()
         }
+
+        renderer?.render()
     }
 
-    fun rest() {
+    open fun rest() {
         components.forEach {
             it.rest()
         }
+
+        renderer?.cleanupRender()
     }
 
 }

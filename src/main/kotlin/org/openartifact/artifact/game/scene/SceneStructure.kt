@@ -41,7 +41,17 @@ class NodeDeserializer : JsonDeserializer<Node> {
 
         val kClass = GameContext.current().engine.nodeClasses.find { it.simpleName == type }
 
-        return context.deserialize(json, kClass?.java)
+        val node = context.deserialize<Node>(json, kClass?.java)
+
+        node.components.forEach {
+            it.parent = node
+        }
+
+        node.children.forEach {
+            it.parent = node
+        }
+
+        return node
     }
 
 }

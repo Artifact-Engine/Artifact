@@ -1,6 +1,5 @@
 package org.openartifact.artifact.utils
 
-import org.openartifact.artifact.core.Engine
 import org.openartifact.artifact.core.GameContext
 import java.io.File
 
@@ -50,3 +49,9 @@ fun getGameDataDir() : File =
 
 fun getScenesDir() : File =
     File(getGameDataDir(), "scenes")
+
+fun getShadersDir() : File =
+    File(getGameDataDir(), "shaders")
+
+fun getShaderFile(fileName : String) =
+    File(getShadersDir(), fileName)

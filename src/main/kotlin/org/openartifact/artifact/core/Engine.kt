@@ -1,11 +1,11 @@
 package org.openartifact.artifact.core
 
-import org.openartifact.artifact.core.graphics.GraphicsThread
+import org.openartifact.artifact.core.graphics.Graphics
+import org.openartifact.artifact.core.graphics.window.Window
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.components.TransformComponent
 import org.openartifact.artifact.game.nodes.CubeNode
-import org.openartifact.artifact.game.scene.SceneManager
 import org.openartifact.artifact.utils.*
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
@@ -14,7 +14,8 @@ internal class Engine {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    private lateinit var graphicsThread : GraphicsThread
+    private lateinit var graphics : Graphics
+    lateinit var window : Window
 
     var engineState = EngineState.Running
 
@@ -31,14 +32,15 @@ internal class Engine {
         createDirectory(getProjectsDir())
         createDirectory(getDefaultProjectDir())
         createDirectory(getGameDataDir())
+        createDirectory(getScenesDir())
+        createDirectory(getShadersDir())
     }
 
     fun loadGraphics() {
-        logger.debug("Detected rendering API: ${GameContext.current().engineProfile().renderAPI}")
-
         logger.debug("Launching Graphics Thread")
-        graphicsThread = GraphicsThread()
-        graphicsThread.start()
+        graphics = Graphics().also { graphics ->
+            graphics.run()
+        }
     }
 
 }
