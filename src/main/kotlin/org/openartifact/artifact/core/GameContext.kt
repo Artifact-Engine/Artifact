@@ -5,9 +5,10 @@ class GameContext private constructor(private val applicationProfile : Applicati
     private var application : Application? = null
     internal val engine = Engine()
 
-    fun launch() {
+    fun launch() : GameContext {
         application = engine.loadApplication(applicationProfile)
         engine.loadGraphics()
+        return this
     }
 
     fun setCurrent() : GameContext {
@@ -23,7 +24,7 @@ class GameContext private constructor(private val applicationProfile : Applicati
 
         private var current : GameContext? = null
 
-        fun createContext(block : GameContext.Builder.() -> Unit) : GameContext {
+        fun createContext(block : Builder.() -> Unit) : GameContext {
             val builder = Builder()
             block(builder)
             val context = GameContext(builder.applicationProfile!!)

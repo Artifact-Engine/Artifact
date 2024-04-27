@@ -38,5 +38,5 @@ fun getEngineDir() : File =
 fun getProjectsDir() : File =
     File(getEngineDir(), "projects")
 
-fun getProjectDir() : File =
+fun getDefaultProjectDir() : File =
     File(getProjectsDir(), GameContext.current().application().profile.projectId)
