@@ -11,7 +11,7 @@ class SceneManager {
 
     private var activeScene : Scene? = null
 
-    fun loadScenes(scenesDir : File) {
+    fun loadScenesFromFile(scenesDir : File) {
         val scenesFiles = scenesDir.listFiles()
             ?: throw IllegalStateException("Scenes directory needs to contain least one scene!")
 
@@ -29,7 +29,7 @@ class SceneManager {
     }
 
     fun getScene(name : String) : Scene? =
-        scenes.values.firstOrNull { it.sceneSettings.name == name }
+        scenes.values.firstOrNull { it.sceneProfile.name == name }
 
     fun switchScene(scene : Scene) {
         activeScene?.rest()

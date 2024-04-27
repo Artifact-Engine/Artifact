@@ -26,7 +26,7 @@ class GLWindow : Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
 
-        window = glfwCreateWindow(800, 600, "Artifact <${GameContext.getCurrentContext().application.profile.displayTitle}> OpenGL", NULL, NULL)
+        window = glfwCreateWindow(800, 600, "Artifact <${GameContext.current().application().profile.displayTitle}> OpenGL", NULL, NULL)
 
         require(window != NULL) { "Failed to create GLFW window" }
 
@@ -74,7 +74,7 @@ class GLWindow : Window {
 
             processInput()
 
-            GameContext.getCurrentContext().application.update()
+            GameContext.current().application().update()
 
             glfwSwapBuffers(window)
 
@@ -91,7 +91,7 @@ class GLWindow : Window {
         initAPI()
         render()
 
-        GameContext.getCurrentContext().application.rest()
+        GameContext.current().application().rest()
 
         glfwFreeCallbacks(window)
         glfwDestroyWindow(window)

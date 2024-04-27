@@ -3,6 +3,7 @@ package org.openartifact.artifact.game.scene
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import org.openartifact.artifact.core.Engine
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.utils.requireFile
@@ -29,8 +30,8 @@ fun readNodes(source : String) : List<Node> {
         .create().fromJson(source, listType)
 }
 
-fun readSettings(source : String) : SceneSettings =
-    Gson().fromJson(source, SceneSettings::class.java)
+fun readSettings(source : String) : SceneProfile =
+    Gson().fromJson(source, SceneProfile::class.java)
 
 class NodeDeserializer : JsonDeserializer<Node> {
 
@@ -38,7 +39,7 @@ class NodeDeserializer : JsonDeserializer<Node> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = Engine.nodeClasses.find { it.simpleName == type }
+        val kClass = GameContext.current().engine.nodeClasses.find { it.simpleName == type }
 
         return context.deserialize(json, kClass?.java)
     }
@@ -51,7 +52,7 @@ class ComponentDeserializer : JsonDeserializer<Component> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = Engine.componentClasses.find { it.simpleName == type }
+        val kClass = GameContext.current().engine.componentClasses.find { it.simpleName == type }
 
         return context.deserialize(json, kClass?.java)
     }

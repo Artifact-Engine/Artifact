@@ -1,46 +1,44 @@
 package org.openartifact.artifact.core
 
-import org.openartifact.artifact.game.scene.SceneManager
-import org.slf4j.LoggerFactory
+class GameContext private constructor(private val applicationProfile : ApplicationProfile) {
 
-class GameContext private constructor(builder: Builder) {
+    private lateinit var application : Application
+    internal val engine = Engine()
 
-    private val logger = LoggerFactory.getLogger("GameContext")
-    lateinit var application: Application
+    fun launch() {
+        application = engine.loadApplication(applicationProfile)
+        engine.loadGraphics()
+    }
+
+    fun setCurrent() : GameContext {
+        current = this
+        return this
+    }
+
+    fun application() : Application =
+        application
 
     companion object {
 
-        private var currentContext: GameContext? = null
+        private var current : GameContext? = null
 
-        fun createContext(block: Builder.() -> Unit): GameContext {
-            println(currentContext == null)
-            if (currentContext == null) {
-                println("OK")
-                currentContext = Builder().apply(block).build()
-
-                currentContext!!.application = Engine.loadApplication()
-                Engine.loadGraphics()
-
-                println(currentContext!!.application.sceneManager.scenes)
-            }
-            return currentContext!!
+        fun createContext(block : GameContext.Builder.() -> Unit) : GameContext {
+            val builder = Builder()
+            block(builder)
+            val context = GameContext(builder.applicationProfile!!)
+            return context
         }
 
-        fun getCurrentContext(): GameContext {
-            return currentContext ?: throw IllegalStateException("GameContext has not been initialized yet.")
-        }
+        fun current() : GameContext =
+            current!!
     }
 
     class Builder {
-
-        lateinit var profile: ApplicationProfile
+        var applicationProfile: ApplicationProfile? = null
 
         fun configureApplicationProfile(profile: ApplicationProfile) {
-            this.profile = profile
-        }
-
-        fun build(): GameContext {
-            return GameContext(this)
+            applicationProfile = profile
         }
     }
+
 }

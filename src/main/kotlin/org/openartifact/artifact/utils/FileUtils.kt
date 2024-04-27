@@ -1,9 +1,5 @@
 package org.openartifact.artifact.utils
 
-/**
- * Has issues with resources. Can't say if file exists or not.
- */
-
 import org.openartifact.artifact.core.Engine
 import org.openartifact.artifact.core.GameContext
 import java.io.File
@@ -43,4 +39,4 @@ fun getProjectsDir() : File =
     File(getEngineDir(), "projects")
 
 fun getProjectDir() : File =
-    File(getProjectsDir(), GameContext.getCurrentContext().application.profile.projectId)
+    File(getProjectsDir(), GameContext.current().application().profile.projectId)

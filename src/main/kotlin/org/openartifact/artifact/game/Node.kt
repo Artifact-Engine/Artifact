@@ -6,8 +6,9 @@ open class Node {
 
     open val components : MutableList<Component> = mutableListOf()
 
-    fun <T> getComponent() {
 
+    fun <T> getComponent() {
+        TODO()
     }
 
     fun awake() {

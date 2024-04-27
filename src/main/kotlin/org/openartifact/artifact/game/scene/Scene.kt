@@ -6,9 +6,9 @@ import org.openartifact.artifact.game.Node
 /**
  * Holds a collection of nodes
  */
-class Scene(val sceneSettings : SceneSettings) {
+class Scene(val sceneProfile : SceneProfile) {
 
-    constructor(sceneSettings : SceneSettings, nodes : List<Node>) : this(sceneSettings) {
+    constructor(sceneProfile : SceneProfile, nodes : List<Node>) : this(sceneProfile) {
         this.nodes = nodes.toMutableList()
     }
 

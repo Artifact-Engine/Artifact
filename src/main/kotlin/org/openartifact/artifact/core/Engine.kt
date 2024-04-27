@@ -12,7 +12,7 @@ import org.openartifact.artifact.game.scene.SceneManager
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-internal object Engine {
+internal class Engine {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -36,7 +36,7 @@ internal object Engine {
     }
 
     fun loadGraphics() {
-        logger.debug("Detected rendering API: ${GameContext.getCurrentContext().application.profile.renderAPI}")
+        logger.debug("Detected rendering API: ${GameContext.current().application().profile.renderAPI}")
 
         logger.debug("Launching Graphics Thread")
         graphicsThread = GraphicsThread()
