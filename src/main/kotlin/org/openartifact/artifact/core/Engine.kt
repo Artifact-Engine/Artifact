@@ -1,14 +1,12 @@
 package org.openartifact.artifact.core
 
-import org.openartifact.artifact.core.event.events.ComponentRegisterEvent
-import org.openartifact.artifact.core.event.events.NodeRegisterEvent
-import org.openartifact.artifact.core.event.notify
 import org.openartifact.artifact.core.graphics.GraphicsThread
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.components.TransformComponent
 import org.openartifact.artifact.game.nodes.CubeNode
 import org.openartifact.artifact.game.scene.SceneManager
+import org.openartifact.artifact.utils.*
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
@@ -18,6 +16,8 @@ internal class Engine {
 
     private lateinit var graphicsThread : GraphicsThread
 
+    var engineState = EngineState.Running
+
     var componentClasses : MutableSet<KClass<out Component>> = mutableSetOf(
         TransformComponent::class
     )
@@ -26,17 +26,15 @@ internal class Engine {
         CubeNode::class
     )
 
-    fun loadApplication(profile : ApplicationProfile) : Application {
-        logger.debug("Loading application...")
-
-        notify(NodeRegisterEvent())
-        notify(ComponentRegisterEvent())
-
-        return Application(profile, SceneManager())
+    fun loadFileStructure() {
+        createDirectory(getEngineDir())
+        createDirectory(getProjectsDir())
+        createDirectory(getDefaultProjectDir())
+        createDirectory(getGameDataDir())
     }
 
     fun loadGraphics() {
-        logger.debug("Detected rendering API: ${GameContext.current().application().profile.renderAPI}")
+        logger.debug("Detected rendering API: ${GameContext.current().engineProfile().renderAPI}")
 
         logger.debug("Launching Graphics Thread")
         graphicsThread = GraphicsThread()

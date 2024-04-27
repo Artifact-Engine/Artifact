@@ -17,8 +17,8 @@ class GraphicsThread : Thread("Graphics") {
 
     override fun run() {
         logger.debug("Creating window...")
-        window = when (GameContext.current().application().profile.renderAPI) {
-            RenderAPI.OpenGL -> GLWindow()
+        window = when (GameContext.current().engineProfile().renderAPI) {
+            RenderAPI.OpenGL -> GLWindow(GameContext.current().windowProfile())
         }
         window.initWindow()
     }

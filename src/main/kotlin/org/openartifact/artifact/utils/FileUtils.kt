@@ -32,6 +32,10 @@ fun requireFile(file : File, fileName : String) : File {
     return requiredFile
 }
 
+fun createDirectory(file : File) {
+    if (! file.exists()) file.mkdir()
+}
+
 fun getEngineDir() : File =
     File(System.getProperty("user.home"), ".artifactengine")
 
@@ -39,4 +43,10 @@ fun getProjectsDir() : File =
     File(getEngineDir(), "projects")
 
 fun getDefaultProjectDir() : File =
-    File(getProjectsDir(), GameContext.current().application().profile.projectId)
+    File(getProjectsDir(), GameContext.current().applicationProfile().projectId)
+
+fun getGameDataDir() : File =
+    File(getDefaultProjectDir(), "gameData")
+
+fun getScenesDir() : File =
+    File(getGameDataDir(), "scenes")

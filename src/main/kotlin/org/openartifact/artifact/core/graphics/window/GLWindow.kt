@@ -7,13 +7,14 @@ import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
-import org.openartifact.artifact.core.Engine
 import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.event.events.KeyPressEvent
+import org.openartifact.artifact.core.event.events.KeyReleaseEvent
+import org.openartifact.artifact.core.event.events.KeyRepeatEvent
 import org.openartifact.artifact.core.event.notify
 
 
-class GLWindow : Window {
+class GLWindow(override val profile : WindowProfile) : Window(profile) {
 
     private var window : Long = 0
 
@@ -24,9 +25,11 @@ class GLWindow : Window {
 
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
+        glfwWindowHint(GLFW_RESIZABLE, if (profile.resizable) GLFW_TRUE else GLFW_FALSE)
 
-        window = glfwCreateWindow(800, 600, "Artifact <${GameContext.current().application().profile.displayTitle}> OpenGL", NULL, NULL)
+        window = glfwCreateWindow(profile.width, profile.height, "Artifact <${profile.title}> OpenGL", NULL, NULL)
+
+        profile.windowId = window
 
         require(window != NULL) { "Failed to create GLFW window" }
 
@@ -35,6 +38,8 @@ class GLWindow : Window {
         ) { window : Long, key : Int, scancode : Int, action : Int, mods : Int ->
             when (action) {
                 GLFW_PRESS -> notify(KeyPressEvent(key))
+                GLFW_RELEASE -> notify(KeyReleaseEvent(key))
+                GLFW_REPEAT -> notify(KeyRepeatEvent(key))
             }
         }
 
@@ -54,14 +59,12 @@ class GLWindow : Window {
         }
 
         glfwMakeContextCurrent(window)
-        glfwSwapInterval(1)
+        glfwSwapInterval(if (profile.targetFPS > 0) 0 else 1)
         glfwShowWindow(window)
     }
 
     override fun render() {
         GL.createCapabilities()
-
-        glViewport(0, 0, 800, 600)
 
         glfwSetFramebufferSizeCallback(window) { _, width, height ->
             glViewport(0, 0, width, height)
@@ -72,9 +75,7 @@ class GLWindow : Window {
         while (! glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT)
 
-            processInput()
-
-            GameContext.current().application().update()
+            GameContext.current().update()
 
             glfwSwapBuffers(window)
 
@@ -82,16 +83,11 @@ class GLWindow : Window {
         }
     }
 
-    /**
-     * Unused because of easier handling using [glfwSetKeyCallback]
-     */
-    override fun processInput() {}
-
     override fun initWindow() {
         initAPI()
         render()
 
-        GameContext.current().application().rest()
+        GameContext.current().rest()
 
         glfwFreeCallbacks(window)
         glfwDestroyWindow(window)

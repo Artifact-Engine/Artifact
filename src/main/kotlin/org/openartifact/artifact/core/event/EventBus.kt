@@ -42,11 +42,11 @@ fun notify(event : Event) {
  * @param T the type of event to listen for
  * @param callback the function to call when an event of type [T] is received
  */
-inline fun <reified T : Any> handler(crossinline callback: suspend T.() -> Unit, priority: Int = 0) {
+inline fun <reified T : Any> handler(crossinline callback: suspend (T) -> Unit, priority: Int = 0) {
     val listener = object : EventListener {
         override suspend fun handle(event: Event) {
             if (event is T)
-                event.callback() // Call the lambda with receiver on the event
+                callback(event) // Call the lambda with receiver on the event
         }
     }
     register(T::class, listener)

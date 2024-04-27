@@ -1,11 +1,9 @@
 package org.openartifact.artifact.core.graphics.window
 
-interface Window {
+abstract class Window(open val profile : WindowProfile) {
 
-    fun initAPI()
-    fun render()
-    fun initWindow()
-
-    fun processInput()
+    abstract fun initAPI()
+    abstract fun render()
+    abstract fun initWindow()
 
 }
