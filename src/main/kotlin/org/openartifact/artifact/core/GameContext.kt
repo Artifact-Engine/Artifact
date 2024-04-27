@@ -2,7 +2,7 @@ package org.openartifact.artifact.core
 
 class GameContext private constructor(private val applicationProfile : ApplicationProfile) {
 
-    private lateinit var application : Application
+    private var application : Application? = null
     internal val engine = Engine()
 
     fun launch() {
@@ -11,12 +11,13 @@ class GameContext private constructor(private val applicationProfile : Applicati
     }
 
     fun setCurrent() : GameContext {
+        require(current != this) { "GameContext was already set to current." }
         current = this
         return this
     }
 
     fun application() : Application =
-        application
+        application ?: throw IllegalStateException("No application found. Was the engine initialized?")
 
     companion object {
 
@@ -30,7 +31,7 @@ class GameContext private constructor(private val applicationProfile : Applicati
         }
 
         fun current() : GameContext =
-            current!!
+            current ?: throw IllegalStateException("No current GameContext exists. Try using setCurrent.")
     }
 
     class Builder {
