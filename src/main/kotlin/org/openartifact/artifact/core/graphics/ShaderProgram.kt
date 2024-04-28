@@ -1,13 +1,11 @@
 package org.openartifact.artifact.core.graphics
 
-import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL20.*
-import org.lwjgl.opengl.GL30
 import org.lwjgl.opengl.GL30.*
 
-class ShaderProgram(shaderModuleData : List<ShaderModuleData>) {
+class ShaderProgram(shaderData : List<ShaderData>) {
 
-    private var programId : Int = 0
+    var programId : Int = 0
 
     init {
         programId = glCreateProgram()
@@ -15,7 +13,7 @@ class ShaderProgram(shaderModuleData : List<ShaderModuleData>) {
         require(programId != 0) { "Failed to create shader program" }
 
         val shaderModules = mutableListOf<Int>()
-        shaderModuleData.forEach { data -> shaderModules.add(createShader(data.source, data.shaderType)) }
+        shaderData.forEach { data -> shaderModules.add(createShader(data.source, data.shaderType)) }
 
         link(shaderModules)
     }
@@ -30,7 +28,7 @@ class ShaderProgram(shaderModuleData : List<ShaderModuleData>) {
             glDeleteProgram(programId)
     }
 
-    protected fun createShader(source : String, shaderType : Int) : Int {
+    private fun createShader(source : String, shaderType : Int) : Int {
         val shaderId = glCreateShader(shaderType)
 
         require(shaderType != 0) { "Error creating shader. $shaderType" }
@@ -38,7 +36,7 @@ class ShaderProgram(shaderModuleData : List<ShaderModuleData>) {
         glShaderSource(shaderId, source)
         glCompileShader(shaderId)
 
-        require(glGetShaderi(shaderId, GL_COMPILE_STATUS) != 0) { "Error compiling shader: ${GL20.glGetShaderInfoLog(shaderId)}" }
+        require(glGetShaderi(shaderId, GL_COMPILE_STATUS) != 0) { "Error compiling shader: ${glGetShaderInfoLog(shaderId)}" }
 
         glAttachShader(programId, shaderId)
 
@@ -48,7 +46,7 @@ class ShaderProgram(shaderModuleData : List<ShaderModuleData>) {
     private fun link(shaderModules : List<Int>) {
         glLinkProgram(programId)
 
-        require(glGetProgrami(programId, GL_LINK_STATUS) != 0) { "Error linking shader: ${GL20.glGetProgramInfoLog(programId)}" }
+        require(glGetProgrami(programId, GL_LINK_STATUS) != 0) { "Error linking shader: ${glGetProgramInfoLog(programId)}" }
 
         shaderModules.forEach { shader ->
             glDetachShader(programId, shader)
@@ -63,9 +61,9 @@ class ShaderProgram(shaderModuleData : List<ShaderModuleData>) {
     private fun validate() {
         glValidateProgram(programId)
 
-        require(glGetProgrami(programId, GL_VALIDATE_STATUS) != 0) { "Error validating shader: ${GL20.glGetProgramInfoLog(programId)}" }
+        require(glGetProgrami(programId, GL_VALIDATE_STATUS) != 0) { "Error validating shader: ${glGetProgramInfoLog(programId)}" }
     }
 
-    data class ShaderModuleData(val source : String, val shaderType : Int)
+    data class ShaderData(val source : String, val shaderType : Int)
 
 }

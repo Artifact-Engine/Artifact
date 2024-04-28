@@ -5,6 +5,7 @@ import org.openartifact.artifact.core.graphics.window.Window
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.components.TransformComponent
+import org.openartifact.artifact.game.nodes.CameraNode
 import org.openartifact.artifact.game.nodes.CubeNode
 import org.openartifact.artifact.utils.*
 import org.slf4j.LoggerFactory
@@ -24,13 +25,14 @@ internal class Engine {
     )
 
     val nodeClasses : MutableList<KClass<out Node>> = mutableListOf(
-        CubeNode::class
+        CubeNode::class,
+        CameraNode::class
     )
 
     fun loadFileStructure() {
         createDirectory(getEngineDir())
-        createDirectory(getProjectsDir())
-        createDirectory(getDefaultProjectDir())
+        createDirectory(getGamesDir())
+        createDirectory(getGameDir())
         createDirectory(getGameDataDir())
         createDirectory(getScenesDir())
         createDirectory(getShadersDir())

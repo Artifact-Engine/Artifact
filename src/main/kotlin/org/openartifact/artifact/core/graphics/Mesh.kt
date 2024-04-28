@@ -1,65 +1,59 @@
 package org.openartifact.artifact.core.graphics
 
 import org.lwjgl.opengl.GL30.*
-import org.lwjgl.system.MemoryStack
-import java.util.function.Consumer
 
+class Mesh(val vertexBufferData: FloatArray, val colorBufferData: FloatArray) {
 
-class Mesh(positions : FloatArray, colors : FloatArray, indices : IntArray, var numVertices : Int = 0) {
-
-    var vaoId : Int = 0
-
-    private var vboIdList = mutableListOf<Int>()
+    private var vaId: Int = 0
+    var vertexBuffer: Int = 0
+    var colorBuffer: Int = 0
 
     init {
-        MemoryStack.stackPush().use { stack ->
-            numVertices = indices.size
+        vaId = glGenVertexArrays()
+        glBindVertexArray(vaId)
 
-            vaoId = glGenVertexArrays()
-            glBindVertexArray(vaoId)
+        vertexBuffer = glGenBuffers()
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
+        glBufferData(GL_ARRAY_BUFFER, vertexBufferData, GL_STATIC_DRAW)
 
-            // Positions VBO
-            var vboId = glGenBuffers()
-            vboIdList.add(vboId)
+        colorBuffer = glGenBuffers()
+        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer)
+        glBufferData(GL_ARRAY_BUFFER, colorBufferData, GL_STATIC_DRAW)
+    }
 
-            val positionsBuffer = stack.callocFloat(positions.size)
-            positionsBuffer.put(0, positions)
+    fun bind() {
+        glBindVertexArray(vaId)
+    }
 
-            glBindBuffer(GL_ARRAY_BUFFER, vboId)
-            glBufferData(GL_ARRAY_BUFFER, positionsBuffer, GL_STATIC_DRAW)
-
-            glEnableVertexAttribArray(0)
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0)
-
-            vboId = glGenBuffers()
-            vboIdList.add(vboId)
-            val colorsBuffer = stack.callocFloat(colors.size)
-            colorsBuffer.put(0, colors)
-            glBindBuffer(GL_ARRAY_BUFFER, vboId)
-            glBufferData(GL_ARRAY_BUFFER, colorsBuffer, GL_STATIC_DRAW)
-            glEnableVertexAttribArray(1)
-            glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0)
+    fun modifyBufferData(buffer : Int, bufferData : FloatArray) {
+        glBindBuffer(GL_ARRAY_BUFFER, buffer)
+        glBufferData(GL_ARRAY_BUFFER, bufferData, GL_STATIC_DRAW)
+    }
 
 
-            // Index VBO
-            vboId = glGenBuffers()
-            vboIdList.add(vboId)
-            val indicesBuffer = stack.callocInt(indices.size)
-            indicesBuffer.put(0, indices)
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboId)
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW)
+    fun draw() {
+        glEnableVertexAttribArray(0)
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0)
 
-            glBindBuffer(GL_ARRAY_BUFFER, 0)
-            glBindVertexArray(0)
-        }
+        glEnableVertexAttribArray(1)
+        glBindBuffer(GL_ARRAY_BUFFER, colorBuffer)
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0)
+
+        glDrawArrays(GL_TRIANGLES, 0, vertexBufferData.size / 3)
+        glDisableVertexAttribArray(0)
+        glDisableVertexAttribArray(1)
     }
 
     fun cleanup() {
-        vboIdList.forEach(Consumer { buffer : Int? ->
-            glDeleteBuffers(
-                buffer !!
-            )
-        })
-        glDeleteVertexArrays(vaoId)
+        glDisableVertexAttribArray(0)
+        glDisableVertexAttribArray(1)
+
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+        glDeleteBuffers(vertexBuffer)
+        glDeleteBuffers(colorBuffer)
+
+        glBindVertexArray(0)
+        glDeleteVertexArrays(vaId)
     }
 }

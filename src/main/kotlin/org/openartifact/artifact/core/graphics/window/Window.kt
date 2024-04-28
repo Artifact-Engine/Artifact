@@ -88,7 +88,7 @@ internal class Window(val profile : WindowProfile) {
         GameContext.current().load()
 
         while (GameContext.current().engine.engineState === EngineState.Running && ! GLFW.glfwWindowShouldClose(window)) {
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT)
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
             GameContext.current().update()
 

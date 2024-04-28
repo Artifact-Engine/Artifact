@@ -38,20 +38,20 @@ fun createDirectory(file : File) {
 fun getEngineDir() : File =
     File(System.getProperty("user.home"), ".artifactengine")
 
-fun getProjectsDir() : File =
-    File(getEngineDir(), "projects")
+fun getGamesDir() : File =
+    File(getEngineDir(), "games")
 
-fun getDefaultProjectDir() : File =
-    File(getProjectsDir(), GameContext.current().applicationProfile().projectId)
+fun getGameDir() : File =
+    File(getGamesDir(), GameContext.current().applicationProfile().projectId)
 
 fun getGameDataDir() : File =
-    File(getDefaultProjectDir(), "gameData")
+    File(getGameDir(), "gameData")
 
 fun getScenesDir() : File =
     File(getGameDataDir(), "scenes")
 
 fun getShadersDir() : File =
-    File(getGameDataDir(), "shaders")
+    File(getEngineDir(), "shaders")
 
 fun getShaderFile(fileName : String) =
     File(getShadersDir(), fileName)

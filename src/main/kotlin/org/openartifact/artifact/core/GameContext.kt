@@ -11,7 +11,7 @@ import kotlin.reflect.KClass
 class GameContext private constructor(private val applicationProfile : ApplicationProfile, private val windowProfile : WindowProfile) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    private lateinit var sceneManager : SceneManager
+    lateinit var sceneManager : SceneManager
     internal val engine = Engine()
 
     /**

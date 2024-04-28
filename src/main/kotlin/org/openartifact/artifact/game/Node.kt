@@ -10,6 +10,7 @@ open class Node() {
         this.renderer = renderer
     }
 
+    @Transient
     var renderer : NodeRenderer<out Node>? = null
 
     val type = javaClass.simpleName
