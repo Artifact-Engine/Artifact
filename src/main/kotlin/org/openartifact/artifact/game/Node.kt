@@ -1,10 +1,11 @@
 package org.openartifact.artifact.game
 
-open class Node() {
+open class Node {
 
     var parent : Node? = null
 
-    val type = javaClass.simpleName
+    @Suppress("unused")
+    val type : String = javaClass.simpleName
 
     val children : MutableList<Node> = mutableListOf()
     val components : MutableList<Component> = mutableListOf()

@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.graphics.component.renderers
+package org.openartifact.artifact.core.graphics.component
 
 import glm_.vec3.Vec3
 import org.lwjgl.glfw.GLFW
@@ -9,6 +9,7 @@ import org.openartifact.artifact.game.nodes.CameraNode
 
 class CameraController : Component() {
 
+    @Suppress("unused")
     val keyboardHandler = handler<KeyPressEvent>({ event ->
         val camera = parent as CameraNode
 
