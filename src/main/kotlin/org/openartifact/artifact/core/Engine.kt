@@ -1,6 +1,7 @@
 package org.openartifact.artifact.core
 
 import org.openartifact.artifact.core.graphics.Graphics
+import org.openartifact.artifact.core.graphics.component.renderers.CubeRenderer
 import org.openartifact.artifact.core.graphics.window.Window
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
@@ -21,7 +22,8 @@ internal class Engine {
     var engineState = EngineState.Running
 
     var componentClasses : MutableSet<KClass<out Component>> = mutableSetOf(
-        TransformComponent::class
+        TransformComponent::class,
+        CubeRenderer::class
     )
 
     val nodeClasses : MutableList<KClass<out Node>> = mutableListOf(

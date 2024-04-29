@@ -43,10 +43,6 @@ class NodeDeserializer : JsonDeserializer<Node> {
 
         val node = context.deserialize<Node>(json, kClass?.java)
 
-        node.components.forEach {
-            it.parent = node
-        }
-
         node.children.forEach {
             it.parent = node
         }

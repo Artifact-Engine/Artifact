@@ -1,5 +1,6 @@
 package org.openartifact.artifact.game.scene
 
+import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.nodes.CameraNode
 
@@ -30,6 +31,10 @@ class Scene(val profile : SceneProfile) {
         require(nodes.find { it is CameraNode } != null) { "The scene needs a camera node to render." }
 
         camera = nodes.find { it is CameraNode } as CameraNode
+
+        nodes.forEach { node ->
+            recursiveOperation(node, Node::preAwake)
+        }
 
         nodes.forEach { node ->
             recursiveOperation(node, Node::awake)
