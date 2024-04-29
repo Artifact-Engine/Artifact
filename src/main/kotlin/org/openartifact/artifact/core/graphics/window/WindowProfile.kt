@@ -6,6 +6,7 @@ class WindowProfile(
     val targetUPS : Int,
     val width : Int,
     val height : Int,
+    val aspectRatio : AspectRatio,
     val resizable : Boolean = true,
-    var windowId : Long = 0
+    var windowId : Long = 0,
 )
