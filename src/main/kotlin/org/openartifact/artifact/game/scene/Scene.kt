@@ -27,7 +27,7 @@ class Scene(val profile : SceneProfile) {
     /**
      * Performs necessary operations to load the scene
      */
-    fun load() {
+    internal fun load() {
         require(nodes.find { it is CameraNode } != null) { "The scene needs a camera node to render." }
 
         camera = nodes.find { it is CameraNode } as CameraNode
@@ -44,7 +44,7 @@ class Scene(val profile : SceneProfile) {
     /**
      * Performs necessary operations to unload the scene
      */
-    fun update() {
+    internal fun update() {
         nodes.forEach { node ->
             recursiveOperation(node, Node::update)
         }
@@ -53,7 +53,7 @@ class Scene(val profile : SceneProfile) {
     /**
      * Performs necessary operations to unload the scene
      */
-    fun rest() {
+    internal fun rest() {
         nodes.forEach { node ->
             recursiveOperation(node, Node::rest)
         }

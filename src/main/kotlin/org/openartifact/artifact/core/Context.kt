@@ -1,5 +1,6 @@
 package org.openartifact.artifact.core
 
+import org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose
 import org.openartifact.artifact.core.graphics.window.WindowProfile
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
@@ -8,7 +9,10 @@ import org.openartifact.artifact.utils.getScenesDir
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-class GameContext private constructor(private val applicationProfile : ApplicationProfile, private val windowProfile : WindowProfile) {
+class Context private constructor(
+    private val applicationProfile : ApplicationProfile,
+    private val windowProfile : WindowProfile
+) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
     lateinit var sceneManager : SceneManager
@@ -17,32 +21,37 @@ class GameContext private constructor(private val applicationProfile : Applicati
     /**
      * Starts the engine
      */
-    fun run() : GameContext {
+    fun run() : Context {
         sceneManager = SceneManager()
         sceneManager.loadScenesFromFile(getScenesDir())
-        engine.loadFileStructure()
-        engine.loadGraphics()
+        engine.run()
         return this
     }
 
-    fun registerComponent(kClass : KClass<out Component>) : GameContext {
+    fun registerComponent(kClass : KClass<out Component>) : Context {
         require(! engine.componentClasses.contains(kClass)) { "Component ${kClass.simpleName} was already registered!" }
         engine.componentClasses.add(kClass)
         logger.debug("Registering component ${kClass.simpleName}")
         return this
     }
 
-    fun registerNode(kClass : KClass<out Node>) : GameContext {
+    fun registerNode(kClass : KClass<out Node>) : Context {
         require(! engine.nodeClasses.contains(kClass)) { "Node ${kClass.simpleName} was already registered!" }
         engine.nodeClasses.add(kClass)
         logger.debug("Registering node ${kClass.simpleName}")
         return this
     }
 
-    fun setCurrent() : GameContext {
-        require(current != this) { "GameContext was already set to current." }
+    fun set() : Context {
+        require(current != this) { "Context was already set to current." }
         current = this
         return this
+    }
+
+    fun requestShutdown() {
+        sceneManager.activeScene?.rest()
+
+        glfwSetWindowShouldClose(Context.current().windowProfile().windowId, true)
     }
 
     fun applicationProfile() : ApplicationProfile =
@@ -53,19 +62,19 @@ class GameContext private constructor(private val applicationProfile : Applicati
 
     companion object {
 
-        private var current : GameContext? = null
+        private var current : Context? = null
 
-        fun createContext(block : Builder.() -> Unit) : GameContext {
+        fun createContext(block : Builder.() -> Unit) : Context {
             val builder = Builder()
             block(builder)
             requireNotNull(builder.applicationProfile) { "No application profile was found! Create one in the context using configureApplicationProfile." }
             requireNotNull(builder.windowProfile) { "No window profile was found! Create one in the context using configureWindowProfile." }
-            val context = GameContext(builder.applicationProfile !!, builder.windowProfile !!)
-            context.logger.info("GameContext created")
+            val context = Context(builder.applicationProfile !!, builder.windowProfile !!)
+            context.logger.info("Context created")
             return context
         }
 
-        fun current() : GameContext =
+        fun current() : Context =
             current ?: throw IllegalStateException("No current GameContext exists. Try using setCurrent.")
     }
 

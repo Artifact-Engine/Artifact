@@ -2,7 +2,7 @@ package org.openartifact.artifact.game.nodes
 
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Context
 import org.openartifact.artifact.core.graphics.component.CameraController
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
@@ -15,7 +15,7 @@ class CameraNode(var fov : Float, var position : Vec3, private var target : Vec3
         createViewMatrix(position, target, up)
 
     fun getProjectionMatrix() : Mat4 =
-        createProjectionMatrix(fov, GameContext.current().engine.window.profile.aspectRatio.ratio, 0.1f, 100.0f)
+        createProjectionMatrix(fov, Context.current().engine.window.profile.aspectRatio.ratio, 0.1f, 100.0f)
 
     fun updatePosition(new : Vec3) {
         target.plusAssign(new)

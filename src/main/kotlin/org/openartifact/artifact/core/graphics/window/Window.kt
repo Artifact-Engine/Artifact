@@ -8,7 +8,7 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.openartifact.artifact.core.EngineState
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Context
 import org.openartifact.artifact.core.event.events.KeyPressEvent
 import org.openartifact.artifact.core.event.events.KeyReleaseEvent
 import org.openartifact.artifact.core.event.events.KeyRepeatEvent
@@ -85,12 +85,12 @@ internal class Window(val profile : WindowProfile) {
 
         GL11.glClearColor(0.0f, 0.0f, 0.2f, 1.0f)
 
-        GameContext.current().load()
+        Context.current().load()
 
-        while (GameContext.current().engine.engineState === EngineState.Running && ! GLFW.glfwWindowShouldClose(window)) {
+        while (Context.current().engine.engineState === EngineState.Running && ! GLFW.glfwWindowShouldClose(window)) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
-            GameContext.current().update()
+            Context.current().update()
 
             GLFW.glfwSwapBuffers(window)
 
@@ -99,7 +99,7 @@ internal class Window(val profile : WindowProfile) {
     }
 
     fun terminate() {
-        GameContext.current().rest()
+        Context.current().rest()
 
         Callbacks.glfwFreeCallbacks(window)
         GLFW.glfwDestroyWindow(window)

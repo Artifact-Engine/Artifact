@@ -1,6 +1,6 @@
 package org.openartifact.artifact.core.graphics
 
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Context
 import org.openartifact.artifact.core.graphics.window.Window
 import org.slf4j.LoggerFactory
 
@@ -11,9 +11,9 @@ class Graphics : Runnable {
     override fun run() {
         logger.debug("Creating window...")
 
-        val context = GameContext.current()
+        val context = Context.current()
 
-        context.engine.window = Window(GameContext.current().windowProfile())
+        context.engine.window = Window(Context.current().windowProfile())
         context.engine.window.initWindow()
     }
 

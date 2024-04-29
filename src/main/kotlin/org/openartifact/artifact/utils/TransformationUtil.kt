@@ -4,7 +4,7 @@ import glm_.glm
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
 import org.lwjgl.opengl.GL20
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Context
 import org.openartifact.artifact.core.graphics.ShaderProgram
 
 
@@ -28,13 +28,13 @@ fun createMvpMatrix(projectionMatrix : Mat4, viewMatrix : Mat4, modelMatrix : Ma
     projectionMatrix * viewMatrix * modelMatrix
 
 fun getViewMatrix() : Mat4 =
-    GameContext.current().sceneManager.activeScene!!.camera.getViewMatrix()
+    Context.current().sceneManager.activeScene!!.camera.getViewMatrix()
 
 fun createMvpMatrix(projectionMatrix : Mat4, modelMatrix : Mat4) : Mat4 =
     createMvpMatrix(projectionMatrix, getViewMatrix(), modelMatrix)
 
 fun createMvpMatrix(modelMatrix: Mat4) : Mat4 =
-    createMvpMatrix(GameContext.current().sceneManager.activeScene!!.camera.getProjectionMatrix(), modelMatrix)
+    createMvpMatrix(Context.current().sceneManager.activeScene!!.camera.getProjectionMatrix(), modelMatrix)
 
 fun applyMvpMatrixToShader(shaderProgram : ShaderProgram, mvpMatrix : Mat4) {
     val mvpMatrixLocation = GL20.glGetUniformLocation(shaderProgram.programId, "MVP")

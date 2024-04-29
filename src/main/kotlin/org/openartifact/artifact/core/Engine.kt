@@ -19,7 +19,7 @@ internal class Engine {
     private lateinit var graphics : Graphics
     lateinit var window : Window
 
-    var engineState = EngineState.Running
+    var engineState = EngineState.Stopped
 
     var componentClasses : MutableSet<KClass<out Component>> = mutableSetOf(
         TransformComponent::class,
@@ -31,7 +31,7 @@ internal class Engine {
         CameraNode::class
     )
 
-    fun loadFileStructure() {
+    private fun loadFileStructure() {
         createDirectory(getEngineDir())
         createDirectory(getGamesDir())
         createDirectory(getGameDir())
@@ -40,11 +40,23 @@ internal class Engine {
         createDirectory(getShadersDir())
     }
 
-    fun loadGraphics() {
-        logger.debug("Launching Graphics Thread")
+    private fun loadGraphics() {
+        logger.debug("Launching Graphics")
         graphics = Graphics().also { graphics ->
             graphics.run()
         }
     }
+
+    internal fun run() {
+        if (engineState == EngineState.Running) {
+            logger.warn("Engine is already running. Ignoring run request.")
+            return
+        }
+
+        engineState = EngineState.Running
+        loadFileStructure()
+        loadGraphics()
+    }
+
 
 }
