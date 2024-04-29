@@ -36,6 +36,8 @@ class ShaderProgram(shaderData : List<ShaderData>) {
         glShaderSource(shaderId, source)
         glCompileShader(shaderId)
 
+        validate()
+
         require(glGetShaderi(shaderId, GL_COMPILE_STATUS) != 0) { "Error compiling shader: ${glGetShaderInfoLog(shaderId)}" }
 
         glAttachShader(programId, shaderId)
@@ -61,9 +63,13 @@ class ShaderProgram(shaderData : List<ShaderData>) {
     private fun validate() {
         glValidateProgram(programId)
 
-        require(glGetProgrami(programId, GL_VALIDATE_STATUS) != 0) { "Error validating shader: ${glGetProgramInfoLog(programId)}" }
+        require(glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) { "Error validating shader: ${glGetProgramInfoLog(programId)}" }
     }
 
+    /**
+     * @param source Code of the shader
+     * @param shaderType Type of shader [GL_FRAGMENT_SHADER] / [GL_VERTEX_SHADER]
+     */
     data class ShaderData(val source : String, val shaderType : Int)
 
 }

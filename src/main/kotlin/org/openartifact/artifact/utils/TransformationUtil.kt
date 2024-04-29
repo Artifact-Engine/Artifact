@@ -7,21 +7,20 @@ import org.lwjgl.opengl.GL20
 import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.graphics.ShaderProgram
 
-fun createProjectionMatrix(fov : Float, aspectRatio : Float, zNear : Float, zFar : Float) : Mat4 {
-    return glm.perspective(glm.radians(fov), aspectRatio, zNear, zFar)
-}
 
-fun createViewMatrix(cameraPosition : Vec3, cameraTarget : Vec3, upVector : Vec3) : Mat4 {
-    return glm.lookAt(cameraPosition, cameraTarget, upVector)
-}
+fun createProjectionMatrix(fov : Float, aspectRatio : Float, zNear : Float, zFar : Float) : Mat4 =
+    glm.perspective(glm.radians(fov), aspectRatio, zNear, zFar)
+
+fun createViewMatrix(cameraPosition : Vec3, cameraTarget : Vec3, upVector : Vec3) : Mat4 =
+    glm.lookAt(cameraPosition, cameraTarget, upVector)
 
 fun createModelMatrix(translation : Vec3, rotation : Vec3, scale : Vec3) : Mat4 {
     var modelMatrix = Mat4(1.0f)
-    modelMatrix = glm.translate(modelMatrix, translation)
+    modelMatrix = glm.scale(modelMatrix, scale)
     modelMatrix = glm.rotate(modelMatrix, rotation.x, Vec3(1.0f, 0.0f, 0.0f))
     modelMatrix = glm.rotate(modelMatrix, rotation.y, Vec3(0.0f, 1.0f, 0.0f))
     modelMatrix = glm.rotate(modelMatrix, rotation.z, Vec3(0.0f, 0.0f, 1.0f))
-    modelMatrix = glm.scale(modelMatrix, scale)
+    modelMatrix = glm.translate(modelMatrix, translation)
     return modelMatrix
 }
 
@@ -33,6 +32,9 @@ fun getViewMatrix() : Mat4 =
 
 fun createMvpMatrix(projectionMatrix : Mat4, modelMatrix : Mat4) : Mat4 =
     createMvpMatrix(projectionMatrix, getViewMatrix(), modelMatrix)
+
+fun createMvpMatrix(modelMatrix: Mat4) : Mat4 =
+    createMvpMatrix(GameContext.current().sceneManager.activeScene!!.camera.getProjectionMatrix(), modelMatrix)
 
 fun applyMvpMatrixToShader(shaderProgram : ShaderProgram, mvpMatrix : Mat4) {
     val mvpMatrixLocation = GL20.glGetUniformLocation(shaderProgram.programId, "MVP")

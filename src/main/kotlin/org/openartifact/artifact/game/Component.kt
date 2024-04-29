@@ -2,10 +2,10 @@ package org.openartifact.artifact.game
 
 open class Component {
 
-    var parent : Node? = null
+    lateinit var parent : Node
 
     inline fun <reified T : Component> getComponent(): T? =
-        parent?.components?.find { it is T } as? T
+        parent.components.find { it is T } as? T
 
     val type = javaClass.simpleName
 
