@@ -30,7 +30,6 @@ class Mesh(val vertexBufferData: FloatArray, val colorBufferData: FloatArray) {
         glBufferData(GL_ARRAY_BUFFER, bufferData, GL_STATIC_DRAW)
     }
 
-
     fun draw() {
         glEnableVertexAttribArray(0)
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)

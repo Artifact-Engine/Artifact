@@ -7,7 +7,8 @@ open class Component {
     inline fun <reified T : Component> getComponent(): T? =
         parent.components.find { it is T } as? T
 
-    val type = javaClass.simpleName
+    @Suppress("unused")
+    val type : String = javaClass.simpleName
 
     open fun awake() {}
     open fun update() {}

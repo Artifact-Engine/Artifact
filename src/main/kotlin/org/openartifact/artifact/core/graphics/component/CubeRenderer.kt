@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.graphics.component.renderers
+package org.openartifact.artifact.core.graphics.component
 
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
