@@ -17,9 +17,9 @@ class MouseInput {
     var rightButtonPressed = false
 
     init {
-        previousPos = Vec2(- 1, - 1)
-        currentPos = Vec2(0, 0)
-        displayVec = Vec2()
+        previousPos = Vec2(-1f, -1f)
+        currentPos = Vec2(0f, 0f)
+        displayVec = Vec2(0f)
     }
 
     fun init() {
@@ -46,22 +46,17 @@ class MouseInput {
         displayVec.y = 0f
 
         if (previousPos.x > 0 && previousPos.y > 0 && inWindow) {
-            val deltaX = (currentPos.x - previousPos.x).toDouble()
-            val deltaY = (currentPos.y - previousPos.y).toDouble()
+            val deltaX : Float = (currentPos.x - previousPos.x)
+            val deltaY : Float = (currentPos.y - previousPos.y)
 
-            // Check if the movement is significant
-            val rotateX = abs(deltaX) > 0.01
-            val rotateY = abs(deltaY) > 0.01
+            val rotateX = abs(deltaX) > 0.0001
+            val rotateY = abs(deltaY) > 0.0001
 
             if (rotateX) {
-                println("Rotating X: $deltaX")
-                // Normalize or scale deltaX for rotation
-                displayVec.y = deltaX.toFloat() // Example scaling factor
+                displayVec.y = deltaX
             }
             if (rotateY) {
-                println("Rotating Y: $deltaY")
-                // Normalize or scale deltaY for rotation
-                displayVec.x = deltaY.toFloat() // Example scaling factor
+                displayVec.x = deltaY
             }
         }
 

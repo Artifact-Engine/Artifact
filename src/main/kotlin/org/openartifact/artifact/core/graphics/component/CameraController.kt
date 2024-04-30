@@ -18,7 +18,7 @@ class CameraController : Component() {
     override fun update(physicsDeltaTime: Double) {
         val camera = parent as CameraNode
 
-        val speed : Float = if (getKeyDown(KEY_LEFT_SHIFT)) 1.4f * physicsDeltaTime.toFloat() else 1f * physicsDeltaTime.toFloat()
+        val speed : Float = if (getKeyDown(KEY_LEFT_SHIFT)) 8f * physicsDeltaTime.toFloat() else 2f * physicsDeltaTime.toFloat()
 
         val camInc = Vec3()
 
@@ -38,7 +38,8 @@ class CameraController : Component() {
 
         if (mouseInput.rightButtonPressed) {
             val rotVec : Vec2 = mouseInput.displayVec
-            camera.moveRotation(rotVec.x * .1f, rotVec.y * .1f, 0f)
+            val mouseSensitivity = 30f * physicsDeltaTime.toFloat()
+            camera.moveRotation(rotVec.x * mouseSensitivity, rotVec.y * mouseSensitivity, 0f)
         }
     }
 }
