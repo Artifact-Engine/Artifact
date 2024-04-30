@@ -24,9 +24,9 @@ open class Node {
         }
     }
 
-    open fun update() {
+    open fun update(deltaTime : Double) {
         components.forEach {
-            it.update()
+            it.update(deltaTime)
         }
     }
 

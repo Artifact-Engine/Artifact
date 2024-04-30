@@ -11,7 +11,7 @@ open class Component {
     val type : String = javaClass.simpleName
 
     open fun awake() {}
-    open fun update() {}
+    open fun update(deltaTime : Double) {}
     open fun rest() {}
 
 }

@@ -95,8 +95,8 @@ class Context private constructor(
         sceneManager.switchScene(applicationProfile.startingSceneId)
     }
 
-    internal fun update() {
-        sceneManager.activeScene?.update()
+    internal fun update(deltaTime : Double) {
+        sceneManager.activeScene?.update(deltaTime)
     }
 
     internal fun rest() {

@@ -9,18 +9,21 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
-import org.openartifact.artifact.core.EngineState
 import org.openartifact.artifact.core.Context
+import org.openartifact.artifact.core.EngineState
 import org.openartifact.artifact.core.event.events.KeyPressEvent
 import org.openartifact.artifact.core.event.events.KeyReleaseEvent
 import org.openartifact.artifact.core.event.events.KeyRepeatEvent
 import org.openartifact.artifact.core.event.notify
 import org.slf4j.LoggerFactory
 
-internal class Window(val profile : WindowProfile) {
+internal class Window(val profile: WindowProfile) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    private var window : Long = 0
+    private var window: Long = 0
+
+    private var deltaTime: Double = 0.0
+    private var lastFrameTime: Double = 0.0
 
     private fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
@@ -50,7 +53,7 @@ internal class Window(val profile : WindowProfile) {
         logger.debug("Setting up key callback...")
         glfwSetKeyCallback(
             window
-        ) { _: Long, key : Int, _: Int, action : Int, _: Int ->
+        ) { _: Long, key: Int, _: Int, action: Int, _: Int ->
             when (action) {
                 GLFW_PRESS -> notify(KeyPressEvent(key))
                 GLFW_RELEASE -> notify(KeyReleaseEvent(key))
@@ -68,7 +71,7 @@ internal class Window(val profile : WindowProfile) {
             val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())
             glfwSetWindowPos(
                 window,
-                (vidmode !!.width() - pWidth[0]) / 2,
+                (vidmode!!.width() - pWidth[0]) / 2,
                 (vidmode.height() - pHeight[0]) / 2
             )
         }
@@ -87,7 +90,7 @@ internal class Window(val profile : WindowProfile) {
         val iconWidth = profile.iconProfile.width
         val iconHeight = profile.iconProfile.height
         println(iconPath)
-        
+
         MemoryStack.stackPush().use { stack ->
             val w = stack.mallocInt(1)
             val h = stack.mallocInt(1)
@@ -113,7 +116,7 @@ internal class Window(val profile : WindowProfile) {
 
         glfwSetFramebufferSizeCallback(
             window
-        ) { window : Long, width : Int, height : Int ->
+        ) { window: Long, width: Int, height: Int ->
             GL11.glViewport(
                 0,
                 0,
@@ -126,10 +129,15 @@ internal class Window(val profile : WindowProfile) {
 
         Context.current().load()
 
-        while (Context.current().engine.engineState === EngineState.Running && ! glfwWindowShouldClose(window)) {
+        while (Context.current().engine.engineState === EngineState.Running && !glfwWindowShouldClose(window)) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
-            Context.current().update()
+            val currentFT = getTime()
+
+            deltaTime = currentFT - lastFrameTime
+            lastFrameTime = currentFT
+
+            Context.current().update(deltaTime)
 
             glfwSwapBuffers(window)
 
@@ -144,7 +152,11 @@ internal class Window(val profile : WindowProfile) {
         glfwDestroyWindow(window)
 
         glfwTerminate()
-        glfwSetErrorCallback(null) !!.free()
+        glfwSetErrorCallback(null)!!.free()
+    }
+
+    private fun getTime(): Double {
+        return System.nanoTime() / 1000000000.0
     }
 
     fun initWindow() {
