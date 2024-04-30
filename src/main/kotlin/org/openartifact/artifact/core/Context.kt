@@ -18,6 +18,9 @@ class Context private constructor(
     lateinit var sceneManager : SceneManager
     internal val engine = Engine()
 
+    var currentFPS = 0
+    var currentUPS = 0
+
     /**
      * Starts the engine
      */

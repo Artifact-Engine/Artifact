@@ -9,6 +9,7 @@ import org.openartifact.artifact.core.graphics.ShaderProgram
 import org.openartifact.artifact.core.graphics.Texture
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.utils.*
+import java.io.File
 
 class CubeRenderer : Component() {
 
@@ -145,7 +146,7 @@ class CubeRenderer : Component() {
             )
         )
 
-        textureId = Texture("C:\\Users\\vchenkel\\.artifactengine\\test.png").loadTexture()
+        textureId = Texture(File(FileConstants.game(), "test.png").path).loadTexture()
     }
 
     override fun render(deltaTime : Double) {

@@ -11,23 +11,21 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.openartifact.artifact.core.Context
 import org.openartifact.artifact.core.EngineState
-import org.openartifact.artifact.core.event.events.KeyPressEvent
-import org.openartifact.artifact.core.event.events.KeyReleaseEvent
-import org.openartifact.artifact.core.event.events.KeyRepeatEvent
+import org.openartifact.artifact.core.event.events.*
 import org.openartifact.artifact.core.event.notify
 import org.slf4j.LoggerFactory
 
 internal class Window(val profile: WindowProfile) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    private var window: Long = 0
+    internal var window: Long = 0
 
-    private var deltaTime = 0.0
-    private var lastFrameTime = 0.0
-    private var lastFPSUpdateTime = 0.0
+    private var lastFrameTime: Double = 0.0
+    private var updatesPerSecondCounter = 0
+    private var lastUpsUpdateTime = glfwGetTime()
+
     private var frameCount = 0
-    private var lastUpdateTime = 0.0
-    private var lastRenderTime = 0.0
+    private var lastFPSUpdateTime = glfwGetTime()
 
     private fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
@@ -54,17 +52,6 @@ internal class Window(val profile: WindowProfile) {
 
         profile.windowId = window
 
-        logger.debug("Setting up key callback...")
-        glfwSetKeyCallback(
-            window
-        ) { _: Long, key: Int, _: Int, action: Int, _: Int ->
-            when (action) {
-                GLFW_PRESS -> notify(KeyPressEvent(key))
-                GLFW_RELEASE -> notify(KeyReleaseEvent(key))
-                GLFW_REPEAT -> notify(KeyRepeatEvent(key))
-            }
-        }
-
         logger.debug("Adjusting window position...")
         MemoryStack.stackPush().use { stack ->
             val pWidth = stack.mallocInt(1)
@@ -85,7 +72,7 @@ internal class Window(val profile: WindowProfile) {
         logger.debug("Setting window icon...")
         setWindowIcon()
 
-        glfwSwapInterval(if (profile.targetFPS > 0) 0 else 1)
+        glfwSwapInterval(if (profile.targetFPS > 0) 1 else 0)
         glfwShowWindow(window)
     }
 
@@ -115,52 +102,86 @@ internal class Window(val profile: WindowProfile) {
         }
     }
 
+    private fun update(deltaTime: Double) {
+        Context.current().update(deltaTime)
+        updatesPerSecondCounter++
+    }
+
+    private fun render(deltaTime: Double) {
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+        Context.current().render(deltaTime)
+        glfwSwapBuffers(window)
+        glfwPollEvents()
+    }
+
+    private fun updateWindowTitle() {
+        glfwSetWindowTitle(window, "Artifact <" + profile.title + "> OpenGL | FPS: ${Context.current().currentFPS} UPS: $updatesPerSecondCounter")
+    }
+
     private fun render() {
         GL.createCapabilities()
 
-        glfwSetFramebufferSizeCallback(
-            window
-        ) { window: Long, width: Int, height: Int ->
-            GL11.glViewport(
-                0,
-                0,
-                width,
-                height
-            )
+        glfwSetFramebufferSizeCallback(window) { _, width, height ->
+            GL11.glViewport(0, 0, width, height)
         }
 
         GL11.glClearColor(0.0f, 0.0f, 0.2f, 1.0f)
 
         Context.current().load()
 
-        lastFrameTime = getTime()
-        lastFPSUpdateTime = lastFrameTime
-        frameCount = 0
+        val updateInterval = 1.0 / profile.targetUPS // Fixed update interval based on target UPS
+        var lastUpdateTime = glfwGetTime()
+        var previousTime = glfwGetTime()
+        var accumulator = 0.0
 
         while (Context.current().engine.engineState === EngineState.Running && !glfwWindowShouldClose(window)) {
-            // Calculate elapsed time since the last update
-            val currentTime = getTime()
-            val elapsedTime = currentTime - lastUpdateTime
+            val currentTime = glfwGetTime()
+            val deltaTime = currentTime - lastFrameTime
+            lastFrameTime = currentTime
+            frameCount++
 
-            if (elapsedTime >= 1.0 / profile.targetUPS) {
-                Context.current().update(elapsedTime)
-                lastUpdateTime = currentTime
+            // Accumulate time
+            accumulator += deltaTime
+
+            // Perform updates until the accumulator is large enough
+            while (accumulator >= updateInterval) {
+                update(updateInterval)
+                accumulator -= updateInterval
             }
 
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+            // Render as fast as possible
+            render(deltaTime)
 
-            val elapsedRenderTime = currentTime - lastRenderTime
-
-            if (elapsedRenderTime >= 1.0 / profile.targetFPS) {
-                Context.current().render(elapsedRenderTime)
-                frameCount++
-                lastRenderTime = currentTime
+            // Update window title with FPS and UPS
+            if (currentTime - lastUpsUpdateTime >= 1.0) {
+                Context.current().currentUPS = updatesPerSecondCounter
+                updateWindowTitle()
+                updatesPerSecondCounter = 0
+                lastUpsUpdateTime = currentTime
             }
 
-            glfwSwapBuffers(window)
-            glfwPollEvents()
+            if (currentTime - previousTime >= 1.0) {
+                // Calculate FPS
+                val fps = frameCount.toDouble() / (currentTime - previousTime)
+                // Display the FPS here any way you want.
+                Context.current().currentFPS = fps.toInt()
+
+                frameCount = 0
+                previousTime = currentTime
+            }
+
+            // Sleep to reduce CPU usage if the FPS is too high
+            if (profile.targetFPS > 0) {
+                val frameTime = 1.0 / profile.targetFPS
+                val endTime = lastFrameTime + frameTime
+                while (glfwGetTime() < endTime) {
+                    // Busy wait until the next frame should be rendered
+                }
+            }
         }
     }
+
+
 
     private fun terminate() {
         Context.current().rest()
@@ -172,14 +193,9 @@ internal class Window(val profile: WindowProfile) {
         glfwSetErrorCallback(null)!!.free()
     }
 
-    private fun getTime(): Double {
-        return System.nanoTime() / 1000000000.0
-    }
-
     fun initWindow() {
         initAPI()
         render()
         terminate()
     }
-
 }
