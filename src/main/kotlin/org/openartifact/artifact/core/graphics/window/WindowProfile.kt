@@ -27,7 +27,7 @@ class WindowProfile(
     var targetUPS: Int,
     val width: Int,
     val height: Int,
-    val aspectRatio: AspectRatio,
+    val aspectRatio: AspectRatio = AspectRatio.findClosestAspectRatio(width, height)!!,
     val iconProfile: IconProfile = IconProfile(),
     val resizable: Boolean = true,
     var windowId: Long = 0,
