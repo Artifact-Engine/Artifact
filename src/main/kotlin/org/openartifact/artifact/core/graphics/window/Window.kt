@@ -11,8 +11,6 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.openartifact.artifact.core.Context
 import org.openartifact.artifact.core.EngineState
-import org.openartifact.artifact.core.event.events.*
-import org.openartifact.artifact.core.event.notify
 import org.slf4j.LoggerFactory
 
 internal class Window(val profile: WindowProfile) {
@@ -20,12 +18,9 @@ internal class Window(val profile: WindowProfile) {
     private val logger = LoggerFactory.getLogger(javaClass)
     internal var window: Long = 0
 
-    private var lastFrameTime: Double = 0.0
-    private var updatesPerSecondCounter = 0
-    private var lastUpsUpdateTime = glfwGetTime()
+    private lateinit var performanceMonitor : PerformanceMonitor
 
-    private var frameCount = 0
-    private var lastFPSUpdateTime = glfwGetTime()
+    private var lastFrameTime: Double = 0.0
 
     private fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
@@ -72,7 +67,26 @@ internal class Window(val profile: WindowProfile) {
         logger.debug("Setting window icon...")
         setWindowIcon()
 
-        glfwSwapInterval(if (profile.targetFPS > 0) 1 else 0)
+        logger.debug("Starting performance-monitor")
+        performanceMonitor = PerformanceMonitor()
+
+        if (profile.targetFPS != 0 && profile.targetUPS == 0) {
+            val refreshRate = glfwGetVideoMode(glfwGetPrimaryMonitor())!!.refreshRate()
+            profile.targetUPS = refreshRate
+        }
+
+        if (profile.targetFPS == 0 && profile.targetUPS == 0) {
+            val refreshRate = glfwGetVideoMode(glfwGetPrimaryMonitor())!!.refreshRate()
+            profile.targetUPS = refreshRate
+        }
+
+        val swapInterval = when {
+            profile.targetFPS == 0 -> 1 // Use VSync when targetFPS is 0
+            profile.targetUPS > 0 -> 0 // Disable VSync when targetUPS is specified
+            else -> 1 // Default to VSync when targetFPS is not specified
+        }
+
+        glfwSwapInterval(swapInterval)
         glfwShowWindow(window)
     }
 
@@ -104,21 +118,18 @@ internal class Window(val profile: WindowProfile) {
 
     private fun update(deltaTime: Double) {
         Context.current().update(deltaTime)
-        updatesPerSecondCounter++
     }
 
     private fun render(deltaTime: Double) {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+
         Context.current().render(deltaTime)
+
         glfwSwapBuffers(window)
         glfwPollEvents()
     }
 
-    private fun updateWindowTitle() {
-        glfwSetWindowTitle(window, "Artifact <" + profile.title + "> OpenGL | FPS: ${Context.current().currentFPS} UPS: $updatesPerSecondCounter")
-    }
-
-    private fun render() {
+    private fun loop() {
         GL.createCapabilities()
 
         glfwSetFramebufferSizeCallback(window) { _, width, height ->
@@ -130,47 +141,30 @@ internal class Window(val profile: WindowProfile) {
         Context.current().load()
 
         val updateInterval = 1.0 / profile.targetUPS // Fixed update interval based on target UPS
-        var lastUpdateTime = glfwGetTime()
-        var previousTime = glfwGetTime()
         var accumulator = 0.0
 
         while (Context.current().engine.engineState === EngineState.Running && !glfwWindowShouldClose(window)) {
             val currentTime = glfwGetTime()
             val deltaTime = currentTime - lastFrameTime
             lastFrameTime = currentTime
-            frameCount++
+
+            performanceMonitor.updateTimes()
+            performanceMonitor.updateFrameCount()
 
             // Accumulate time
             accumulator += deltaTime
 
-            // Perform updates until the accumulator is large enough
             while (accumulator >= updateInterval) {
                 update(updateInterval)
+                performanceMonitor.updateUPS()
                 accumulator -= updateInterval
             }
 
-            // Render as fast as possible
             render(deltaTime)
 
-            // Update window title with FPS and UPS
-            if (currentTime - lastUpsUpdateTime >= 1.0) {
-                Context.current().currentUPS = updatesPerSecondCounter
-                updateWindowTitle()
-                updatesPerSecondCounter = 0
-                lastUpsUpdateTime = currentTime
-            }
+            performanceMonitor.updateRender()
 
-            if (currentTime - previousTime >= 1.0) {
-                // Calculate FPS
-                val fps = frameCount.toDouble() / (currentTime - previousTime)
-                // Display the FPS here any way you want.
-                Context.current().currentFPS = fps.toInt()
-
-                frameCount = 0
-                previousTime = currentTime
-            }
-
-            // Sleep to reduce CPU usage if the FPS is too high
+            // Sleep if necessary
             if (profile.targetFPS > 0) {
                 val frameTime = 1.0 / profile.targetFPS
                 val endTime = lastFrameTime + frameTime
@@ -195,7 +189,7 @@ internal class Window(val profile: WindowProfile) {
 
     fun initWindow() {
         initAPI()
-        render()
+        loop()
         terminate()
     }
 }

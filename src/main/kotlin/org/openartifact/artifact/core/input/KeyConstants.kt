@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core
+package org.openartifact.artifact.core.input
 
 const val KEY_0 = 48
 

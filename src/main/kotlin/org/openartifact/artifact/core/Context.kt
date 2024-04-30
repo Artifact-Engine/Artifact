@@ -1,6 +1,7 @@
 package org.openartifact.artifact.core
 
 import org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose
+import org.openartifact.artifact.core.graphics.window.PerformanceMonitor
 import org.openartifact.artifact.core.graphics.window.WindowProfile
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
@@ -18,8 +19,7 @@ class Context private constructor(
     lateinit var sceneManager : SceneManager
     internal val engine = Engine()
 
-    var currentFPS = 0
-    var currentUPS = 0
+    lateinit var performanceMonitor : PerformanceMonitor
 
     /**
      * Starts the engine
