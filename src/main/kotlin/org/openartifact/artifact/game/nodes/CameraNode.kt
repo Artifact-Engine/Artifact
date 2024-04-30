@@ -3,7 +3,7 @@ package org.openartifact.artifact.game.nodes
 import glm_.func.toRadians
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
-import org.openartifact.artifact.core.Context
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.graphics.component.CameraController
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
@@ -14,16 +14,16 @@ import kotlin.math.sin
 class CameraNode(var fov : Float, private var position : Vec3, private var rotation : Vec3) : Node() {
 
     fun getViewMatrix() : Mat4 {
-        val matrix = Mat4(1.0).identity()
+        val viewMatrix = Mat4()
+        viewMatrix.identity()
 
-        matrix.rotateAssign(toRadians(rotation.x), Vec3(1, 0, 0)).
-                rotateAssign(toRadians(rotation.y), Vec3(0, 1, 0))
+        // First do the rotation so camera rotates over its position
+        viewMatrix.rotateAssign(toRadians(rotation.x), Vec3(1, 0, 0))
+            .rotateAssign(toRadians(rotation.y), Vec3(0, 1, 0))
 
-        matrix.translateAssign(-position.x, -position.y, -position.z)
-
-        println(matrix)
-
-        return matrix
+        // Then do the translation
+        viewMatrix.translateAssign(-position.x, -position.y, -position.z)
+        return viewMatrix
     }
 
     fun updatePosition(vec3 : Vec3) {
@@ -65,7 +65,7 @@ class CameraNode(var fov : Float, private var position : Vec3, private var rotat
     }
 
     fun getProjectionMatrix() : Mat4 =
-        createProjectionMatrix(fov, Context.current().engine.window.profile.aspectRatio.ratio, 0.1f, 100.0f)
+        createProjectionMatrix(fov, GameContext.current().engine.window.profile.aspectRatio.ratio, 0.1f, 100.0f)
 
     override fun requiredComponents(): MutableList<Component> {
         return mutableListOf(CameraController())

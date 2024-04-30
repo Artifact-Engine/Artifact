@@ -1,5 +1,6 @@
 package org.openartifact.artifact.core.graphics.component
 
+import glm_.vec2.Vec2
 import glm_.vec3.Vec3
 import org.openartifact.artifact.core.input.*
 import org.openartifact.artifact.game.Component
@@ -7,23 +8,37 @@ import org.openartifact.artifact.game.nodes.CameraNode
 
 class CameraController : Component() {
 
+    private lateinit var mouseInput : MouseInput
+
+    override fun awake() {
+        mouseInput = MouseInput()
+        mouseInput.init()
+    }
+
     override fun update(physicsDeltaTime: Double) {
         val camera = parent as CameraNode
 
-        val speed : Float = if (getKeyDown(KEY_LEFT_SHIFT)) 8 * physicsDeltaTime.toFloat() else 2 * physicsDeltaTime.toFloat()
+        val speed : Float = if (getKeyDown(KEY_LEFT_SHIFT)) 1.4f * physicsDeltaTime.toFloat() else 1f * physicsDeltaTime.toFloat()
+
+        val camInc = Vec3()
 
         keyMap {
-            KEY_W combineWith KEY_Q combineWith KEY_E to { println("Hallo") }
+            KEY_W to { camInc.z = -1f }
+            KEY_A to { camInc.x = -1f }
+            KEY_S to { camInc.z = 1f }
+            KEY_D to { camInc.x = 1f }
+
+            KEY_E to { camInc.y = 1f }
+            KEY_Q to { camInc.y = -1f }
         }.process()
 
-        keyMap {
-            KEY_W to { camera.movePosition(0f, 0f, -speed) }
-            KEY_A to { camera.movePosition(-speed, 0f, 0f) }
-            KEY_S to { camera.movePosition(0f, 0f, speed) }
-            KEY_D to { camera.movePosition(speed, 0f, 0f) }
+        camera.movePosition(camInc.x * speed, camInc.y * speed, camInc.z * speed)
 
-            KEY_E to { camera.movePosition(0f, speed, 0f) }
-            KEY_Q to { camera.movePosition(0f, -speed, 0f) }
-        }.process()
+        mouseInput.input()
+
+        if (mouseInput.rightButtonPressed) {
+            val rotVec : Vec2 = mouseInput.displayVec
+            camera.moveRotation(rotVec.x * .1f, rotVec.y * .1f, 0f)
+        }
     }
 }

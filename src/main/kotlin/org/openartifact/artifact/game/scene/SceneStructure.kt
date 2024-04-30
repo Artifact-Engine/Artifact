@@ -2,7 +2,7 @@ package org.openartifact.artifact.game.scene
 
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import org.openartifact.artifact.core.Context
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.utils.requireFile
@@ -38,7 +38,7 @@ class NodeDeserializer : JsonDeserializer<Node> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = Context.current().engine.nodeClasses.find { it.simpleName == type }
+        val kClass = GameContext.current().engine.nodeClasses.find { it.simpleName == type }
 
         val node = context.deserialize<Node>(json, kClass?.java)
 
@@ -57,7 +57,7 @@ class ComponentDeserializer : JsonDeserializer<Component> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = Context.current().engine.componentClasses.find { it.simpleName == type }
+        val kClass = GameContext.current().engine.componentClasses.find { it.simpleName == type }
 
         return context.deserialize(json, kClass?.java)
     }

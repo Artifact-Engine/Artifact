@@ -1,7 +1,6 @@
 package org.openartifact.artifact.core.graphics.component
 
 import glm_.mat4x4.Mat4
-import glm_.vec3.Vec3
 import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL30.*
 import org.openartifact.artifact.core.graphics.Mesh
@@ -11,7 +10,6 @@ import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.nodes.StaticBodyNode
 import org.openartifact.artifact.utils.FileConstants
 import org.openartifact.artifact.utils.createModelMatrix
-import org.openartifact.artifact.utils.createModelMatrixOld
 import org.openartifact.artifact.utils.createMvpMatrix
 import java.io.File
 

@@ -1,7 +1,7 @@
 package org.openartifact.artifact.game
 
 import org.lwjgl.glfw.GLFW
-import org.openartifact.artifact.core.Context
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.input.KeyInputMap
 
 open class Component {
@@ -24,10 +24,10 @@ open class Component {
     open fun rest() {}
 
     fun getKeyDown(key : Int) : Boolean =
-        GLFW.glfwGetKey(Context.current().engine.window.window, key) == GLFW.GLFW_PRESS
+        GLFW.glfwGetKey(GameContext.current().engine.window.id, key) == GLFW.GLFW_PRESS
 
     fun onKey(key: Int, action: () -> Unit) =
-        if (GLFW.glfwGetKey(Context.current().engine.window.window, key) == GLFW.GLFW_PRESS) action() else {}
+        if (GLFW.glfwGetKey(GameContext.current().engine.window.id, key) == GLFW.GLFW_PRESS) action() else {}
 
     fun keyMap(block: KeyInputMap.() -> Unit): KeyInputMap {
         return KeyInputMap().apply(block)

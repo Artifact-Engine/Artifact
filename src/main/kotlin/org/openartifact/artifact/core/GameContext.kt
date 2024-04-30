@@ -10,7 +10,7 @@ import org.openartifact.artifact.utils.FileConstants
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-class Context private constructor(
+class GameContext private constructor(
     private val applicationProfile : ApplicationProfile,
     private val windowProfile : WindowProfile
 ) {
@@ -24,28 +24,28 @@ class Context private constructor(
     /**
      * Starts the engine
      */
-    fun run() : Context {
+    fun run() : GameContext {
         sceneManager = SceneManager()
         sceneManager.loadScenesFromFile(FileConstants.scenes())
         engine.run()
         return this
     }
 
-    fun registerComponent(kClass : KClass<out Component>) : Context {
+    fun registerComponent(kClass : KClass<out Component>) : GameContext {
         require(! engine.componentClasses.contains(kClass)) { "Component ${kClass.simpleName} was already registered!" }
         engine.componentClasses.add(kClass)
         logger.debug("Registering component ${kClass.simpleName}")
         return this
     }
 
-    fun registerNode(kClass : KClass<out Node>) : Context {
+    fun registerNode(kClass : KClass<out Node>) : GameContext {
         require(! engine.nodeClasses.contains(kClass)) { "Node ${kClass.simpleName} was already registered!" }
         engine.nodeClasses.add(kClass)
         logger.debug("Registering node ${kClass.simpleName}")
         return this
     }
 
-    fun set() : Context {
+    fun set() : GameContext {
         require(current != this) { "Context was already set to current." }
         current = this
         return this
@@ -54,7 +54,7 @@ class Context private constructor(
     fun requestShutdown() {
         sceneManager.activeScene?.rest()
 
-        glfwSetWindowShouldClose(Context.current().windowProfile().windowId, true)
+        glfwSetWindowShouldClose(GameContext.current().windowProfile().windowId, true)
     }
 
     fun applicationProfile() : ApplicationProfile =
@@ -65,19 +65,19 @@ class Context private constructor(
 
     companion object {
 
-        private var current : Context? = null
+        private var current : GameContext? = null
 
-        fun createContext(block : Builder.() -> Unit) : Context {
+        fun createContext(block : Builder.() -> Unit) : GameContext {
             val builder = Builder()
             block(builder)
             requireNotNull(builder.applicationProfile) { "No application profile was found! Create one in the context using configureApplicationProfile." }
             requireNotNull(builder.windowProfile) { "No window profile was found! Create one in the context using configureWindowProfile." }
-            val context = Context(builder.applicationProfile !!, builder.windowProfile !!)
-            context.logger.info("Context created")
-            return context
+            val gameContext = GameContext(builder.applicationProfile !!, builder.windowProfile !!)
+            gameContext.logger.info("Context created")
+            return gameContext
         }
 
-        fun current() : Context =
+        fun current() : GameContext =
             current ?: throw IllegalStateException("No current GameContext exists. Try using setCurrent.")
     }
 

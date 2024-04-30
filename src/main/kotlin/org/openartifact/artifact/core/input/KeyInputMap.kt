@@ -2,7 +2,7 @@
 package org.openartifact.artifact.core.input
 
 import org.lwjgl.glfw.GLFW
-import org.openartifact.artifact.core.Context
+import org.openartifact.artifact.core.GameContext
 
 class KeyInputMap {
     private val singleKeyMappings = mutableMapOf<Int, () -> Unit>()
@@ -18,13 +18,13 @@ class KeyInputMap {
 
     fun process() {
         singleKeyMappings.forEach { (key, action) ->
-            if (GLFW.glfwGetKey(Context.current().engine.window.window, key) == GLFW.GLFW_PRESS) {
+            if (GLFW.glfwGetKey(GameContext.current().engine.window.id, key) == GLFW.GLFW_PRESS) {
                 action()
             }
         }
 
         multiKeyMappings.forEach { (multiKey, action) ->
-            if (multiKey.keys.all { GLFW.glfwGetKey(Context.current().engine.window.window, it) == GLFW.GLFW_PRESS }) {
+            if (multiKey.keys.all { GLFW.glfwGetKey(GameContext.current().engine.window.id, it) == GLFW.GLFW_PRESS }) {
                 action()
             }
         }

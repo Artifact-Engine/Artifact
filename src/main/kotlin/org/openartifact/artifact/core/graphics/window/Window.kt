@@ -9,14 +9,14 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
-import org.openartifact.artifact.core.Context
+import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.EngineState
 import org.slf4j.LoggerFactory
 
 internal class Window(val profile: WindowProfile) {
 
     private val logger = LoggerFactory.getLogger(javaClass)
-    internal var window: Long = 0
+    internal var id: Long = 0
 
     private lateinit var performanceMonitor : PerformanceMonitor
 
@@ -33,7 +33,7 @@ internal class Window(val profile: WindowProfile) {
         glfwWindowHint(GLFW_RESIZABLE, if (profile.resizable) GLFW_TRUE else GLFW_FALSE)
 
         logger.info("Creating Window...")
-        window = glfwCreateWindow(
+        id = glfwCreateWindow(
             profile.width,
             profile.height,
             "Artifact <" + profile.title + "> OpenGL",
@@ -41,28 +41,28 @@ internal class Window(val profile: WindowProfile) {
             MemoryUtil.NULL
         )
 
-        if (window == MemoryUtil.NULL) {
+        if (id == MemoryUtil.NULL) {
             throw RuntimeException("Failed to create the GLFW window")
         }
 
-        profile.windowId = window
+        profile.windowId = id
 
         logger.debug("Adjusting window position...")
         MemoryStack.stackPush().use { stack ->
             val pWidth = stack.mallocInt(1)
             val pHeight = stack.mallocInt(1)
 
-            glfwGetWindowSize(window, pWidth, pHeight)
+            glfwGetWindowSize(id, pWidth, pHeight)
 
             val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())
             glfwSetWindowPos(
-                window,
+                id,
                 (vidmode!!.width() - pWidth[0]) / 2,
                 (vidmode.height() - pHeight[0]) / 2
             )
         }
 
-        glfwMakeContextCurrent(window)
+        glfwMakeContextCurrent(id)
 
         logger.debug("Setting window icon...")
         setWindowIcon()
@@ -87,7 +87,7 @@ internal class Window(val profile: WindowProfile) {
         }
 
         glfwSwapInterval(swapInterval)
-        glfwShowWindow(window)
+        glfwShowWindow(id)
     }
 
     private fun setWindowIcon() {
@@ -109,7 +109,7 @@ internal class Window(val profile: WindowProfile) {
             icons.height(h.get())
             icons.pixels(iconBuffer)
 
-            glfwSetWindowIcon(window, icons)
+            glfwSetWindowIcon(id, icons)
 
             STBImage.stbi_image_free(iconBuffer)
             icons.free()
@@ -117,33 +117,33 @@ internal class Window(val profile: WindowProfile) {
     }
 
     private fun update(deltaTime: Double) {
-        Context.current().update(deltaTime)
+        GameContext.current().update(deltaTime)
     }
 
     private fun render(deltaTime: Double) {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
-        Context.current().render(deltaTime)
+        GameContext.current().render(deltaTime)
 
-        glfwSwapBuffers(window)
+        glfwSwapBuffers(id)
         glfwPollEvents()
     }
 
     private fun loop() {
         GL.createCapabilities()
 
-        glfwSetFramebufferSizeCallback(window) { _, width, height ->
+        glfwSetFramebufferSizeCallback(id) { _, width, height ->
             GL11.glViewport(0, 0, width, height)
         }
 
         GL11.glClearColor(0.0f, 0.0f, 0.2f, 1.0f)
 
-        Context.current().load()
+        GameContext.current().load()
 
         val updateInterval = 1.0 / profile.targetUPS // Fixed update interval based on target UPS
         var accumulator = 0.0
 
-        while (Context.current().engine.engineState === EngineState.Running && !glfwWindowShouldClose(window)) {
+        while (GameContext.current().engine.engineState === EngineState.Running && !glfwWindowShouldClose(id)) {
             val currentTime = glfwGetTime()
             val deltaTime = currentTime - lastFrameTime
             lastFrameTime = currentTime
@@ -178,10 +178,10 @@ internal class Window(val profile: WindowProfile) {
 
 
     private fun terminate() {
-        Context.current().rest()
+        GameContext.current().rest()
 
-        Callbacks.glfwFreeCallbacks(window)
-        glfwDestroyWindow(window)
+        Callbacks.glfwFreeCallbacks(id)
+        glfwDestroyWindow(id)
 
         glfwTerminate()
         glfwSetErrorCallback(null)!!.free()

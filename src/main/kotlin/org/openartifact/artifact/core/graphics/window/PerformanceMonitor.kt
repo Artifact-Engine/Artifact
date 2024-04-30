@@ -2,8 +2,7 @@ package org.openartifact.artifact.core.graphics.window
 
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFW.glfwSetWindowTitle
-import org.openartifact.artifact.core.Context
-import org.openartifact.artifact.core.Engine
+import org.openartifact.artifact.core.GameContext
 
 class PerformanceMonitor {
 
@@ -20,8 +19,8 @@ class PerformanceMonitor {
         val currentFPS = currentFPS
         val currentUPS = currentUPS
 
-        val window = Context.current().engine.window.window
-        val profile = Context.current().engine.window.profile
+        val window = GameContext.current().engine.window.id
+        val profile = GameContext.current().engine.window.profile
 
         val newTitle = "Artifact <${profile.title}> OpenGL | FPS: $currentFPS UPS: $currentUPS"
 
