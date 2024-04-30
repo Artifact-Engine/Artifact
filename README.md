@@ -81,3 +81,5 @@ No, not at the moment. But we are planning to open a Ko-Fi.
 ## Acknowledgements
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.
 
+# License
+[GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
