@@ -11,7 +11,12 @@ open class Component {
     val type : String = javaClass.simpleName
 
     open fun awake() {}
-    open fun update(deltaTime : Double) {}
+    open fun render(deltaTime : Double) {}
+
+    /**
+     * Physics update
+     */
+    open fun update(physicsDeltaTime : Double) {}
     open fun rest() {}
 
 }

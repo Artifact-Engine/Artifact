@@ -13,15 +13,15 @@ class CameraController : Component() {
     val keyboardHandler = handler<KeyPressEvent>({ event ->
         val camera = parent as CameraNode
 
-        val movement = 1
+        val movementSteps = 1
 
         camera.updatePosition(when (event.key) {
-            KEY_W -> Vec3(0, 0, -movement)
-            KEY_A -> Vec3(-movement, 0, 0)
-            KEY_S -> Vec3(0, 0, movement)
-            KEY_D -> Vec3(movement, 0, 0)
-            KEY_E -> Vec3(0, movement, 0)
-            KEY_Q -> Vec3(0, -movement, 0)
+            KEY_W -> Vec3(0, 0, -movementSteps)
+            KEY_A -> Vec3(-movementSteps, 0, 0)
+            KEY_S -> Vec3(0, 0, movementSteps)
+            KEY_D -> Vec3(movementSteps, 0, 0)
+            KEY_E -> Vec3(0, movementSteps, 0)
+            KEY_Q -> Vec3(0, -movementSteps, 0)
             else -> Vec3(0, 0,0)
         })
     })

@@ -148,8 +148,8 @@ class CubeRenderer : Component() {
         textureId = Texture("C:\\Users\\vchenkel\\.artifactengine\\test.png").loadTexture()
     }
 
-    override fun update(deltaTime : Double) {
-        super.update(deltaTime)
+    override fun render(deltaTime : Double) {
+        super.render(deltaTime)
 
         cubeMVP = createMvpMatrix(
             createModelMatrix(

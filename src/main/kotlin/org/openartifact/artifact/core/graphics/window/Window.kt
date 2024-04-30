@@ -22,8 +22,12 @@ internal class Window(val profile: WindowProfile) {
     private val logger = LoggerFactory.getLogger(javaClass)
     private var window: Long = 0
 
-    private var deltaTime: Double = 0.0
-    private var lastFrameTime: Double = 0.0
+    private var deltaTime = 0.0
+    private var lastFrameTime = 0.0
+    private var lastFPSUpdateTime = 0.0
+    private var frameCount = 0
+    private var lastUpdateTime = 0.0
+    private var lastRenderTime = 0.0
 
     private fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
@@ -129,18 +133,31 @@ internal class Window(val profile: WindowProfile) {
 
         Context.current().load()
 
+        lastFrameTime = getTime()
+        lastFPSUpdateTime = lastFrameTime
+        frameCount = 0
+
         while (Context.current().engine.engineState === EngineState.Running && !glfwWindowShouldClose(window)) {
+            // Calculate elapsed time since the last update
+            val currentTime = getTime()
+            val elapsedTime = currentTime - lastUpdateTime
+
+            if (elapsedTime >= 1.0 / profile.targetUPS) {
+                Context.current().update(elapsedTime)
+                lastUpdateTime = currentTime
+            }
+
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
-            val currentFT = getTime()
+            val elapsedRenderTime = currentTime - lastRenderTime
 
-            deltaTime = currentFT - lastFrameTime
-            lastFrameTime = currentFT
-
-            Context.current().update(deltaTime)
+            if (elapsedRenderTime >= 1.0 / profile.targetFPS) {
+                Context.current().render(elapsedRenderTime)
+                frameCount++
+                lastRenderTime = currentTime
+            }
 
             glfwSwapBuffers(window)
-
             glfwPollEvents()
         }
     }

@@ -95,8 +95,12 @@ class Context private constructor(
         sceneManager.switchScene(applicationProfile.startingSceneId)
     }
 
-    internal fun update(deltaTime : Double) {
-        sceneManager.activeScene?.update(deltaTime)
+    internal fun render(deltaTime : Double) {
+        sceneManager.activeScene?.render(deltaTime)
+    }
+
+    internal fun update(physicsDeltaTime : Double) {
+        sceneManager.activeScene?.update(physicsDeltaTime)
     }
 
     internal fun rest() {

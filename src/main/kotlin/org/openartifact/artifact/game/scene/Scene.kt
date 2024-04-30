@@ -41,12 +41,23 @@ class Scene(val profile : SceneProfile) {
     }
 
     /**
-     * Performs necessary operations to unload the scene
+     * Performs necessary operations to render the scene
      */
-    internal fun update(deltaTime : Double) {
+    internal fun render(deltaTime : Double) {
         nodes.forEach { node ->
             recursiveOperation(node) { rNode ->
-                rNode.update(deltaTime)
+                rNode.render(deltaTime)
+            }
+        }
+    }
+
+    /**
+     * Performs necessary operations to update the scene
+     */
+    internal fun update(physicsDeltaTime : Double) {
+        nodes.forEach { node ->
+            recursiveOperation(node) { rNode ->
+                rNode.update(physicsDeltaTime)
             }
         }
     }
