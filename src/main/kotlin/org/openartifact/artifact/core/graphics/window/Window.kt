@@ -3,8 +3,10 @@ package org.openartifact.artifact.core.graphics.window
 import org.lwjgl.glfw.Callbacks
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWErrorCallback
+import org.lwjgl.glfw.GLFWImage
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11
+import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil
 import org.openartifact.artifact.core.EngineState
@@ -13,12 +15,13 @@ import org.openartifact.artifact.core.event.events.KeyPressEvent
 import org.openartifact.artifact.core.event.events.KeyReleaseEvent
 import org.openartifact.artifact.core.event.events.KeyRepeatEvent
 import org.openartifact.artifact.core.event.notify
+import java.nio.ByteBuffer
 
 internal class Window(val profile : WindowProfile) {
 
     private var window : Long = 0
 
-    fun initAPI() {
+    private fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
 
         check(GLFW.glfwInit()) { "Failed to initialize GLFW" }
@@ -43,7 +46,7 @@ internal class Window(val profile : WindowProfile) {
 
         GLFW.glfwSetKeyCallback(
             window
-        ) { window : Long, key : Int, scancode : Int, action : Int, mods : Int ->
+        ) { _: Long, key : Int, _: Int, action : Int, _: Int ->
             when (action) {
                 GLFW.GLFW_PRESS -> notify(KeyPressEvent(key))
                 GLFW.GLFW_RELEASE -> notify(KeyReleaseEvent(key))
@@ -64,12 +67,41 @@ internal class Window(val profile : WindowProfile) {
                 (vidmode.height() - pHeight[0]) / 2
             )
         }
+
         GLFW.glfwMakeContextCurrent(window)
+
+        //setWindowIcon()
+
         GLFW.glfwSwapInterval(if (profile.targetFPS > 0) 0 else 1)
         GLFW.glfwShowWindow(window)
     }
 
-    fun render() {
+    private fun setWindowIcon() {
+        val iconPath = profile.iconFile.absolutePath
+        val iconWidth = 128
+        val iconHeight = 128
+
+        MemoryStack.stackPush().use { stack ->
+            val w = stack.mallocInt(1)
+            val h = stack.mallocInt(1)
+            val comp = stack.mallocInt(1)
+
+            val iconBuffer = ByteBuffer.allocateDirect(iconWidth * iconHeight * 4)
+            STBImage.stbi_load(iconPath, w, h, comp, 4)
+
+            val icons = GLFWImage.malloc(1)
+            icons.width(w.get(0))
+            icons.height(h.get(0))
+            icons.pixels(iconBuffer)
+
+            GLFW.glfwSetWindowIcon(window, icons)
+
+            STBImage.stbi_image_free(iconBuffer)
+            icons.free()
+        }
+    }
+
+    private fun render() {
         GL.createCapabilities()
 
         GLFW.glfwSetFramebufferSizeCallback(
@@ -98,7 +130,7 @@ internal class Window(val profile : WindowProfile) {
         }
     }
 
-    fun terminate() {
+    private fun terminate() {
         Context.current().rest()
 
         Callbacks.glfwFreeCallbacks(window)
