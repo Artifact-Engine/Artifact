@@ -35,26 +35,29 @@ fun createDirectory(file : File) {
     if (! file.exists()) file.mkdir()
 }
 
-fun getEngineDir() : File =
-    File(System.getProperty("user.home"), ".artifactengine")
+object FileConstants {
 
-fun getEngineDataDir() : File =
-    File(getEngineDir(), "engineData")
+    fun engine() : File =
+        File(System.getProperty("user.home"), ".artifactengine")
 
-fun getGamesDir() : File =
-    File(getEngineDir(), "games")
+    fun engineData() : File =
+        File(engine(), "engineData")
 
-fun getGameDir() : File =
-    File(getGamesDir(), Context.current().applicationProfile().projectId)
+    fun games() : File =
+        File(engine(), "games")
 
-fun getGameDataDir() : File =
-    File(getGameDir(), "gameData")
+    fun game() : File =
+        File(games(), Context.current().applicationProfile().projectId)
 
-fun getScenesDir() : File =
-    File(getGameDataDir(), "scenes")
+    fun gameData() : File =
+        File(game(), "gameData")
 
-fun getShadersDir() : File =
-    File(getEngineDataDir(), "shaders")
+    fun scenes() : File =
+        File(gameData(), "scenes")
 
-fun getShaderFile(fileName : String) =
-    File(getShadersDir(), fileName)
+    fun shaders() : File =
+        File(engineData(), "shaders")
+
+    fun shaderFile(fileName : String) =
+        File(shaders(), fileName)
+}

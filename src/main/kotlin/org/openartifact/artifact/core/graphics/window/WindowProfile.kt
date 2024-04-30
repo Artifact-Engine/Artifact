@@ -1,6 +1,5 @@
 package org.openartifact.artifact.core.graphics.window
-
-import org.openartifact.artifact.utils.getEngineDataDir
+import org.openartifact.artifact.utils.FileConstants
 import java.io.File
 
 class WindowProfile(
@@ -10,7 +9,7 @@ class WindowProfile(
     val width : Int,
     val height : Int,
     val aspectRatio : AspectRatio,
-    val iconFile : File = File(getEngineDataDir(), "artifact.png"),
+    val iconFile : File = File(FileConstants.engineData(), "artifact.png"),
     val resizable : Boolean = true,
     var windowId : Long = 0,
 )

@@ -5,7 +5,7 @@ import org.openartifact.artifact.core.graphics.window.WindowProfile
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.scene.SceneManager
-import org.openartifact.artifact.utils.getScenesDir
+import org.openartifact.artifact.utils.FileConstants
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
@@ -23,7 +23,7 @@ class Context private constructor(
      */
     fun run() : Context {
         sceneManager = SceneManager()
-        sceneManager.loadScenesFromFile(getScenesDir())
+        sceneManager.loadScenesFromFile(FileConstants.scenes())
         engine.run()
         return this
     }

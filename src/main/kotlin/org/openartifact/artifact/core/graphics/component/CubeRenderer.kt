@@ -23,8 +23,8 @@ class CubeRenderer : Component() {
 
         shader = ShaderProgram(
             listOf(
-                ShaderProgram.ShaderData(getShaderFile("fragment.glsl").readText(), GL_FRAGMENT_SHADER),
-                ShaderProgram.ShaderData(getShaderFile("vertex.glsl").readText(), GL_VERTEX_SHADER)
+                ShaderProgram.ShaderData(FileConstants.shaderFile("fragment.glsl").readText(), GL_FRAGMENT_SHADER),
+                ShaderProgram.ShaderData(FileConstants.shaderFile("vertex.glsl").readText(), GL_VERTEX_SHADER)
             )
         )
 
