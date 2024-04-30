@@ -1,7 +1,7 @@
 package org.openartifact.artifact.core.graphics.window
 
 import org.lwjgl.glfw.Callbacks
-import org.lwjgl.glfw.GLFW
+import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.glfw.GLFWImage
 import org.lwjgl.opengl.GL
@@ -15,22 +15,25 @@ import org.openartifact.artifact.core.event.events.KeyPressEvent
 import org.openartifact.artifact.core.event.events.KeyReleaseEvent
 import org.openartifact.artifact.core.event.events.KeyRepeatEvent
 import org.openartifact.artifact.core.event.notify
-import java.nio.ByteBuffer
+import org.slf4j.LoggerFactory
 
 internal class Window(val profile : WindowProfile) {
 
+    private val logger = LoggerFactory.getLogger(javaClass)
     private var window : Long = 0
 
     private fun initAPI() {
         GLFWErrorCallback.createPrint(System.err).set()
 
-        check(GLFW.glfwInit()) { "Failed to initialize GLFW" }
+        logger.info("Initializing ..")
+        check(glfwInit()) { "Failed to initialize GLFW" }
 
-        GLFW.glfwDefaultWindowHints()
-        GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE)
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, if (profile.resizable) GLFW.GLFW_TRUE else GLFW.GLFW_FALSE)
+        glfwDefaultWindowHints()
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
+        glfwWindowHint(GLFW_RESIZABLE, if (profile.resizable) GLFW_TRUE else GLFW_FALSE)
 
-        window = GLFW.glfwCreateWindow(
+        logger.info("Creating Window...")
+        window = glfwCreateWindow(
             profile.width,
             profile.height,
             "Artifact <" + profile.title + "> OpenGL",
@@ -44,57 +47,61 @@ internal class Window(val profile : WindowProfile) {
 
         profile.windowId = window
 
-        GLFW.glfwSetKeyCallback(
+        logger.debug("Setting up key callback...")
+        glfwSetKeyCallback(
             window
         ) { _: Long, key : Int, _: Int, action : Int, _: Int ->
             when (action) {
-                GLFW.GLFW_PRESS -> notify(KeyPressEvent(key))
-                GLFW.GLFW_RELEASE -> notify(KeyReleaseEvent(key))
-                GLFW.GLFW_REPEAT -> notify(KeyRepeatEvent(key))
+                GLFW_PRESS -> notify(KeyPressEvent(key))
+                GLFW_RELEASE -> notify(KeyReleaseEvent(key))
+                GLFW_REPEAT -> notify(KeyRepeatEvent(key))
             }
         }
 
+        logger.debug("Adjusting window position...")
         MemoryStack.stackPush().use { stack ->
             val pWidth = stack.mallocInt(1)
             val pHeight = stack.mallocInt(1)
 
-            GLFW.glfwGetWindowSize(window, pWidth, pHeight)
+            glfwGetWindowSize(window, pWidth, pHeight)
 
-            val vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
-            GLFW.glfwSetWindowPos(
+            val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())
+            glfwSetWindowPos(
                 window,
                 (vidmode !!.width() - pWidth[0]) / 2,
                 (vidmode.height() - pHeight[0]) / 2
             )
         }
 
-        GLFW.glfwMakeContextCurrent(window)
+        glfwMakeContextCurrent(window)
 
-        //setWindowIcon()
+        logger.debug("Setting window icon...")
+        setWindowIcon()
 
-        GLFW.glfwSwapInterval(if (profile.targetFPS > 0) 0 else 1)
-        GLFW.glfwShowWindow(window)
+        glfwSwapInterval(if (profile.targetFPS > 0) 0 else 1)
+        glfwShowWindow(window)
     }
 
     private fun setWindowIcon() {
-        val iconPath = profile.iconFile.absolutePath
-        val iconWidth = 128
-        val iconHeight = 128
-
+        val iconPath = profile.iconProfile.file.absolutePath
+        val iconWidth = profile.iconProfile.width
+        val iconHeight = profile.iconProfile.height
+        println(iconPath)
+        
         MemoryStack.stackPush().use { stack ->
             val w = stack.mallocInt(1)
             val h = stack.mallocInt(1)
             val comp = stack.mallocInt(1)
 
-            val iconBuffer = ByteBuffer.allocateDirect(iconWidth * iconHeight * 4)
+            val iconBuffer = MemoryUtil.memAlloc(iconWidth * iconHeight * 4)
             STBImage.stbi_load(iconPath, w, h, comp, 4)
 
             val icons = GLFWImage.malloc(1)
-            icons.width(w.get(0))
-            icons.height(h.get(0))
+            icons.width(w.get())
+            icons.height(h.get())
             icons.pixels(iconBuffer)
 
-            GLFW.glfwSetWindowIcon(window, icons)
+            glfwSetWindowIcon(window, icons)
 
             STBImage.stbi_image_free(iconBuffer)
             icons.free()
@@ -104,7 +111,7 @@ internal class Window(val profile : WindowProfile) {
     private fun render() {
         GL.createCapabilities()
 
-        GLFW.glfwSetFramebufferSizeCallback(
+        glfwSetFramebufferSizeCallback(
             window
         ) { window : Long, width : Int, height : Int ->
             GL11.glViewport(
@@ -119,14 +126,14 @@ internal class Window(val profile : WindowProfile) {
 
         Context.current().load()
 
-        while (Context.current().engine.engineState === EngineState.Running && ! GLFW.glfwWindowShouldClose(window)) {
+        while (Context.current().engine.engineState === EngineState.Running && ! glfwWindowShouldClose(window)) {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
             Context.current().update()
 
-            GLFW.glfwSwapBuffers(window)
+            glfwSwapBuffers(window)
 
-            GLFW.glfwPollEvents()
+            glfwPollEvents()
         }
     }
 
@@ -134,10 +141,10 @@ internal class Window(val profile : WindowProfile) {
         Context.current().rest()
 
         Callbacks.glfwFreeCallbacks(window)
-        GLFW.glfwDestroyWindow(window)
+        glfwDestroyWindow(window)
 
-        GLFW.glfwTerminate()
-        GLFW.glfwSetErrorCallback(null) !!.free()
+        glfwTerminate()
+        glfwSetErrorCallback(null) !!.free()
     }
 
     fun initWindow() {
