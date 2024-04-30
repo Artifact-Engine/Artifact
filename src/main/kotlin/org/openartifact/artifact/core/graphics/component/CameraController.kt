@@ -11,10 +11,10 @@ import org.openartifact.artifact.game.nodes.CameraNode
 class CameraController : Component() {
 
     @Suppress("unused")
-    val keyboardHandler = handler<KeyRepeatEvent>({ event ->
+    val keyboardHandler = handler<KeyPressEvent>({ event ->
         val camera = parent as CameraNode
 
-        val movement = .1
+        val movement = 1
 
         if (event.key == GLFW.GLFW_KEY_W) camera.updatePosition(Vec3(0, 0, -movement))
         if (event.key == GLFW.GLFW_KEY_A) camera.updatePosition(Vec3(-movement, 0, 0))
