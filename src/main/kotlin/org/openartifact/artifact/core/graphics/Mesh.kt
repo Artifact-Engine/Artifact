@@ -3,11 +3,11 @@ package org.openartifact.artifact.core.graphics
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL30.*
 
-class Mesh(val vertexBufferData: FloatArray, val colorBufferData: FloatArray, val uvBufferData : FloatArray) {
+class Mesh(val vertexBufferData: FloatArray /* val colorBufferData: FloatArray = floatArrayOf() */, val uvBufferData : FloatArray) {
 
     private var vaId: Int = 0
     var vertexBuffer: Int = 0
-    var colorBuffer: Int = 0
+    /*var colorBuffer: Int = 0*/
     var uvBuffer: Int = 0
 
     init {
@@ -18,9 +18,11 @@ class Mesh(val vertexBufferData: FloatArray, val colorBufferData: FloatArray, va
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
         glBufferData(GL_ARRAY_BUFFER, vertexBufferData, GL_STATIC_DRAW)
 
+        /*
         colorBuffer = glGenBuffers()
         glBindBuffer(GL_ARRAY_BUFFER, colorBuffer)
         glBufferData(GL_ARRAY_BUFFER, colorBufferData, GL_STATIC_DRAW)
+         */
 
         uvBuffer = glGenBuffers()
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer)
@@ -56,7 +58,9 @@ class Mesh(val vertexBufferData: FloatArray, val colorBufferData: FloatArray, va
 
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         glDeleteBuffers(vertexBuffer)
+        /*
         glDeleteBuffers(colorBuffer)
+         */
         glDeleteBuffers(uvBuffer)
 
         glBindVertexArray(0)

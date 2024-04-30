@@ -6,7 +6,13 @@ import org.lwjgl.stb.STBImage
 
 class Texture(private val filePath: String) {
 
-    fun loadTexture() : Int {
+    val id : Int
+
+    init {
+        id = loadTexture()
+    }
+
+    private fun loadTexture() : Int {
         val width = BufferUtils.createIntBuffer(1)
         val height = BufferUtils.createIntBuffer(1)
         val channels = BufferUtils.createIntBuffer(1)
@@ -28,6 +34,11 @@ class Texture(private val filePath: String) {
         STBImage.stbi_image_free(image)
 
         return textureId
+    }
+
+    fun render() {
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, id)
     }
 
 }

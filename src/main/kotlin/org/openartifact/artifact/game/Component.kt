@@ -23,6 +23,9 @@ open class Component {
     open fun update(physicsDeltaTime: Double) {}
     open fun rest() {}
 
+    fun getKeyDown(key : Int) : Boolean =
+        GLFW.glfwGetKey(Context.current().engine.window.window, key) == GLFW.GLFW_PRESS
+
     fun onKey(key: Int, action: () -> Unit) =
         if (GLFW.glfwGetKey(Context.current().engine.window.window, key) == GLFW.GLFW_PRESS) action() else {}
 
