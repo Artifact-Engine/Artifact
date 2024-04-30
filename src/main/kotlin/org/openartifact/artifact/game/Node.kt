@@ -24,9 +24,15 @@ open class Node {
         }
     }
 
-    open fun update() {
+    open fun render(deltaTime : Double) {
         components.forEach {
-            it.update()
+            it.render(deltaTime)
+        }
+    }
+
+    open fun update(physicsDeltaTime : Double) {
+        components.forEach {
+            it.update(physicsDeltaTime)
         }
     }
 

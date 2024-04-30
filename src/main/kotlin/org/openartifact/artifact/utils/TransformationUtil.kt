@@ -35,8 +35,3 @@ fun createMvpMatrix(projectionMatrix : Mat4, modelMatrix : Mat4) : Mat4 =
 
 fun createMvpMatrix(modelMatrix: Mat4) : Mat4 =
     createMvpMatrix(Context.current().sceneManager.activeScene!!.camera.getProjectionMatrix(), modelMatrix)
-
-fun applyMvpMatrixToShader(shaderProgram : ShaderProgram, mvpMatrix : Mat4) {
-    val mvpMatrixLocation = GL20.glGetUniformLocation(shaderProgram.programId, "MVP")
-    GL20.glUniformMatrix4fv(mvpMatrixLocation, false, mvpMatrix.array)
-}

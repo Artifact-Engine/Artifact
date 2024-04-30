@@ -1,6 +1,5 @@
 package org.openartifact.artifact.game.scene
 
-import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.nodes.CameraNode
 
@@ -42,11 +41,24 @@ class Scene(val profile : SceneProfile) {
     }
 
     /**
-     * Performs necessary operations to unload the scene
+     * Performs necessary operations to render the scene
      */
-    internal fun update() {
+    internal fun render(deltaTime : Double) {
         nodes.forEach { node ->
-            recursiveOperation(node, Node::update)
+            recursiveOperation(node) { rNode ->
+                rNode.render(deltaTime)
+            }
+        }
+    }
+
+    /**
+     * Performs necessary operations to update the scene
+     */
+    internal fun update(physicsDeltaTime : Double) {
+        nodes.forEach { node ->
+            recursiveOperation(node) { rNode ->
+                rNode.update(physicsDeltaTime)
+            }
         }
     }
 

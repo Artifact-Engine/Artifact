@@ -5,7 +5,7 @@ import org.openartifact.artifact.core.graphics.window.WindowProfile
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.scene.SceneManager
-import org.openartifact.artifact.utils.getScenesDir
+import org.openartifact.artifact.utils.FileConstants
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
@@ -18,12 +18,15 @@ class Context private constructor(
     lateinit var sceneManager : SceneManager
     internal val engine = Engine()
 
+    var currentFPS = 0
+    var currentUPS = 0
+
     /**
      * Starts the engine
      */
     fun run() : Context {
         sceneManager = SceneManager()
-        sceneManager.loadScenesFromFile(getScenesDir())
+        sceneManager.loadScenesFromFile(FileConstants.scenes())
         engine.run()
         return this
     }
@@ -95,8 +98,12 @@ class Context private constructor(
         sceneManager.switchScene(applicationProfile.startingSceneId)
     }
 
-    internal fun update() {
-        sceneManager.activeScene?.update()
+    internal fun render(deltaTime : Double) {
+        sceneManager.activeScene?.render(deltaTime)
+    }
+
+    internal fun update(physicsDeltaTime : Double) {
+        sceneManager.activeScene?.update(physicsDeltaTime)
     }
 
     internal fun rest() {

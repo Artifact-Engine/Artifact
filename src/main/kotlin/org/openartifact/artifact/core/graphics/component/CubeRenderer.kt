@@ -2,11 +2,14 @@ package org.openartifact.artifact.core.graphics.component
 
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
+import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL30.*
 import org.openartifact.artifact.core.graphics.Mesh
 import org.openartifact.artifact.core.graphics.ShaderProgram
+import org.openartifact.artifact.core.graphics.Texture
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.utils.*
+import java.io.File
 
 class CubeRenderer : Component() {
 
@@ -14,13 +17,15 @@ class CubeRenderer : Component() {
     private lateinit var shader: ShaderProgram
     private lateinit var cubeMVP: Mat4
 
+    private var textureId: Int = 0
+
     override fun awake() {
         super.awake()
 
         shader = ShaderProgram(
             listOf(
-                ShaderProgram.ShaderData(getShaderFile("test.frag").readText(), GL_FRAGMENT_SHADER),
-                ShaderProgram.ShaderData(getShaderFile("test.vert").readText(), GL_VERTEX_SHADER)
+                ShaderProgram.ShaderData(FileConstants.shaderFile("fragment.glsl").readText(), GL_FRAGMENT_SHADER),
+                ShaderProgram.ShaderData(FileConstants.shaderFile("vertex.glsl").readText(), GL_VERTEX_SHADER)
             )
         )
 
@@ -100,12 +105,52 @@ class CubeRenderer : Component() {
                 0.673f, 0.211f, 0.457f,
                 0.820f, 0.883f, 0.371f,
                 0.982f, 0.099f, 0.879f
+            ),
+            floatArrayOf(
+                0.000059f, 1.0f - 0.000004f,
+                0.000103f, 1.0f - 0.336048f,
+                0.335973f, 1.0f - 0.335903f,
+                1.000023f, 1.0f - 0.000013f,
+                0.667979f, 1.0f - 0.335851f,
+                0.999958f, 1.0f - 0.336064f,
+                0.667979f, 1.0f - 0.335851f,
+                0.336024f, 1.0f - 0.671877f,
+                0.667969f, 1.0f - 0.671889f,
+                1.000023f, 1.0f - 0.000013f,
+                0.668104f, 1.0f - 0.000013f,
+                0.667979f, 1.0f - 0.335851f,
+                0.000059f, 1.0f - 0.000004f,
+                0.335973f, 1.0f - 0.335903f,
+                0.336098f, 1.0f - 0.000071f,
+                0.667979f, 1.0f - 0.335851f,
+                0.335973f, 1.0f - 0.335903f,
+                0.336024f, 1.0f - 0.671877f,
+                1.000004f, 1.0f - 0.671847f,
+                0.999958f, 1.0f - 0.336064f,
+                0.667979f, 1.0f - 0.335851f,
+                0.668104f, 1.0f - 0.000013f,
+                0.335973f, 1.0f - 0.335903f,
+                0.667979f, 1.0f - 0.335851f,
+                0.335973f, 1.0f - 0.335903f,
+                0.668104f, 1.0f - 0.000013f,
+                0.336098f, 1.0f - 0.000071f,
+                0.000103f, 1.0f - 0.336048f,
+                0.000004f, 1.0f - 0.671870f,
+                0.336024f, 1.0f - 0.671877f,
+                0.000103f, 1.0f - 0.336048f,
+                0.336024f, 1.0f - 0.671877f,
+                0.335973f, 1.0f - 0.335903f,
+                0.667969f, 1.0f - 0.671889f,
+                1.000004f, 1.0f - 0.671847f,
+                0.667979f, 1.0f - 0.335851f
             )
         )
+
+        textureId = Texture(File(FileConstants.game(), "test.png").path).loadTexture()
     }
 
-    override fun update() {
-        super.update()
+    override fun render(deltaTime : Double) {
+        super.render(deltaTime)
 
         cubeMVP = createMvpMatrix(
             createModelMatrix(
@@ -116,9 +161,15 @@ class CubeRenderer : Component() {
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LESS)
 
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, textureId)
+
         shader.bind()
 
-        applyMvpMatrixToShader(shader, cubeMVP)
+        val loc = GL20.glGetUniformLocation(shader.programId, "myTextureSampler")
+        glUniform1i(loc, 0)
+
+        shader.applyMvpMatrix(cubeMVP)
 
         cubeMesh.bind()
         cubeMesh.draw()

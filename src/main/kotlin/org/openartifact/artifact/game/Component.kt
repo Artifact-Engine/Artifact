@@ -1,5 +1,8 @@
 package org.openartifact.artifact.game
 
+import org.lwjgl.glfw.GLFW
+import org.openartifact.artifact.core.Context
+
 open class Component {
 
     lateinit var parent : Node
@@ -11,7 +14,14 @@ open class Component {
     val type : String = javaClass.simpleName
 
     open fun awake() {}
-    open fun update() {}
+    open fun render(deltaTime : Double) {}
+
+    /**
+     * Physics update
+     */
+    open fun update(physicsDeltaTime : Double) {}
     open fun rest() {}
 
+    fun onKey(key : Int, action : () -> Unit) =
+        if (GLFW.glfwGetKey(Context.current().engine.window.window, key) == GLFW.GLFW_PRESS) action() else {}
 }
