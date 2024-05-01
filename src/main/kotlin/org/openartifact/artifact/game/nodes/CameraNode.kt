@@ -4,7 +4,6 @@ import glm_.func.toRadians
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
 import org.openartifact.artifact.core.GameContext
-import org.openartifact.artifact.core.graphics.component.CameraController
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.utils.createProjectionMatrix
@@ -29,9 +28,5 @@ class CameraNode(var fieldOfView : Float, position : Vec3, rotation : Vec3) : Dy
 
     fun getProjectionMatrix() : Mat4 =
         createProjectionMatrix(fieldOfView, GameContext.current().engine.window.profile.aspectRatio.ratio, 0.1f, 100.0f)
-
-    override fun requiredComponents(): MutableList<Component> {
-        return mutableListOf(CameraController())
-    }
 
 }

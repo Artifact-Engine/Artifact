@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose
 import org.lwjgl.opengl.GL30.*
 import org.openartifact.artifact.core.graphics.window.PerformanceMonitor
 import org.openartifact.artifact.core.graphics.window.WindowProfile
+import org.openartifact.artifact.core.input.initMouseCallbacks
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.scene.SceneManager
@@ -97,6 +98,7 @@ class GameContext private constructor(
     }
 
     internal fun load() {
+        initMouseCallbacks()
         sceneManager.switchScene(applicationProfile.startingSceneId)
     }
 
