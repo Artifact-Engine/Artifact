@@ -5,7 +5,7 @@ import glm_.glm
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
 import org.openartifact.artifact.core.GameContext
-import org.openartifact.artifact.core.graphics.component.MeshRenderer
+import org.openartifact.artifact.core.graphics.component.MeshRendererComponent
 
 
 fun createProjectionMatrix(fov : Float, aspectRatio : Float, zNear : Float, zFar : Float) : Mat4 =
@@ -14,8 +14,8 @@ fun createProjectionMatrix(fov : Float, aspectRatio : Float, zNear : Float, zFar
 fun createViewMatrix(cameraPosition : Vec3, cameraTarget : Vec3, upVector : Vec3) : Mat4 =
     glm.lookAt(cameraPosition, cameraTarget, upVector)
 
-fun createModelMatrix(meshRenderer : MeshRenderer) : Mat4 {
-    val node = meshRenderer.dynamicBodyNode
+fun createModelMatrix(meshRendererComponent : MeshRendererComponent) : Mat4 {
+    val node = meshRendererComponent.dynamicBodyNode
 
     val modelViewMatrix = Mat4()
 

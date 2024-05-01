@@ -1,21 +1,21 @@
-package org.openartifact.artifact.core.graphics
+package org.openartifact.artifact.core.graphics.mesh
 
 import glm_.vec3.Vec3
 import org.lwjgl.opengl.GL30.*
+import org.openartifact.artifact.core.graphics.Texture
 
 class Mesh(vertexData : FloatArray, texCoordsData : FloatArray, normalsData : FloatArray, val indexData : IntArray) {
 
     var texture : Texture? = null
-    var color : Vec3 = Vec3(0)
+    var color : Vec3 = Vec3(1)
 
-    private val vaId : Int
+    private val vaId : Int = glGenVertexArrays()
     private val vertexBuffer : Int
     private val texCoordBuffer : Int
     private val normalsBuffer : Int
     private val indexBuffer : Int
 
     init {
-        vaId = glGenVertexArrays()
         glBindVertexArray(vaId)
 
         vertexBuffer = glGenBuffers()

@@ -32,6 +32,18 @@ open class DynamicBodyNode(val position : Vec3, val rotation : Vec3, val scale :
         rotation.z = z
     }
 
+    fun updateScale(vec3 : Vec3) {
+        scale.x = vec3.x
+        scale.y = vec3.y
+        scale.z = vec3.z
+    }
+
+    fun updateScale(x : Float, y : Float, z : Float) {
+        scale.x = x
+        scale.y = y
+        scale.z = z
+    }
+
     fun rotate(offsetX : Float, offsetY : Float, offsetZ : Float) {
         rotation.x += offsetX
         rotation.y += offsetY

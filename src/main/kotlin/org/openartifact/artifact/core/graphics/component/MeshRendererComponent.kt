@@ -3,18 +3,17 @@ package org.openartifact.artifact.core.graphics.component
 import glm_.mat4x4.Mat4
 import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL30.*
-import org.openartifact.artifact.core.graphics.Mesh
+import org.openartifact.artifact.core.graphics.mesh.Mesh
 import org.openartifact.artifact.core.graphics.ShaderProgram
-import org.openartifact.artifact.core.graphics.Texture
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.nodes.DynamicBodyNode
 import org.openartifact.artifact.utils.FileConstants
 import org.openartifact.artifact.utils.createModelMatrix
 import org.openartifact.artifact.utils.createMvpMatrix
-import java.io.File
 
-open class MeshRenderer(open var mesh : Mesh) : Component() {
+open class MeshRendererComponent : Component() {
 
+    open lateinit var mesh : Mesh
     lateinit var dynamicBodyNode : DynamicBodyNode
     private lateinit var mvp : Mat4
     private lateinit var shader : ShaderProgram
@@ -28,8 +27,6 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
                 ShaderProgram.ShaderData(FileConstants.shaderFile("vertex.glsl").readText(), GL_VERTEX_SHADER)
             )
         )
-
-        mesh.texture = Texture(File(FileConstants.game(), "test.png").absolutePath)
     }
 
     override fun render(deltaTime : Double) {
@@ -39,12 +36,14 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
 
         shader.bind()
 
-        val loc = GL20.glGetUniformLocation(shader.programId, "myTextureSampler")
+        val loc = GL20.glGetUniformLocation(shader.programId, "texSampler")
         glUniform1i(loc, 0)
 
         shader.applyMvpMatrix(mvp)
 
-        //shader.uniformVec4("color", mesh.color)
+        shader.uniform1i("useColor", if (mesh.texture == null) 1 else 0)
+        shader.uniformVec3("color", mesh.color)
+
         mesh.render()
 
         shader.unbind()

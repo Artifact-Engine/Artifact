@@ -3,8 +3,9 @@ package org.openartifact.artifact.core.graphics
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL30.*
 import org.lwjgl.stb.STBImage
+import java.io.File
 
-class Texture(private val filePath: String) {
+class Texture(private val filePath: File) {
 
     val id : Int
 
@@ -17,7 +18,7 @@ class Texture(private val filePath: String) {
         val height = BufferUtils.createIntBuffer(1)
         val channels = BufferUtils.createIntBuffer(1)
 
-        val image = STBImage.stbi_load(filePath, width, height, channels, 4)
+        val image = STBImage.stbi_load(filePath.absolutePath, width, height, channels, 4)
 
         requireNotNull(image) { "Failed to load texture. $filePath ${STBImage.stbi_failure_reason()}" }
 

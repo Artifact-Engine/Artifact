@@ -1,11 +1,21 @@
-#version 330 core
+#version 330
 
-in vec2 UV;
+in vec2 texCoord;
 
-out vec3 color;
+out vec4 fragColor;
 
-uniform sampler2D myTextureSampler;
+uniform sampler2D texSampler;
+uniform vec3 color;
+uniform int useColor;
 
-void main() {
-    color = texture(myTextureSampler, UV).rgb;
+void main()
+{
+    if ( useColor == 1 )
+    {
+        fragColor = vec4(color, 1);
+    }
+    else
+    {
+        fragColor = texture(texSampler, texCoord);
+    }
 }
