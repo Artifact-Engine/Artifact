@@ -5,9 +5,9 @@ import java.util.ArrayList
 
 object OBJLoader {
 
-    fun loadMesh(objFile : File): Mesh {
+    fun loadMesh(objFile: File): Mesh {
         val vertices = ArrayList<Float>()
-        val texCoords = ArrayList<Float>()
+        val texCoords = ArrayList<Float>() // Store texture coordinates
         val normals = ArrayList<Float>()
         val indices = ArrayList<Int>()
 
@@ -30,11 +30,17 @@ object OBJLoader {
                     for (i in 1 until parts.size) {
                         val vertexParts = parts[i].split("/")
                         indices.add(vertexParts[0].toInt() - 1) // Subtract 1 because OBJ uses 1-based indexing
+                        // Assuming the second part of the split is the texture coordinate index
+                        val texCoordIndex = vertexParts[1].toInt() - 1
+                        if (texCoordIndex >= 0 && texCoordIndex < texCoords.size) {
+                            texCoords[texCoordIndex] // Use the texture coordinate
+                        }
                     }
                 }
             }
         }
 
+        // Convert lists to arrays and pass to Mesh constructor
         val vertexData = FloatArray(vertices.size)
         val texCoordsData = FloatArray(texCoords.size)
         val normalsData = FloatArray(normals.size)
