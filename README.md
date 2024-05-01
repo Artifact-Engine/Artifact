@@ -30,6 +30,9 @@
     </ol>
 </details>
 
+# Notice
+I'm currently "rewriting" all rendering.
+
 ## About Artifact
 Artifact is a desktop 3D game engine written in Kotlin.
 
