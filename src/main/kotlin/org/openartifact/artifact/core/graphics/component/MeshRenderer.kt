@@ -18,7 +18,6 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
     lateinit var dynamicBodyNode : DynamicBodyNode
     private lateinit var mvp : Mat4
     private lateinit var shader : ShaderProgram
-    private lateinit var texture : Texture
 
     override fun awake() {
         dynamicBodyNode = parent as DynamicBodyNode
@@ -30,15 +29,13 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
             )
         )
 
-        texture = Texture(File(FileConstants.game(), "test.png").absolutePath)
+        mesh.texture = Texture(File(FileConstants.game(), "test.png").absolutePath)
     }
 
     override fun render(deltaTime : Double) {
         val modelMatrix = createModelMatrix(this)
 
         mvp = createMvpMatrix(modelMatrix)
-
-        texture.render()
 
         shader.bind()
 
@@ -47,6 +44,7 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
 
         shader.applyMvpMatrix(mvp)
 
+        //shader.uniformVec4("color", mesh.color)
         mesh.render()
 
         shader.unbind()

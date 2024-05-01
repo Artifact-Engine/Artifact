@@ -14,6 +14,7 @@ import org.openartifact.artifact.utils.FileConstants.shaders
 import org.openartifact.artifact.utils.FileConstants.game
 import org.openartifact.artifact.utils.FileConstants.gameData
 import org.slf4j.LoggerFactory
+import java.io.File
 import kotlin.reflect.KClass
 
 internal class Engine {

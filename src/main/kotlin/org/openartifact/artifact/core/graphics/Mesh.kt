@@ -1,14 +1,18 @@
 package org.openartifact.artifact.core.graphics
 
-import org.lwjgl.opengl.GL15
+import glm_.vec3.Vec3
 import org.lwjgl.opengl.GL30.*
 
-class Mesh(val vertexBufferData: FloatArray, val uvBufferData: FloatArray, val indexBufferData: IntArray) {
+class Mesh(vertexData : FloatArray, texCoordsData : FloatArray, normalsData : FloatArray, val indexData : IntArray) {
 
-    private var vaId: Int = 0
-    var vertexBuffer: Int = 0
-    var uvBuffer: Int = 0
-    var indexBuffer: Int = 0
+    var texture : Texture? = null
+    var color : Vec3 = Vec3(0)
+
+    private val vaId : Int
+    private val vertexBuffer : Int
+    private val texCoordBuffer : Int
+    private val normalsBuffer : Int
+    private val indexBuffer : Int
 
     init {
         vaId = glGenVertexArrays()
@@ -16,42 +20,58 @@ class Mesh(val vertexBufferData: FloatArray, val uvBufferData: FloatArray, val i
 
         vertexBuffer = glGenBuffers()
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
-        glBufferData(GL_ARRAY_BUFFER, vertexBufferData, GL_STATIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, vertexData, GL_STATIC_DRAW)
 
-        uvBuffer = glGenBuffers()
-        glBindBuffer(GL_ARRAY_BUFFER, uvBuffer)
-        GL15.glBufferData(GL_ARRAY_BUFFER, uvBufferData, GL_STATIC_DRAW)
+        texCoordBuffer = glGenBuffers()
+        glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer)
+        glBufferData(GL_ARRAY_BUFFER, texCoordsData, GL_STATIC_DRAW)
+
+        normalsBuffer = glGenBuffers()
+        glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer)
+        glBufferData(GL_ARRAY_BUFFER, normalsData, GL_STATIC_DRAW)
 
         indexBuffer = glGenBuffers()
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer)
-        GL15.glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferData, GL_STATIC_DRAW)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexData, GL_STATIC_DRAW)
     }
 
     private fun bind() {
         glBindVertexArray(vaId)
     }
 
-    fun modifyBufferData(buffer: Int, bufferData: FloatArray) {
+    fun modifyBufferData(buffer : Int, bufferData : FloatArray) {
         glBindBuffer(GL_ARRAY_BUFFER, buffer)
         glBufferData(GL_ARRAY_BUFFER, bufferData, GL_STATIC_DRAW)
     }
+
+    private fun getVertexCount() : Int =
+        indexData.size
 
     fun render() {
         bind()
 
         glEnableVertexAttribArray(0)
         glEnableVertexAttribArray(1)
+        glEnableVertexAttribArray(2)
+
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0)
 
-        glBindBuffer(GL_ARRAY_BUFFER, uvBuffer)
+        glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer)
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0)
 
+        glBindBuffer(GL_ARRAY_BUFFER, normalsBuffer)
+        glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0)
+
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer)
-        glDrawElements(GL_TRIANGLES, indexBufferData.size, GL_UNSIGNED_INT, 0)
+        glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0)
 
         glDisableVertexAttribArray(0)
         glDisableVertexAttribArray(1)
+        glDisableVertexAttribArray(2)
+        glBindVertexArray(0)
+
+        texture?.render()
     }
 
     fun cleanup() {
@@ -60,7 +80,7 @@ class Mesh(val vertexBufferData: FloatArray, val uvBufferData: FloatArray, val i
 
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         glDeleteBuffers(vertexBuffer)
-        glDeleteBuffers(uvBuffer)
+        glDeleteBuffers(texCoordBuffer)
         glDeleteBuffers(indexBuffer)
 
         glBindVertexArray(0)

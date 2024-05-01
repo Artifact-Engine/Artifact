@@ -76,8 +76,11 @@ class ShaderProgram(shaderData : List<ShaderData>) {
     fun applyMvpMatrix(mvpMatrix : Mat4) =
         uniformMatrix4("MVP", mvpMatrix)
 
-    fun getUniformLocation(id : String) : Int =
-        glGetUniformLocation(programId, id)
+    fun getUniformLocation(name : String) : Int =
+        glGetUniformLocation(programId, name)
+
+    fun uniform1i(name : String, i : Int) =
+        glUniform1i(getUniformLocation(name), i)
 
     fun uniformVec1(name : String, vec1: Vec1) =
         glUniformMatrix4fv(getUniformLocation(name), false, vec1.toFloatArray())
