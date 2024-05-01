@@ -11,7 +11,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 class CameraNode(var fieldOfView : Float, position : Vec3, rotation : Vec3) : DynamicBodyNode(position, rotation,
-    Vec3(1, 1, 1)
+    Vec3(0f)
 ) {
 
     fun getViewMatrix() : Mat4 {
