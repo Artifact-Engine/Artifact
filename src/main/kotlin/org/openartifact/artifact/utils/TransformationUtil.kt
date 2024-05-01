@@ -15,7 +15,7 @@ fun createViewMatrix(cameraPosition : Vec3, cameraTarget : Vec3, upVector : Vec3
     glm.lookAt(cameraPosition, cameraTarget, upVector)
 
 fun createModelMatrix(meshRenderer : MeshRenderer) : Mat4 {
-    val node = meshRenderer.staticBodyNode
+    val node = meshRenderer.dynamicBodyNode
 
     val modelViewMatrix = Mat4()
 

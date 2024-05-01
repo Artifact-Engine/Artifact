@@ -1,12 +1,14 @@
 package org.openartifact.artifact.core
 
 import org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose
+import org.lwjgl.opengl.GL30.*
 import org.openartifact.artifact.core.graphics.window.PerformanceMonitor
 import org.openartifact.artifact.core.graphics.window.WindowProfile
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.scene.SceneManager
 import org.openartifact.artifact.utils.FileConstants
+import org.openartifact.artifact.utils.applyDepthTest
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
@@ -99,6 +101,7 @@ class GameContext private constructor(
     }
 
     internal fun render(deltaTime : Double) {
+        applyDepthTest()
         sceneManager.activeScene?.render(deltaTime)
     }
 

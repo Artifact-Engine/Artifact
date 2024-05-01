@@ -3,10 +3,14 @@ package org.openartifact.artifact.game
 import org.lwjgl.glfw.GLFW
 import org.openartifact.artifact.core.GameContext
 import org.openartifact.artifact.core.input.KeyInputMap
+import org.openartifact.artifact.core.input.MouseInput
 
 open class Component {
 
     lateinit var parent: Node
+
+    @Transient
+    lateinit var mouse : MouseInput
 
     inline fun <reified T : Component> getComponent(): T? =
         parent.components.find { it is T } as? T
@@ -14,7 +18,10 @@ open class Component {
     @Suppress("unused")
     val type: String = javaClass.simpleName
 
-    open fun awake() {}
+    open fun awake() {
+        mouse = MouseInput()
+    }
+
     open fun render(deltaTime: Double) {}
 
     /**

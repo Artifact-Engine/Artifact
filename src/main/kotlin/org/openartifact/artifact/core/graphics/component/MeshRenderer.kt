@@ -7,7 +7,7 @@ import org.openartifact.artifact.core.graphics.Mesh
 import org.openartifact.artifact.core.graphics.ShaderProgram
 import org.openartifact.artifact.core.graphics.Texture
 import org.openartifact.artifact.game.Component
-import org.openartifact.artifact.game.nodes.StaticBodyNode
+import org.openartifact.artifact.game.nodes.DynamicBodyNode
 import org.openartifact.artifact.utils.FileConstants
 import org.openartifact.artifact.utils.createModelMatrix
 import org.openartifact.artifact.utils.createMvpMatrix
@@ -15,13 +15,13 @@ import java.io.File
 
 open class MeshRenderer(open var mesh : Mesh) : Component() {
 
-    lateinit var staticBodyNode : StaticBodyNode
+    lateinit var dynamicBodyNode : DynamicBodyNode
     private lateinit var mvp : Mat4
     private lateinit var shader : ShaderProgram
     private lateinit var texture : Texture
 
     override fun awake() {
-        staticBodyNode = parent as StaticBodyNode
+        dynamicBodyNode = parent as DynamicBodyNode
 
         shader = ShaderProgram(
             listOf(
@@ -30,16 +30,13 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
             )
         )
 
-        texture = Texture(File(FileConstants.game(), "test.png").path)
+        texture = Texture(File(FileConstants.game(), "test.png").absolutePath)
     }
 
     override fun render(deltaTime : Double) {
         val modelMatrix = createModelMatrix(this)
 
         mvp = createMvpMatrix(modelMatrix)
-
-        glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LESS)
 
         texture.render()
 
@@ -50,8 +47,7 @@ open class MeshRenderer(open var mesh : Mesh) : Component() {
 
         shader.applyMvpMatrix(mvp)
 
-        mesh.bind()
-        mesh.draw()
+        mesh.render()
 
         shader.unbind()
     }
