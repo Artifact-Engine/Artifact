@@ -2,7 +2,6 @@ package org.openartifact.artifact.graphics.platform.opengl
 
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL20.*
 import org.openartifact.artifact.graphics.IContext
 import org.openartifact.artifact.graphics.Window

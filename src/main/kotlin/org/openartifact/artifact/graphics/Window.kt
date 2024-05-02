@@ -35,6 +35,7 @@ class Window {
         handle = glfwCreateWindow(300, 300, "Hello World", NULL, NULL)
 
         if (handle == NULL) throw RuntimeException("Failed to create the GLFW window")
+
         context.init()
 
         // Center the window on the screen
