@@ -1,6 +1,6 @@
 package org.openartifact.artifact.utils
 
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Application
 import java.io.File
 
 fun getChildFile(file : File, childFileName : String) : File =
@@ -47,7 +47,7 @@ object FileConstants {
         File(engine(), "games")
 
     fun game() : File =
-        File(games(), GameContext.current().applicationProfile().projectId)
+        File(games(), Application.current().applicationProfile().projectId)
 
     fun gameData() : File =
         File(game(), "gameData")

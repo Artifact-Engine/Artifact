@@ -1,8 +1,8 @@
-package org.openartifact.artifact.core.input
+package org.openartifact.artifact.input
 
 import glm_.vec2.Vec2
 import org.lwjgl.glfw.GLFW.*
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Application
 import kotlin.math.abs
 
 private val previousPos: Vec2 = Vec2(-1f, -1f)
@@ -14,7 +14,7 @@ var leftButtonPressed = false
 var rightButtonPressed = false
 
 internal fun initMouseCallbacks() {
-    val windowId = GameContext.current().engine.window.id
+    val windowId = Application.current().engine.window.handle
 
     glfwSetCursorPosCallback(windowId) { _, xPos, yPos ->
         currentPos.x = xPos.toFloat()

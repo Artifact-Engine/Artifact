@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.graphics.window
+package org.openartifact.artifact.graphics.window
 
 import org.lwjgl.glfw.GLFW
 
@@ -19,7 +19,6 @@ import org.lwjgl.glfw.GLFW
  * @property windowId A unique identifier for the window, used internally by the application to track and manage windows. Defaults to 0, which may be interpreted as an uninitialized or invalid ID.
  *
  * @constructor Creates a new WindowProfile with the specified properties.
- * @throws IllegalArgumentException if `targetUPS` is not greater than `targetFPS` when `targetUPS` is not 0. This ensures that the update rate is not faster than the frame rate, which could lead to performance issues or visual artifacts.
  */
 class WindowProfile(
     val title: String,
@@ -28,7 +27,5 @@ class WindowProfile(
     val width: Int,
     val height: Int,
     val aspectRatio: AspectRatio = AspectRatio.findClosestAspectRatio(width, height)!!,
-    val iconProfile: IconProfile = IconProfile(),
-    val resizable: Boolean = true,
-    var windowId: Long = 0,
+    val resizable: Boolean = true
 )

@@ -7,7 +7,7 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import org.openartifact.artifact.core.GameContext
+import org.openartifact.artifact.core.Application
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.utils.requireFile
@@ -48,7 +48,7 @@ class NodeDeserializer : JsonDeserializer<Node> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = GameContext.current().engine.nodeClasses.find { it.simpleName == type }
+        val kClass = Application.current().engine.nodeClasses.find { it.simpleName == type }
             ?: throw IllegalArgumentException("Node class not found for type $type")
 
         validateJsonFields(jsonObject, type, kClass)
@@ -68,7 +68,7 @@ class ComponentDeserializer : JsonDeserializer<Component> {
         val jsonObject = json.asJsonObject
         val type = jsonObject.get("type").asString
 
-        val kClass = GameContext.current().engine.componentClasses.find { it.simpleName == type }
+        val kClass = Application.current().engine.componentClasses.find { it.simpleName == type }
             ?: throw IllegalArgumentException("Component class not found for type $type")
 
         validateJsonFields(jsonObject, type, kClass)

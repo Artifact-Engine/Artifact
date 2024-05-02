@@ -1,8 +1,8 @@
 package org.openartifact.artifact.game
 
 import org.lwjgl.glfw.GLFW
-import org.openartifact.artifact.core.GameContext
-import org.openartifact.artifact.core.input.KeyInputMap
+import org.openartifact.artifact.core.Application
+import org.openartifact.artifact.input.KeyInputMap
 
 open class Component {
 
@@ -25,19 +25,19 @@ open class Component {
     open fun rest() {}
 
     fun getKeyDown(key : Int) : Boolean =
-        GLFW.glfwGetKey(GameContext.current().engine.window.id, key) == GLFW.GLFW_PRESS
+        GLFW.glfwGetKey(Application.current().engine.window.handle, key) == GLFW.GLFW_PRESS
 
     fun onKey(key: Int, action: () -> Unit) =
-        if (GLFW.glfwGetKey(GameContext.current().engine.window.id, key) == GLFW.GLFW_PRESS) action() else {}
+        if (GLFW.glfwGetKey(Application.current().engine.window.handle, key) == GLFW.GLFW_PRESS) action() else {}
 
     fun keyMap(block: KeyInputMap.() -> Unit): KeyInputMap {
         return KeyInputMap().apply(block)
     }
 
     fun getMouseButtonDown(mouseButton : Int) : Boolean =
-        GLFW.glfwGetMouseButton(GameContext.current().engine.window.id, mouseButton) == GLFW.GLFW_PRESS
+        GLFW.glfwGetMouseButton(Application.current().engine.window.handle, mouseButton) == GLFW.GLFW_PRESS
 
     fun onMouseButton(mouseButton: Int, action: () -> Unit) =
-        if (GLFW.glfwGetMouseButton(GameContext.current().engine.window.id, mouseButton) == GLFW.GLFW_PRESS) action() else {}
+        if (GLFW.glfwGetMouseButton(Application.current().engine.window.handle, mouseButton) == GLFW.GLFW_PRESS) action() else {}
 
 }

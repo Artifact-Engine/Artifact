@@ -1,4 +1,4 @@
-package org.openartifact.artifact.core.graphics.window
+package org.openartifact.artifact.graphics.window
 
 import org.slf4j.LoggerFactory
 
@@ -23,7 +23,7 @@ enum class AspectRatio(val ratio : Float) {
         fun findClosestAspectRatio(width : Int, height : Int) : AspectRatio {
             logger.info("Trying to calculate aspect ratio")
             val calculatedRatio = width.toFloat() / height.toFloat()
-            var closestRatio = AspectRatio.RATIO_1_1
+            var closestRatio = RATIO_1_1
             var smallestDifference = Float.MAX_VALUE
 
             for (ratio in entries) {

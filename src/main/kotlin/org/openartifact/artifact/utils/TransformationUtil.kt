@@ -4,8 +4,8 @@ import glm_.func.toRadians
 import glm_.glm
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
-import org.openartifact.artifact.core.GameContext
-import org.openartifact.artifact.core.graphics.component.MeshRendererComponent
+import org.openartifact.artifact.core.Application
+import org.openartifact.artifact.game.nodes.DynamicBodyNode
 
 
 fun createProjectionMatrix(fov : Float, aspectRatio : Float, zNear : Float, zFar : Float) : Mat4 =
@@ -14,18 +14,16 @@ fun createProjectionMatrix(fov : Float, aspectRatio : Float, zNear : Float, zFar
 fun createViewMatrix(cameraPosition : Vec3, cameraTarget : Vec3, upVector : Vec3) : Mat4 =
     glm.lookAt(cameraPosition, cameraTarget, upVector)
 
-fun createModelMatrix(meshRendererComponent : MeshRendererComponent) : Mat4 {
-    val node = meshRendererComponent.dynamicBodyNode
-
+fun createModelMatrix(dynamicBodyNode : DynamicBodyNode) : Mat4 {
     val modelViewMatrix = Mat4()
 
-    val rotation : Vec3 = node.rotation
+    val rotation : Vec3 = dynamicBodyNode.rotation
     modelViewMatrix.identity()
-        .translateAssign(node.position)
+        .translateAssign(dynamicBodyNode.position)
         .rotateXassign(toRadians(-rotation.x))
         .rotateYassign(toRadians(-rotation.y))
         .rotateZassign(toRadians(-rotation.z))
-        .scaleAssign(node.scale)
+        .scaleAssign(dynamicBodyNode.scale)
 
     return modelViewMatrix
 }
@@ -43,10 +41,10 @@ fun createMvpMatrix(projectionMatrix : Mat4, viewMatrix : Mat4, modelMatrix : Ma
     projectionMatrix * viewMatrix * modelMatrix
 
 fun getViewMatrix() : Mat4 =
-    GameContext.current().sceneManager.activeScene !!.camera.getViewMatrix()
+    Application.current().sceneManager.activeScene !!.camera.getViewMatrix()
 
 fun createMvpMatrix(projectionMatrix : Mat4, modelMatrix : Mat4) : Mat4 =
     createMvpMatrix(projectionMatrix, getViewMatrix(), modelMatrix)
 
 fun createMvpMatrix(modelMatrix : Mat4) : Mat4 =
-    createMvpMatrix(GameContext.current().sceneManager.activeScene !!.camera.getProjectionMatrix(), modelMatrix)
+    createMvpMatrix(Application.current().sceneManager.activeScene !!.camera.getProjectionMatrix(), modelMatrix)

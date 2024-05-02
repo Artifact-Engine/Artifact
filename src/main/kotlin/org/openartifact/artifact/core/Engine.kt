@@ -1,7 +1,7 @@
 package org.openartifact.artifact.core
 
-import org.openartifact.artifact.core.graphics.Graphics
-import org.openartifact.artifact.core.graphics.window.Window
+import org.openartifact.artifact.graphics.Graphics
+import org.openartifact.artifact.graphics.window.Window
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.components.TransformComponent
@@ -44,7 +44,7 @@ internal class Engine {
     }
 
     private fun loadGraphics() {
-        logger.debug("Launching Graphics")
+        logger.debug("Loading Graphics")
         graphics = Graphics().also { graphics ->
             graphics.run()
         }

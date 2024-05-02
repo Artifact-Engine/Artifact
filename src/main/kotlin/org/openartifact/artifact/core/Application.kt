@@ -1,10 +1,9 @@
 package org.openartifact.artifact.core
 
 import org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose
-import org.lwjgl.opengl.GL30.*
-import org.openartifact.artifact.core.graphics.window.PerformanceMonitor
-import org.openartifact.artifact.core.graphics.window.WindowProfile
-import org.openartifact.artifact.core.input.initMouseCallbacks
+import org.openartifact.artifact.graphics.window.PerformanceMonitor
+import org.openartifact.artifact.graphics.window.WindowProfile
+import org.openartifact.artifact.input.initMouseCallbacks
 import org.openartifact.artifact.game.Component
 import org.openartifact.artifact.game.Node
 import org.openartifact.artifact.game.scene.SceneManager
@@ -13,7 +12,7 @@ import org.openartifact.artifact.utils.applyDepthTest
 import org.slf4j.LoggerFactory
 import kotlin.reflect.KClass
 
-class GameContext private constructor(
+class Application private constructor(
     private val applicationProfile : ApplicationProfile,
     private val windowProfile : WindowProfile
 ) {
@@ -27,28 +26,28 @@ class GameContext private constructor(
     /**
      * Starts the engine
      */
-    fun run() : GameContext {
+    fun run() : Application {
         sceneManager = SceneManager()
         sceneManager.loadScenesFromFile(FileConstants.scenes())
         engine.run()
         return this
     }
 
-    fun registerComponent(kClass : KClass<out Component>) : GameContext {
+    fun registerComponent(kClass : KClass<out Component>) : Application {
         require(! engine.componentClasses.contains(kClass)) { "Component ${kClass.simpleName} was already registered!" }
         engine.componentClasses.add(kClass)
         logger.debug("Registering component ${kClass.simpleName}")
         return this
     }
 
-    fun registerNode(kClass : KClass<out Node>) : GameContext {
+    fun registerNode(kClass : KClass<out Node>) : Application {
         require(! engine.nodeClasses.contains(kClass)) { "Node ${kClass.simpleName} was already registered!" }
         engine.nodeClasses.add(kClass)
         logger.debug("Registering node ${kClass.simpleName}")
         return this
     }
 
-    fun set() : GameContext {
+    fun set() : Application {
         require(current != this) { "Context was already set to current." }
         current = this
         return this
@@ -57,7 +56,7 @@ class GameContext private constructor(
     fun requestShutdown() {
         sceneManager.activeScene?.rest()
 
-        glfwSetWindowShouldClose(GameContext.current().windowProfile().windowId, true)
+        glfwSetWindowShouldClose(engine.window.handle, true)
     }
 
     fun applicationProfile() : ApplicationProfile =
@@ -68,19 +67,19 @@ class GameContext private constructor(
 
     companion object {
 
-        private var current : GameContext? = null
+        private var current : Application? = null
 
-        fun createContext(block : Builder.() -> Unit) : GameContext {
+        fun createContext(block : Builder.() -> Unit) : Application {
             val builder = Builder()
             block(builder)
             requireNotNull(builder.applicationProfile) { "No application profile was found! Create one in the context using configureApplicationProfile." }
             requireNotNull(builder.windowProfile) { "No window profile was found! Create one in the context using configureWindowProfile." }
-            val gameContext = GameContext(builder.applicationProfile !!, builder.windowProfile !!)
-            gameContext.logger.info("Context created")
-            return gameContext
+            val application = Application(builder.applicationProfile !!, builder.windowProfile !!)
+            application.logger.info("Context created")
+            return application
         }
 
-        fun current() : GameContext =
+        fun current() : Application =
             current ?: throw IllegalStateException("No current GameContext exists. Try using setCurrent.")
     }
 
