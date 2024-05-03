@@ -7,15 +7,15 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.graphics.interfaces.IContext
-import org.openartifact.artifact.graphics.platform.opengl.OpenGLContext
-import org.openartifact.artifact.graphics.platform.opengl.OpenGLContextOptions
+import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContext
+import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContextOptions
 import org.openartifact.artifact.timeInit
 import org.slf4j.LoggerFactory
 
 class Window {
 
     var handle : Long = 0
-    lateinit var context : IContext
+    private lateinit var context : IContext
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -24,7 +24,7 @@ class Window {
         init()
         Artifact.instance.application.init()
 
-        logger.info("Engine startup took: ~${(System.currentTimeMillis() - timeInit) / 1000}s")
+        logger.info("Engine startup took: ~${(System.currentTimeMillis() - timeInit)}ms")
 
         update()
         Artifact.instance.application.shutdown()
@@ -36,6 +36,7 @@ class Window {
 
         require(glfwInit()) { "Failed to initialize GLFW" }
 
+        // Temporarily set the context to be OpenGL.
         context = OpenGLContext(this,
             OpenGLContextOptions(
                 true

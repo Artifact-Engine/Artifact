@@ -1,10 +1,12 @@
 package org.openartifact.artifact.graphics.interfaces
 
-import org.openartifact.artifact.graphics.IRendererComponent
+import org.openartifact.artifact.graphics.IGraphicsComponent
 
-interface IIndexBuffer : IRendererComponent {
+interface IIndexBuffer : IGraphicsComponent {
 
-    fun create(indices : IntArray, size : Int) : IIndexBuffer
+    var count : Int
+
+    fun create(indices : IntArray) : IIndexBuffer
 
     fun bind()
     fun unbind()

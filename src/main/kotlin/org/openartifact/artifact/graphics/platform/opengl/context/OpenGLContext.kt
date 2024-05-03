@@ -1,4 +1,4 @@
-package org.openartifact.artifact.graphics.platform.opengl
+package org.openartifact.artifact.graphics.platform.opengl.context
 
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL

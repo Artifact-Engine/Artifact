@@ -1,13 +1,14 @@
 package org.openartifact.artifact.graphics.platform.opengl
 
 import org.lwjgl.opengl.GL46.*
+import org.openartifact.artifact.graphics.interfaces.IShader
 import org.slf4j.LoggerFactory
 
 /**
  * Utility class for compiling and using OpenGL shaders.
  * @see ShaderModule
  */
-class OpenGLShader(shaderModuleList : List<ShaderModule>) {
+class OpenGLShader(private val shaderModuleList : List<ShaderModule>) : IShader {
 
     constructor(vertexSource: String, fragmentSource: String) : this(listOf(
         ShaderModule(vertexSource, GL_VERTEX_SHADER),
@@ -17,12 +18,6 @@ class OpenGLShader(shaderModuleList : List<ShaderModule>) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     var program : Int = 0
-
-    init {
-        program = glCreateProgram()
-
-        shaderModuleList.forEach(::compile)
-    }
 
     private fun compile(shaderModule : ShaderModule) {
         val shader = glCreateShader(shaderModule.shaderType)
@@ -57,14 +52,22 @@ class OpenGLShader(shaderModuleList : List<ShaderModule>) {
         glDeleteShader(shader)
     }
 
-    fun bind() {
+    override fun create() : IShader {
+        program = glCreateProgram()
+
+        shaderModuleList.forEach(::compile)
+
+        return this
+    }
+
+    override fun bind() {
         glUseProgram(program)
     }
 
-    fun unbind() {
+    override fun unbind() {
         glUseProgram(0)
     }
 
-    class ShaderModule(val source : String, var shaderType : Int = 0)
+    class ShaderModule(val source : String, val shaderType : Int)
 
 }
