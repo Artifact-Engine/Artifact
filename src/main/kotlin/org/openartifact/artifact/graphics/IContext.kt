@@ -1,13 +1,20 @@
 package org.openartifact.artifact.graphics
 
-import org.openartifact.artifact.graphics.window.Window
-
-internal interface IContext {
+interface IContext {
 
     var window : Window
 
+    /**
+     * Called before the window was initialized.
+     */
+    fun preInit()
+
+    /**
+     * Called after the window was initialized.
+     */
     fun init()
+
     fun swapBuffers()
-    fun clear()
+    fun shutdown()
 
 }
