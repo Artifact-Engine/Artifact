@@ -3,7 +3,11 @@ package org.openartifact.artifact.graphics.platform.opengl
 import org.lwjgl.opengl.GL46.*
 import org.slf4j.LoggerFactory
 
-class Shader(private val shaderModuleList : List<ShaderModule>) {
+/**
+ * Utility class for compiling and using OpenGL shaders.
+ * @see ShaderModule
+ */
+class Shader(shaderModuleList : List<ShaderModule>) {
 
     constructor(vertexSource: String, fragmentSource: String) : this(listOf(
         ShaderModule(vertexSource, GL_VERTEX_SHADER),
@@ -38,7 +42,6 @@ class Shader(private val shaderModuleList : List<ShaderModule>) {
 
     private fun link(shader: Int) {
         glAttachShader(program, shader)
-
         glLinkProgram(program)
 
         if (glGetProgrami(program, GL_LINK_STATUS) == GL_FALSE) {
@@ -47,19 +50,19 @@ class Shader(private val shaderModuleList : List<ShaderModule>) {
 
             glDeleteProgram(program)
             glDeleteShader(shader)
+
             return
         }
 
-        cleanup(shader)
+        glDeleteShader(shader)
     }
 
     fun bind() {
         glUseProgram(program)
     }
 
-    private fun cleanup(shader : Int) {
-        glDetachShader(program, shader)
-        glDeleteShader(shader)
+    fun unbind() {
+        glUseProgram(0)
     }
 
     class ShaderModule(val source : String, var shaderType : Int = 0)
