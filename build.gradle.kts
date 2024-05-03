@@ -54,9 +54,6 @@ dependencies {
     // Kotlinx
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta")
 
-    // Clikt
-    implementation("com.github.ajalt.clikt:clikt:4.2.2")
-
     // LWJGL
     implementation(platform("org.lwjgl:lwjgl-bom:3.3.3"))
 
