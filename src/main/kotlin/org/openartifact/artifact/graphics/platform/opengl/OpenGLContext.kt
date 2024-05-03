@@ -3,6 +3,7 @@ package org.openartifact.artifact.graphics.platform.opengl
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL20.*
+import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.graphics.IContext
 import org.openartifact.artifact.graphics.Window
 import org.slf4j.LoggerFactory
@@ -14,7 +15,7 @@ class OpenGLContext(override var window : Window) : IContext {
     override fun preInit() {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4)
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6)
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE)
     }
 
     override fun init() {
@@ -31,6 +32,8 @@ class OpenGLContext(override var window : Window) : IContext {
 
     override fun swapBuffers() {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+
+        Artifact.instance.application.update()
 
         glfwSwapBuffers(window.handle)
     }

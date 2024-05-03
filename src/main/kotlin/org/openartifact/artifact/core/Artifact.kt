@@ -2,28 +2,32 @@ package org.openartifact.artifact.core
 
 import org.openartifact.artifact.graphics.Window
 
-class Artifact(val application : Application) {
+class Artifact(val application: Application) {
 
-    lateinit var window : Window
+    private lateinit var _window : Window
 
-    fun init() : Artifact {
-        window = Window()
-        window.run()
-        return this
+    fun init() {
+        _window = Window()
+        _window.run()
     }
 
-    companion object {
+    val window: Window
+        get() = _window
 
-        private var current : Artifact? = null
+    companion object {
+        @Volatile
+        private var _instance: Artifact? = null
+
+        val instance: Artifact
+            get() = _instance?: synchronized(this) {
+                _instance?: throw IllegalStateException("Artifact instance not initialized")
+            }
 
         fun create(application: Application): Artifact {
-            val artifact = Artifact(application)
-            current = artifact
-            return artifact
+            return Artifact(application).also {
+                _instance = it
+                _instance!!.init()
+            }
         }
-
-        fun current() : Artifact =
-            current!!
-
     }
 }

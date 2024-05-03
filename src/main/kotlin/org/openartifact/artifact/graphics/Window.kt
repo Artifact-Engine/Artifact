@@ -15,7 +15,9 @@ class Window {
 
     fun run() {
         init()
+        Artifact.instance.application.init()
         update()
+        Artifact.instance.application.shutdown()
         shutdown()
     }
 
@@ -60,8 +62,6 @@ class Window {
 
     private fun update() {
         while (! glfwWindowShouldClose(handle)) {
-            Artifact.current().application.update()
-
             context.swapBuffers()
             glfwPollEvents()
         }
