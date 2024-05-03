@@ -8,7 +8,7 @@ import org.openartifact.artifact.graphics.IContext
 import org.openartifact.artifact.graphics.Window
 import org.slf4j.LoggerFactory
 
-class OpenGLContext(override var window : Window) : IContext {
+class OpenGLContext(override var window : Window, var options : OpenGLContextOptions) : IContext {
 
     private val logger = LoggerFactory.getLogger(OpenGLContext::class.java)
 
@@ -23,6 +23,12 @@ class OpenGLContext(override var window : Window) : IContext {
 
         GL.createCapabilities()
 
+        glfwSetFramebufferSizeCallback(window.handle) { _ : Long, x : Int, y : Int ->
+            glViewport(0, 0, x, y)
+            if (options.redrawOnResize)
+                swapBuffers()
+        }
+
         logger.info("GPU Info:")
         logger.info("  Vendor: ${glGetString(GL_VENDOR)!!}")
         logger.info("  Renderer: ${glGetString(GL_RENDERER)!!}")
@@ -31,8 +37,6 @@ class OpenGLContext(override var window : Window) : IContext {
     }
 
     override fun swapBuffers() {
-        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-
         Artifact.instance.application.update()
 
         glfwSwapBuffers(window.handle)

@@ -8,6 +8,7 @@ import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.ENTRY_LOG
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLContext
+import org.openartifact.artifact.graphics.platform.opengl.OpenGLContextOptions
 import org.openartifact.artifact.timeInit
 
 class Window {
@@ -31,7 +32,10 @@ class Window {
 
         require(glfwInit()) { "Failed to initialize GLFW" }
 
-        context = OpenGLContext(this)
+        context = OpenGLContext(this,
+            OpenGLContextOptions(
+                true
+            ))
 
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)

@@ -2,8 +2,8 @@ package org.openartifact.artifact.graphics
 
 interface IContext {
 
-    var window : Window
-
+    open var window : Window
+    
     /**
      * Called before the window was initialized.
      */
