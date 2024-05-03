@@ -54,15 +54,16 @@ At the moment there is no working physics engine implemented.
 ### Do you have a Roadmap?
 No, not at the moment. Although, I'm planning to open one.
 
-### Can i contribute?
+### Can I contribute?
 Yes, you can! Please contribute to improve the engine or fix bugs. Just make a PR and we'll take a look.
 
 ## Dependencies
+(Might not be 100% accurate)
+<br>
+
 [LWJGL](https://www.lwjgl.org/)
 <br>
 [glm](https://github.com/kotlin-graphics/glm)
-<br>
-[Clikt](https://github.com/ajalt/clikt)
 <br>
 [SLF4J](https://www.slf4j.org/)
 <br>
@@ -71,6 +72,7 @@ Yes, you can! Please contribute to improve the engine or fix bugs. Just make a P
 [Gson](https://github.com/google/gson)
 <br>
 [Kotlin-reflect](https://kotlinlang.org/docs/reflection.html)
+
 
 ## Example
 For some example code visit https://github.com/meo209/ArtifactTestProject
