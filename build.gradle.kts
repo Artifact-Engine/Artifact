@@ -36,6 +36,8 @@ val kotlinVersion = project.properties["kotlin_version"].toString()
 
 dependencies {
 
+    implementation("io.github.classgraph:classgraph:4.8.172")
+
     // Kotlin-reflect
     implementation(kotlin("reflect"))
 

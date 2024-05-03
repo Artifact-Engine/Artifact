@@ -5,8 +5,10 @@ import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
+import org.openartifact.artifact.ENTRY_LOG
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLContext
+import org.openartifact.artifact.timeInit
 
 class Window {
 
@@ -16,6 +18,9 @@ class Window {
     fun run() {
         init()
         Artifact.instance.application.init()
+
+        ENTRY_LOG.info("Engine startup took: ${System.currentTimeMillis() - timeInit}")
+
         update()
         Artifact.instance.application.shutdown()
         shutdown()
