@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory
  * Utility class for compiling and using OpenGL shaders.
  * @see ShaderModule
  */
-class Shader(shaderModuleList : List<ShaderModule>) {
+class OpenGLShader(shaderModuleList : List<ShaderModule>) {
 
     constructor(vertexSource: String, fragmentSource: String) : this(listOf(
         ShaderModule(vertexSource, GL_VERTEX_SHADER),

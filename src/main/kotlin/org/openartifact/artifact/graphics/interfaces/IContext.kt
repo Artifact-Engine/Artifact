@@ -1,6 +1,9 @@
-package org.openartifact.artifact.graphics
+package org.openartifact.artifact.graphics.interfaces
 
-interface IContext {
+import org.openartifact.artifact.graphics.IRendererComponent
+import org.openartifact.artifact.graphics.Window
+
+interface IContext : IRendererComponent {
 
     open var window : Window
     

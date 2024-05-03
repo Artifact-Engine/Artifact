@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLContext
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLContextOptions
 import org.openartifact.artifact.timeInit

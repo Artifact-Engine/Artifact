@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL20.*
 import org.openartifact.artifact.core.Artifact
-import org.openartifact.artifact.graphics.IContext
+import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.Window
 import org.slf4j.LoggerFactory
 
