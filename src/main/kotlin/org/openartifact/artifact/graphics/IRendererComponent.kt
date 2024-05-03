@@ -1,0 +1,3 @@
+package org.openartifact.artifact.graphics
+
+interface IRendererComponent

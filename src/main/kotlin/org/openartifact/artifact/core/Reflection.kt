@@ -16,11 +16,19 @@ inline fun <reified T : Any> getClass(className : String) : KClass<T> {
     return kClass as KClass<T>
 }
 
-inline fun <reified T : Any> createInstance(kClass : KClass<*>, vararg args : Any?) : T? =
+inline fun <reified T : Any> createInstance(kClass : KClass<*>, vararg args : Any) : T? =
     kClass.primaryConstructor?.call(*args) as? T
 
-inline fun <reified T : Any> createInstance(className : String, vararg args : Any?) : T? =
+inline fun <reified T : Any> createInstance(clazz : Class<*>, vararg args : Any) : T? =
+    clazz.constructors.first().newInstance(*args) as T?
+
+inline fun <reified T : Any> createInstance(className : String, vararg args : Any) : T? =
     createInstance<T>(getClass<T>(className), *args)
+
+inline fun <reified T : Any> createInstance(className: String, classLoader: ClassLoader, vararg args: Any): T? {
+    val kClass = getClass<T>(className, classLoader)
+    return kClass.primaryConstructor?.call(*args) as? T
+}
 
 /**
  * Extended version of getClass to accept a ClassLoader as the second argument

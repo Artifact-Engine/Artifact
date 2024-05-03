@@ -6,16 +6,28 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLContext
+import org.openartifact.artifact.graphics.platform.opengl.OpenGLContextOptions
+import org.openartifact.artifact.timeInit
+import org.slf4j.LoggerFactory
 
 class Window {
 
     var handle : Long = 0
     lateinit var context : IContext
 
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     fun run() {
+        logger.info("Initializing window...")
         init()
+        Artifact.instance.application.init()
+
+        logger.info("Engine startup took: ~${(System.currentTimeMillis() - timeInit) / 1000}s")
+
         update()
+        Artifact.instance.application.shutdown()
         shutdown()
     }
 
@@ -24,7 +36,10 @@ class Window {
 
         require(glfwInit()) { "Failed to initialize GLFW" }
 
-        context = OpenGLContext(this)
+        context = OpenGLContext(this,
+            OpenGLContextOptions(
+                true
+            ))
 
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
@@ -60,8 +75,6 @@ class Window {
 
     private fun update() {
         while (! glfwWindowShouldClose(handle)) {
-            Artifact.current().application.update()
-
             context.swapBuffers()
             glfwPollEvents()
         }
