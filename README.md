@@ -1,11 +1,4 @@
-<br>
-<div align="center">
-    <a href="https://github.com/meo209/Artifact">
-        <img src="docs/artifact.svg" alt="Logo" width="80" height="80">
-    </a>
-    <h2>Artifact</h2>
-    <h4>Open 3D Game Engine written in Kotlin</h4>
-</div>
+![Artifact](https://socialify.git.ci/meo209/Artifact/image?description=1&font=Inter&language=1&name=1&pattern=Circuit%20Board&stargazers=1&theme=Dark)
 
 <details>
     <summary>Table of Contents</summary>
