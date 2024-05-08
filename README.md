@@ -71,4 +71,4 @@ For some example code visit https://github.com/meo209/ArtifactTestProject
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.
 
 ## License
-[GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)
+This project is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html).
