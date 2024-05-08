@@ -10,14 +10,21 @@ private val logger = LoggerFactory.getLogger("Artifact EntryPoint")
 
 internal var timeInit = System.currentTimeMillis()
 
+/**
+ * Main function. Launches the engine and the application.
+ */
 fun main() {
     val application : Application = searchApplication()
 
     logger.info("Loading Artifact engine.")
-    Artifact.create(application)
+    Artifact.launch(application)
 }
 
-fun searchApplication() : Application {
+/**
+ * A method that searches for an [Application] on the classpath.
+ * It detects classes that are annotated by [ApplicationEntry] and inherit [Application].
+ */
+private fun searchApplication() : Application {
     logger.info("Searching for applications using ClassGraph...")
 
     ClassGraph()

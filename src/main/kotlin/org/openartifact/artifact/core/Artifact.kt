@@ -23,7 +23,7 @@ class Artifact(val application: Application) {
                 _instance?: throw IllegalStateException("Artifact instance not initialized")
             }
 
-        fun create(application: Application): Artifact {
+        fun launch(application: Application): Artifact {
             return Artifact(application).also {
                 _instance = it
                 _instance!!.init()

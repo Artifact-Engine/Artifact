@@ -33,7 +33,7 @@ class OpenGLBufferLayout : IBufferLayout {
      * @return This [OpenGLBufferLayout] instance.
      * @throws IllegalArgumentException If an unsupported data type is provided.
      */
-    override fun create(map: Map<KClass<*>, Pair<String, Boolean>>): IBufferLayout {
+    override fun create(map : Map<KClass<*>, Pair<String, Boolean>>) : IBufferLayout {
         require(map.isNotEmpty()) { "Map cannot be empty." }
 
         map.entries.forEachIndexed { i, (dataClass, pair) ->
@@ -46,9 +46,11 @@ class OpenGLBufferLayout : IBufferLayout {
 
             // Error checking
             val errorCode = glGetError()
-            if (errorCode != GL_NO_ERROR) {
-                throw IllegalStateException("OpenGL error ($errorCode) occurred while setting up vertex attribute '$attributeName'.\n" +
-                        "See https://www.khronos.org/opengl/wiki/OpenGL_Error#Meaning_of_errors for more information.")
+            check(errorCode == GL_NO_ERROR) {
+                """
+                    OpenGL error ($errorCode) occurred while setting up vertex attribute '$attributeName'.
+                    See https://www.khronos.org/opengl/wiki/OpenGL_Error#Meaning_of_errors for more information.
+                """.trimIndent()
             }
         }
 
@@ -71,30 +73,30 @@ class OpenGLBufferLayout : IBufferLayout {
     private fun generateGLData(dataClass : KClass<*>) : Pair<Int, Int> {
         return when (dataClass) {
             // Float- Vectors
-            Float::class ->  1 to GL_FLOAT
-            Vec2::class ->   2 to GL_FLOAT
-            Vec3::class ->   3 to GL_FLOAT
-            Vec4::class ->   3 to GL_FLOAT
+            Float::class -> 1 to GL_FLOAT
+            Vec2::class -> 2 to GL_FLOAT
+            Vec3::class -> 3 to GL_FLOAT
+            Vec4::class -> 4 to GL_FLOAT
 
             // Integer- Vectors
-            Int::class ->    1 to GL_INT
-            Vec2i::class ->  2 to GL_INT
-            Vec3i::class ->  3 to GL_INT
-            Vec4i::class ->  4 to GL_INT
+            Int::class -> 1 to GL_INT
+            Vec2i::class -> 2 to GL_INT
+            Vec3i::class -> 3 to GL_INT
+            Vec4i::class -> 4 to GL_INT
 
             // Double- Vectors
             Double::class -> 1 to GL_DOUBLE
-            Vec2d::class ->  2 to GL_DOUBLE
-            Vec3d::class ->  3 to GL_DOUBLE
-            Vec4d::class ->  4 to GL_DOUBLE
+            Vec2d::class -> 2 to GL_DOUBLE
+            Vec3d::class -> 3 to GL_DOUBLE
+            Vec4d::class -> 4 to GL_DOUBLE
 
             // Matrices
-            Mat2::class ->   2 to GL_FLOAT
-            Mat3::class ->   3 to GL_FLOAT
-            Mat4::class ->   4 to GL_FLOAT
+            Mat2::class -> 2 to GL_FLOAT
+            Mat3::class -> 3 to GL_FLOAT
+            Mat4::class -> 4 to GL_FLOAT
 
             // Boolean
-            Boolean::class ->4 to GL_BOOL
+            Boolean::class -> 4 to GL_BOOL
 
             else -> throw IllegalArgumentException("${dataClass.simpleName} is not a valid GLSL data type!")
         }

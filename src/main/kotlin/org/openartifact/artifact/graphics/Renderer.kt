@@ -7,13 +7,6 @@ import kotlin.reflect.KClass
 interface Renderer {
 
     /**
-     * Accessor for the Renderer API.
-     *
-     * @return The Renderer API instance that provides the interface to the underlying rendering system.
-     */
-    val api : RendererAPI
-
-    /**
      * Registers components that implement the [IGraphicsComponent] interface.
      * This method is expected to return a map where the keys are the classes of the components
      * and the values are the classes of the implementations. This allows for dynamic selection
