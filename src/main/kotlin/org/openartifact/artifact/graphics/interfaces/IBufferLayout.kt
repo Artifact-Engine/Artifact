@@ -5,6 +5,5 @@ import kotlin.reflect.KClass
 
 interface IBufferLayout : IGraphicsComponent {
 
-    fun create(map : Map<KClass<*>, String>) : IBufferLayout
-
+    fun create(map: Map<KClass<*>, Pair<String, Boolean>> = emptyMap()): IBufferLayout
 }
