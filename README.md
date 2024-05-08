@@ -14,6 +14,9 @@
         <li>
             <a href="#acknowledgements">Acknowledgements</a>
         </li>
+        <li>
+            <a href="#license">License</a>
+        </li>
     </ol>
 </details>
 
