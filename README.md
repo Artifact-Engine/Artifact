@@ -7,11 +7,6 @@
         </li>
         <li>
             <a href="#technology">Technology</a>
-            <ul>
-                <li><a href="#list-of-nodes">List of nodes</a></li>
-                <li><a href="#list-of-components">List of components</a></li>
-                <li><a href="#list-of-events">List of events</a></li>
-            </ul>
         </li>
         <li>
             <a href="#dependencies">Dependencies</a>
