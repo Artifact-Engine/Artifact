@@ -24,11 +24,11 @@ fun searchApplication() : Application {
         .enableClassInfo()
         .enableAnnotationInfo()
         .scan().use { scanResult ->
-            for (classInfo in scanResult.getClassesWithAnnotation(Entry::class.java)) {
-                logger.info("Found candidate: ${classInfo.simpleName}")
+            for (classInfo in scanResult.getClassesWithAnnotation(ApplicationEntry::class.java)) {
+                logger.info("Found application candidate: ${classInfo.simpleName}")
                 return createInstance<Application>(classInfo.loadClass())!!
             }
         }
 
-    throw IllegalStateException("Failed to find application. Maybe it wasn't annotated with @Entry?")
+    throw IllegalStateException("Failed to find application.")
 }

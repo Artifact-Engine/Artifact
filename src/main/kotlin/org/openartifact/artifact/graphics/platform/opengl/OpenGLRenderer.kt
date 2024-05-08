@@ -3,6 +3,7 @@ package org.openartifact.artifact.graphics.platform.opengl
 import org.openartifact.artifact.graphics.IGraphicsComponent
 import org.openartifact.artifact.graphics.Renderer
 import org.openartifact.artifact.graphics.RendererAPI
+import org.openartifact.artifact.graphics.interfaces.IBufferLayout
 import org.openartifact.artifact.graphics.interfaces.IIndexBuffer
 import org.openartifact.artifact.graphics.interfaces.IVertexBuffer
 import org.openartifact.artifact.graphics.interfaces.IShader
@@ -18,7 +19,8 @@ class OpenGLRenderer : Renderer {
         mapOf(
             IVertexBuffer::class to OpenGLVertexBuffer::class,
             IIndexBuffer::class to OpenGLIndexBuffer::class,
-            IShader::class to OpenGLShader::class
+            IShader::class to OpenGLShader::class,
+            IBufferLayout::class to OpenGLBufferLayout::class
         )
 
 }
