@@ -17,7 +17,7 @@ interface IBufferLayout : IGraphicsComponent {
      * @return The created buffer layout.
      */
     fun create(map: Map<DataType, String>): IBufferLayout {
-        require(map.isNotEmpty()) { "Map cannot be empty." }
+        require(map.isNotEmpty()) { "Can't create buffer layout with empty map." }
 
         calculateOffsets(map)
         calculateStride()

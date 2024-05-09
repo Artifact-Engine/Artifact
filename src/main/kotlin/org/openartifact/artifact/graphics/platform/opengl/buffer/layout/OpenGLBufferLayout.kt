@@ -16,19 +16,6 @@ class OpenGLBufferLayout : IBufferLayout {
 
     override fun create(map : Map<DataType, String>) : IBufferLayout {
         super.create(map)
-
-        bufferElements.forEachIndexed { index, bufferElement ->
-            glEnableVertexAttribArray(index)
-            glVertexAttribPointer(
-                index,
-                bufferElement.dataType.size,
-                bufferElement.dataType.glType,
-                false,
-                stride,
-                bufferElement.offset.toLong()
-            )
-        }
-
         return this
     }
 

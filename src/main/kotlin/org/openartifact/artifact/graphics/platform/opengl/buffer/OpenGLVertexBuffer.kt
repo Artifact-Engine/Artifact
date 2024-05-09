@@ -1,13 +1,17 @@
 package org.openartifact.artifact.graphics.platform.opengl.buffer
 
 import org.lwjgl.opengl.GL46.*
+import org.openartifact.artifact.graphics.interfaces.IBufferLayout
 import org.openartifact.artifact.graphics.interfaces.IVertexBuffer
 
 class OpenGLVertexBuffer : IVertexBuffer {
 
     private var id : Int = 0
+    override lateinit var layout : IBufferLayout
 
-    override fun create(vertices : FloatArray) : IVertexBuffer {
+    override fun create(vertices : FloatArray, layout : IBufferLayout) : IVertexBuffer {
+        super.create(vertices, layout)
+
         id = glCreateBuffers()
         bind()
 

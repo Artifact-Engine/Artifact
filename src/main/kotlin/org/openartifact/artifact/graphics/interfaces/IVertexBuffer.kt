@@ -4,7 +4,12 @@ import org.openartifact.artifact.graphics.IGraphicsComponent
 
 interface IVertexBuffer : IGraphicsComponent {
 
-    fun create(vertices : FloatArray) : IVertexBuffer
+    var layout : IBufferLayout
+
+    fun create(vertices : FloatArray, layout : IBufferLayout) : IVertexBuffer {
+        this.layout = layout
+        return this
+    }
 
     fun bind()
     fun unbind()
