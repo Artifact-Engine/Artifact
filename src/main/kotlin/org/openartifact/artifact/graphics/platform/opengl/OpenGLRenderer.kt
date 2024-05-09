@@ -9,6 +9,7 @@ import org.openartifact.artifact.graphics.interfaces.IVertexBuffer
 import org.openartifact.artifact.graphics.interfaces.IShader
 import org.openartifact.artifact.graphics.platform.opengl.buffer.OpenGLIndexBuffer
 import org.openartifact.artifact.graphics.platform.opengl.buffer.OpenGLVertexBuffer
+import org.openartifact.artifact.graphics.platform.opengl.buffer.layout.OpenGLBufferLayout
 import kotlin.reflect.KClass
 
 class OpenGLRenderer : Renderer {

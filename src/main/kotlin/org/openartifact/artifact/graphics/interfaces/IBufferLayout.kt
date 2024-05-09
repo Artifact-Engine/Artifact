@@ -1,9 +1,9 @@
 package org.openartifact.artifact.graphics.interfaces
 
 import org.openartifact.artifact.graphics.IGraphicsComponent
-import kotlin.reflect.KClass
+import org.openartifact.artifact.graphics.platform.opengl.buffer.layout.DataType
 
 interface IBufferLayout : IGraphicsComponent {
 
-    fun create(map: Map<KClass<*>, Pair<String, Boolean>> = emptyMap()): IBufferLayout
+    fun create(map: Map<DataType, String> = emptyMap()): IBufferLayout
 }
