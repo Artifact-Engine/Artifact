@@ -16,8 +16,6 @@ open class Application {
 
     lateinit var renderer : Renderer
 
-    var shader : IShader? = null
-
     open fun init() {}
     open fun update() {}
     open fun shutdown() {}
