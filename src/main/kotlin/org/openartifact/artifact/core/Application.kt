@@ -14,10 +14,6 @@ open class Application {
     open val eventBus : EventBus = EventBus()
     open val logger : Logger = LoggerFactory.getLogger(javaClass)
 
-    lateinit var vertexArray : IVertexArray
-    lateinit var vertexBuffer : IVertexBuffer
-    lateinit var indexBuffer : IIndexBuffer
-
     lateinit var renderer : Renderer
 
     var shader : IShader? = null
