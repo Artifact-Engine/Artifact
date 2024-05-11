@@ -15,6 +15,7 @@ interface IVertexArray : IGraphicsComponent {
     }
 
     fun bind()
+    fun draw()
     fun unbind()
 
     fun clear()
