@@ -19,7 +19,6 @@ class RenderFlow {
         commit(shader)
     }
 
-
     fun commitVertexArray(vertexArray : IVertexArray) {
         vertexArray.bind()
         vertexArray.draw()
