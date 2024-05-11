@@ -1,6 +1,8 @@
 package org.openartifact.artifact.graphics.flow
 
 import org.openartifact.artifact.graphics.IGraphicsComponent
+import org.openartifact.artifact.graphics.interfaces.IShader
+import org.openartifact.artifact.graphics.interfaces.IVertexArray
 
 /**
  * Represents a rendering flow that manages the rendering of [IGraphicsComponent]s.
@@ -19,6 +21,11 @@ class RenderFlow {
     fun commit(element : IGraphicsComponent) {
         element.commit()
         committedElements.add(element)
+    }
+
+    fun commit(shaderElement : IShader, vertexArrayElement : IVertexArray) {
+        commit(shaderElement)
+        commit(vertexArrayElement)
     }
 
     /**

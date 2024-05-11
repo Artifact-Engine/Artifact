@@ -36,7 +36,6 @@ class Window {
 
         require(glfwInit()) { "Failed to initialize GLFW" }
 
-        // Temporarily set the context to be OpenGL.
         context = when (Artifact.instance.application.api) {
             RenderAPI.OpenGL -> OpenGLContext(this, OpenGLContextOptions(true))
             RenderAPI.Vulkan -> TODO()
@@ -48,7 +47,7 @@ class Window {
 
         context.preInit()
 
-        handle = glfwCreateWindow(300, 300, "Hello World", NULL, NULL)
+        handle = glfwCreateWindow(300, 300, "<> : Artifact Engine", NULL, NULL)
 
         if (handle == NULL) throw RuntimeException("Failed to create the GLFW window")
 
