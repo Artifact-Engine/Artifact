@@ -1,8 +1,6 @@
 package org.openartifact.artifact.graphics.flow
 
 import org.openartifact.artifact.graphics.IGraphicsComponent
-import org.openartifact.artifact.graphics.interfaces.IShader
-import org.openartifact.artifact.graphics.interfaces.IVertexArray
 
 /**
  * Represents a rendering flow that manages the rendering of [IGraphicsComponent]s.
@@ -18,40 +16,41 @@ class RenderFlow {
      *
      * @param element The graphics component to commit.
      */
-    fun commit(element : IGraphicsComponent) {
+    fun commit(element : IGraphicsComponent) =
         committedElements.add(element)
-    }
+
 
     /**
      * Pushes all commits to the render pipeline
      */
     fun push() {
-        committedElements.forEach (IGraphicsComponent::commit)
-    }
+        require(committedElements.size <= MAX_COMMITS) { "Exceeded maximum number of commits. Please remove some committed elements or adjust MAX_COMMITS." }
 
-    fun commit(shaderElement : IShader, vertexArrayElement : IVertexArray) {
-        commit(shaderElement)
-        commit(vertexArrayElement)
+        committedElements.forEach(IGraphicsComponent::commit).also {
+            committedElements.clear()
+        }
     }
 
     /**
-     * Finishes the rendering flow, performing any necessary cleanup or finalization.
-     * Shouldn't be called by the user; Will be called by the [renderFlow] function.
+     * Commits all [elements] to the [committedElements]
+     *
+     * @param elements The graphics components to commit.
      */
-    internal fun finish() {
-
-    }
+    fun commit(vararg elements : IGraphicsComponent) =
+        elements.forEach (::commit)
 }
+
 
 /**
  * Creates and executes a rendering flow using the provided block of code.
  *
  * @param block The block of code to execute within the rendering flow context.
- * @return The created RenderFlow instance after executing the block.
+ * @return The created org.openartifact.artifact.graphics.flow.RenderFlow instance after executing the block.
  */
 fun renderFlow(block : RenderFlow.() -> Unit) : RenderFlow {
     val flow = RenderFlow()
     flow.block()
-    flow.finish()
     return flow
 }
+
+var MAX_COMMITS = 320000
