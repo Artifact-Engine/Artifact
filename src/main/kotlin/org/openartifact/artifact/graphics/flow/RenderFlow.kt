@@ -28,23 +28,11 @@ class RenderFlow {
     fun finish() {
 
     }
-
-    // Extension function to simplify DSL usage
-    operator fun IShader.invoke(block : IShader.() -> Unit) {
-        block()
-        commitShader(this)
-    }
-
-    // Extension function to simplify DSL usage
-    operator fun IVertexArray.invoke(block : IVertexArray.() -> Unit) {
-        block()
-        commitVertexArray(this)
-    }
 }
 
 fun renderFlow(block : RenderFlow.() -> Unit) : RenderFlow {
     val flow = RenderFlow()
     flow.block()
-    flow.finish() // Call finish to finalize the rendering flow
+    flow.finish()
     return flow
 }
