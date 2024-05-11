@@ -20,6 +20,7 @@ fun main() {
     Artifact.launch(application)
 }
 
+
 /**
  * A method that searches for an [Application] on the classpath.
  * It detects classes that are annotated by [ApplicationEntry] and inherit [Application].
