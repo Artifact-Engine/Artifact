@@ -64,4 +64,9 @@ class OpenGLVertexArray : IVertexArray {
     override fun clear() {
 
     }
+
+    override fun commit() {
+        bind()
+        draw()
+    }
 }

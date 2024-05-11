@@ -30,4 +30,6 @@ class OpenGLIndexBuffer : IIndexBuffer {
     override fun clear() {
         glDeleteBuffers(id)
     }
+
+    override fun commit() {}
 }

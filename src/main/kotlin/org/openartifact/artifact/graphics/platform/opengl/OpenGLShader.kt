@@ -68,6 +68,10 @@ class OpenGLShader(private val shaderModuleList : List<ShaderModule>) : IShader 
         glUseProgram(0)
     }
 
+    override fun commit() {
+        bind()
+    }
+
     class ShaderModule(val source : String, val shaderType : Int)
 
 }

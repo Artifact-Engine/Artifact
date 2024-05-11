@@ -1,3 +1,7 @@
 package org.openartifact.artifact.graphics
 
-interface IGraphicsComponent
+interface IGraphicsComponent {
+
+    fun commit()
+
+}
