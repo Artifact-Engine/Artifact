@@ -1,7 +1,7 @@
 ![Artifact](https://socialify.git.ci/meo209/Artifact/image?description=1&font=Inter&language=1&name=1&pattern=Circuit%20Board&theme=Dark)
 
 ![GitHub License](https://img.shields.io/github/license/meo209/Artifact)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/meo209/Artifact)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Artifact-Engine/Artifact)
 [![wakatime](https://wakatime.com/badge/user/8a1e0c8a-eea8-45b2-a408-ab9228e0ee06/project/49481bf8-200d-4d50-b8d9-09d74073950d.svg)](https://wakatime.com/badge/user/8a1e0c8a-eea8-45b2-a408-ab9228e0ee06/project/49481bf8-200d-4d50-b8d9-09d74073950d)
 
 <details>
