@@ -3,9 +3,6 @@ package org.openartifact.artifact.graphics.flow
 import org.openartifact.artifact.graphics.interfaces.IShader
 import org.openartifact.artifact.graphics.interfaces.IVertexArray
 
-@DslMarker
-annotation class RenderFlowBuilder
-
 class RenderFlow {
 
     private val committedElements = mutableListOf<Any>()
