@@ -29,7 +29,7 @@ class OpenGLContext(override var window : Window, var options : OpenGLContextOpt
                 swapBuffers()
         }
 
-        logger.info("GPU Info:")
+        logger.info("GPU Info (OpenGL):")
         logger.info("  Vendor: ${glGetString(GL_VENDOR)!!}")
         logger.info("  Renderer: ${glGetString(GL_RENDERER)!!}")
         logger.info("  OpenGL Version: ${glGetString(GL_VERSION)!!}")

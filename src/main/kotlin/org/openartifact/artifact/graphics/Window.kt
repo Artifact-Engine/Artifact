@@ -37,10 +37,10 @@ class Window {
         require(glfwInit()) { "Failed to initialize GLFW" }
 
         // Temporarily set the context to be OpenGL.
-        context = OpenGLContext(this,
-            OpenGLContextOptions(
-                true
-            ))
+        context = when (Artifact.instance.application.api) {
+            RenderAPI.OpenGL -> OpenGLContext(this, OpenGLContextOptions(true))
+            RenderAPI.Vulkan -> TODO()
+        }
 
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
@@ -75,7 +75,7 @@ class Window {
     }
 
     private fun update() {
-        while (! glfwWindowShouldClose(handle)) {
+        while (!glfwWindowShouldClose(handle)) {
             context.swapBuffers()
             glfwPollEvents()
         }

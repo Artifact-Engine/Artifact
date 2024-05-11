@@ -9,7 +9,7 @@ enum class DataType(val size : Int, val glType : Int) {
     /**
      * A single float value.
      */
-    FloatX(1, GL_FLOAT),
+    Float(1, GL_FLOAT),
 
     /**
      * An integer value.
@@ -59,7 +59,7 @@ enum class DataType(val size : Int, val glType : Int) {
     fun byteSize() : Int =
         size * when (glType) {
             GL_INT -> Int.SIZE_BYTES
-            GL_FLOAT -> Float.SIZE_BYTES
+            GL_FLOAT -> kotlin.Float.SIZE_BYTES
             GL_DOUBLE -> Double.SIZE_BYTES
             GL_BOOL -> Byte.SIZE_BYTES
             else -> throw IllegalArgumentException("Unsupported GL type: $glType")

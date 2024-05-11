@@ -2,10 +2,10 @@ package org.openartifact.artifact
 
 import io.github.classgraph.ClassGraph
 import org.openartifact.artifact.core.Application
+import org.openartifact.artifact.core.ApplicationEntry
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.core.createInstance
 import org.slf4j.LoggerFactory
-import kotlin.concurrent.thread
 
 private val logger = LoggerFactory.getLogger("Artifact EntryPoint")
 
