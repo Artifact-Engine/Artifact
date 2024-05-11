@@ -19,8 +19,14 @@ class RenderFlow {
      * @param element The graphics component to commit.
      */
     fun commit(element : IGraphicsComponent) {
-        element.commit()
         committedElements.add(element)
+    }
+
+    /**
+     * Pushes all commits to the render pipeline
+     */
+    fun push() {
+        committedElements.forEach (IGraphicsComponent::commit)
     }
 
     fun commit(shaderElement : IShader, vertexArrayElement : IVertexArray) {
