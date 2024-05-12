@@ -70,7 +70,7 @@ Yes, you can! Please contribute to improve the engine or fix bugs. Just make a P
 
 
 ## Example
-For some example code visit https://github.com/Artifact-Engine/ArtifactTestProject
+For some example code visit https://github.com/Artifact-Engine/Sandbox
 
 ## Acknowledgements
 Thanks to [svgrepo](https://www.svgrepo.com/svg/113419/lightning) for the logo.
