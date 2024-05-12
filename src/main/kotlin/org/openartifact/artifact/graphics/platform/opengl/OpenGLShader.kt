@@ -15,12 +15,16 @@ import org.slf4j.LoggerFactory
  * Utility class for compiling and using OpenGL shaders.
  * @see ShaderModule
  */
-class OpenGLShader(private val shaderModuleList : List<ShaderModule>) : IShader {
+class OpenGLShader(vertexSource: String, fragmentSource: String) : IShader {
 
-    constructor(vertexSource: String, fragmentSource: String) : this(listOf(
-        ShaderModule(vertexSource, GL_VERTEX_SHADER),
-        ShaderModule(fragmentSource, GL_FRAGMENT_SHADER)
-    ))
+    private var shaderModuleList : List<ShaderModule> = listOf()
+
+    init {
+        this.shaderModuleList = listOf(
+            ShaderModule(vertexSource, GL_VERTEX_SHADER),
+            ShaderModule(fragmentSource, GL_FRAGMENT_SHADER)
+        )
+    }
 
     private val logger = LoggerFactory.getLogger(javaClass)
 

@@ -61,10 +61,6 @@ class OpenGLVertexArray : IVertexArray {
         glBindVertexArray(0)
     }
 
-    override fun clear() {
-
-    }
-
     override fun push() {
         bind()
         draw()
