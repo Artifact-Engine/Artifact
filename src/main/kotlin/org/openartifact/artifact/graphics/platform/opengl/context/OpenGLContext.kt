@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL20.*
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.graphics.interfaces.IContext
-import org.openartifact.artifact.graphics.Window
+import org.openartifact.artifact.graphics.window.Window
 import org.slf4j.LoggerFactory
 
 class OpenGLContext(override var window : Window, var options : OpenGLContextOptions) : IContext {

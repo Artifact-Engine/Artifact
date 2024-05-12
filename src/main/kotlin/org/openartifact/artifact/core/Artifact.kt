@@ -1,13 +1,14 @@
 package org.openartifact.artifact.core
 
-import org.openartifact.artifact.graphics.Window
+import org.openartifact.artifact.graphics.window.Window
+import org.openartifact.artifact.graphics.window.WindowConfig
 
 class Artifact(val application: Application) {
 
     private lateinit var _window : Window
 
-    fun init() {
-        _window = Window()
+    fun init(windowConfig: WindowConfig) {
+        _window = Window(windowConfig)
         _window.run()
     }
 
@@ -26,7 +27,7 @@ class Artifact(val application: Application) {
         fun launch(application: Application): Artifact {
             return Artifact(application).also {
                 _instance = it
-                _instance!!.init()
+                _instance!!.init(application.windowConfig)
             }
         }
     }

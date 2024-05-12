@@ -1,4 +1,4 @@
-package org.openartifact.artifact.graphics
+package org.openartifact.artifact.graphics.window
 
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
@@ -6,13 +6,14 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContextOptions
 import org.openartifact.artifact.timeInit
 import org.slf4j.LoggerFactory
 
-class Window {
+class Window(val windowConfig : WindowConfig) {
 
     var handle : Long = 0
     private lateinit var context : IContext
@@ -47,7 +48,7 @@ class Window {
 
         context.preInit()
 
-        handle = glfwCreateWindow(300, 300, "<> : Artifact Engine", NULL, NULL)
+        handle = glfwCreateWindow(windowConfig.width, windowConfig.height, windowConfig.title, NULL, NULL)
 
         if (handle == NULL) throw RuntimeException("Failed to create the GLFW window")
 

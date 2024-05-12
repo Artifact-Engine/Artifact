@@ -9,7 +9,7 @@ class OpenGLIndexBuffer : IIndexBuffer {
     override var count : Int = 0
 
     override fun create(indices : IntArray) : IIndexBuffer {
-        count = indices.size
+        count = indices.size * Int.SIZE_BYTES
 
         id = glCreateBuffers()
         bind()

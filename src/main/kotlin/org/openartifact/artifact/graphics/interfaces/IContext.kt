@@ -1,7 +1,7 @@
 package org.openartifact.artifact.graphics.interfaces
 
 import org.openartifact.artifact.graphics.IGraphicsComponent
-import org.openartifact.artifact.graphics.Window
+import org.openartifact.artifact.graphics.window.Window
 
 interface IContext : IGraphicsComponent {
 

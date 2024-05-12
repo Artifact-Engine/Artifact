@@ -3,10 +3,11 @@ package org.openartifact.artifact.core
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.Renderer
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLRenderer
+import org.openartifact.artifact.graphics.window.WindowConfig
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-open class Application(val api : RenderAPI) {
+open class Application(val api : RenderAPI, val windowConfig: WindowConfig) {
 
     open val logger : Logger = LoggerFactory.getLogger(javaClass)
 
