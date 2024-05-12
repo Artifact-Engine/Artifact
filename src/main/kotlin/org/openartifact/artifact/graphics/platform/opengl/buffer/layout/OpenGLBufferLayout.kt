@@ -19,6 +19,6 @@ class OpenGLBufferLayout : IBufferLayout {
         return this
     }
 
-    override fun commit() {}
+    override fun push() {}
 
 }

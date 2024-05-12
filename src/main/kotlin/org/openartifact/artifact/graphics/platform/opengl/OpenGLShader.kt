@@ -1,5 +1,12 @@
 package org.openartifact.artifact.graphics.platform.opengl
 
+import glm_.mat2x2.Mat2
+import glm_.mat3x3.Mat3
+import glm_.mat4x4.Mat4
+import glm_.vec2.Vec2
+import glm_.vec3.Vec3
+import glm_.vec4.Vec4
+import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL46.*
 import org.openartifact.artifact.graphics.interfaces.IShader
 import org.slf4j.LoggerFactory
@@ -52,6 +59,9 @@ class OpenGLShader(private val shaderModuleList : List<ShaderModule>) : IShader 
         glDeleteShader(shader)
     }
 
+    private fun getLocation(name : String) =
+        glGetUniformLocation(program, name)
+
     override fun create() : IShader {
         program = glCreateProgram()
 
@@ -68,9 +78,33 @@ class OpenGLShader(private val shaderModuleList : List<ShaderModule>) : IShader 
         glUseProgram(0)
     }
 
-    override fun commit() {
+    override fun push() {
         bind()
     }
+
+    override fun parameterInt(name : String, value : Int) =
+        glUniform1i(getLocation(name), value)
+
+    override fun parameterFloat(name : String, value : Float) =
+        glUniform1f(getLocation(name), value)
+
+    override fun parameterVec2(name : String, value : Vec2) =
+        glUniform2f(getLocation(name), value.x, value.y)
+
+    override fun parameterVec3(name : String, value : Vec3) =
+        glUniform3f(getLocation(name), value.x, value.y, value.z)
+
+    override fun parameterVec4(name : String, value : Vec4) =
+        glUniform4f(getLocation(name), value.x, value.y, value.z, value.w)
+
+    override fun parameterMat2(name : String, value : Mat2) =
+        glUniformMatrix2fv(getLocation(name), false, value.array)
+
+    override fun parameterMat3(name : String, value : Mat3) =
+        glUniformMatrix3fv(getLocation(name), false, value.array)
+
+    override fun parameterMat4(name : String, value : Mat4) =
+        glUniformMatrix4fv(getLocation(name), false, value.array)
 
     class ShaderModule(val source : String, val shaderType : Int)
 

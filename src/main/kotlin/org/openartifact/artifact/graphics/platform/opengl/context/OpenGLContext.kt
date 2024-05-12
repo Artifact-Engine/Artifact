@@ -46,5 +46,5 @@ class OpenGLContext(override var window : Window, var options : OpenGLContextOpt
 
     }
 
-    override fun commit() {}
+    override fun push() {}
 }

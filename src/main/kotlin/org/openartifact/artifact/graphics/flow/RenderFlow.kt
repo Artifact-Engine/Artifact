@@ -26,7 +26,7 @@ class RenderFlow {
     fun push() {
         require(committedElements.size <= MAX_COMMITS) { "Exceeded maximum number of commits. Please remove some committed elements or adjust MAX_COMMITS." }
 
-        committedElements.forEach(IGraphicsComponent::commit).also {
+        committedElements.forEach(IGraphicsComponent::push).also {
             committedElements.clear()
         }
     }
