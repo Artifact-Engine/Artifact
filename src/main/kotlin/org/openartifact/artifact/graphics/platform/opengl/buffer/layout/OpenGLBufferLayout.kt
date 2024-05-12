@@ -1,7 +1,6 @@
 package org.openartifact.artifact.graphics.platform.opengl.buffer.layout
 
-import DataType
-import org.lwjgl.opengl.GL46.*
+import org.openartifact.artifact.graphics.DataType
 import org.openartifact.artifact.graphics.interfaces.BufferElement
 import org.openartifact.artifact.graphics.interfaces.IBufferLayout
 

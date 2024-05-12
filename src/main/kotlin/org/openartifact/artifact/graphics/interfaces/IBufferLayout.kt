@@ -1,6 +1,6 @@
 package org.openartifact.artifact.graphics.interfaces
 
-import DataType
+import org.openartifact.artifact.graphics.DataType
 import org.openartifact.artifact.graphics.IGraphicsComponent
 
 data class BufferElement(val name : String, val dataType : DataType, var offset : Int = 0)
@@ -13,7 +13,7 @@ interface IBufferLayout : IGraphicsComponent {
     /**
      * Creates a buffer layout based on the provided map of data types to names.
      *
-     * @param map A map where keys are DataType instances and values are names for the buffer elements.
+     * @param map A map where keys are org.openartifact.artifact.graphics.DataType instances and values are names for the buffer elements.
      * @return The created buffer layout.
      */
     fun create(map: Map<DataType, String>): IBufferLayout {
@@ -29,7 +29,7 @@ interface IBufferLayout : IGraphicsComponent {
      * Calculates the offsets for each buffer element based on the provided map of data types to names.
      * Offsets are calculated sequentially based on the byte sizes of the data types.
      *
-     * @param map A map where keys are DataType instances and values are names for the buffer elements.
+     * @param map A map where keys are org.openartifact.artifact.graphics.DataType instances and values are names for the buffer elements.
      */
     fun calculateOffsets(map : Map<DataType, String>) {
         var offset = 0

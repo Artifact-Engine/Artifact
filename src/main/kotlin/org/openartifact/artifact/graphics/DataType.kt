@@ -1,3 +1,5 @@
+package org.openartifact.artifact.graphics
+
 import org.lwjgl.opengl.GL46.*
 
 /**
@@ -52,9 +54,9 @@ enum class DataType(val size : Int, val glType : Int) {
     Mat4(4 * 4, GL_FLOAT);
 
     /**
-     * Calculates the byte size of a DataType instance dynamically.
+     * Calculates the byte size of a org.openartifact.artifact.graphics.DataType instance dynamically.
      *
-     * @return The byte size of the DataType instance.
+     * @return The byte size of the org.openartifact.artifact.graphics.DataType instance.
      */
     fun byteSize() : Int =
         size * when (glType) {
