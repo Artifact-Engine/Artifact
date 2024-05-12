@@ -8,7 +8,7 @@ interface IContext : IGraphicsComponent {
     open var window : Window
     
     /**
-     * Called before the window was initialized.
+     * Called before the window is initialized.
      */
     fun preInit()
 
