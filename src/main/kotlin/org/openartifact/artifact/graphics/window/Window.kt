@@ -48,7 +48,7 @@ class Window(val windowConfig : WindowConfig) {
 
         context.preInit()
 
-        handle = glfwCreateWindow(windowConfig.width, windowConfig.height, windowConfig.title, NULL, NULL)
+        handle = glfwCreateWindow(windowConfig.width.toInt(), windowConfig.height.toInt(), windowConfig.title, NULL, NULL)
 
         if (handle == NULL) throw RuntimeException("Failed to create the GLFW window")
 
