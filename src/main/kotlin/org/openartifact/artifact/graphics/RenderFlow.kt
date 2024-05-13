@@ -1,6 +1,4 @@
-package org.openartifact.artifact.graphics.flow
-
-import org.openartifact.artifact.graphics.IGraphicsComponent
+package org.openartifact.artifact.graphics
 
 /**
  * Represents a rendering flow that manages the rendering of [IGraphicsComponent]s.
