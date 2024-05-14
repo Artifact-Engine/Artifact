@@ -20,6 +20,7 @@ import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContextOptions
+import org.openartifact.artifact.input.MouseInput
 import org.openartifact.artifact.timeInit
 import org.slf4j.LoggerFactory
 
@@ -82,6 +83,8 @@ class Window(val windowConfig : WindowConfig) {
 
         glfwSwapInterval(1)
         glfwShowWindow(handle)
+
+        MouseInput.initialize(handle)
     }
 
     private fun update() {
