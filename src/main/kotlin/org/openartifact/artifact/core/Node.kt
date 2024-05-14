@@ -12,6 +12,7 @@ package org.openartifact.artifact.core
 
 import glm_.func.toRadians
 import glm_.vec3.Vec3
+import glm_.vec4.Vec4
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -73,5 +74,14 @@ open class Node(val position : Vec3, val rotation : Vec3, val scale : Vec3) {
 
     fun move(offsetX : Float, offsetY : Float, offsetZ : Float, speed : Float) =
         move(offsetX * speed, offsetY * speed, offsetZ * speed)
+
+    fun move(movement : Vec3) =
+        move(movement.x, movement.y, movement.z)
+
+    fun move(movement : Vec3, speed : Float) =
+        move(movement.x, movement.y, movement.z, speed)
+
+    fun move(movement : Vec4) =
+        move(movement.x, movement.y, movement.z, movement.w)
 
 }
