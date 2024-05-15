@@ -26,6 +26,26 @@ interface Renderer {
      */
     fun registerComponents() : Map<KClass<out IGraphicsComponent>, KClass<out IGraphicsComponent>>
 
+    /**
+     * Creates and executes a rendering flow using the provided block of code.
+     *
+     * @param block The block of code to execute within the rendering flow context.
+     * @return The created [RenderFlow] instance after executing the block.
+     */
+    fun renderFlow(block : RenderFlow.() -> Unit) : RenderFlow {
+        val flow = RenderFlow()
+        flow.block()
+        return flow
+    }
+
+    /**
+     * Renders a frame
+     * @param handler The block of code to execute within the frame.
+     */
+    fun frame(handler : Renderer.() -> Unit) {
+        handler()
+    }
+
 }
 
 /**

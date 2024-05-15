@@ -64,7 +64,7 @@ object MouseInput {
     }
 
     // Factory function to create MouseInput instance with sensitivity
-    fun withSensitivity(sensitivity: Float, handler : () -> Unit): MouseInput {
+    fun process(sensitivity: Float = 0.5f, handler : () -> Unit): MouseInput {
         this.sensitivity = sensitivity
         handler()
         return this

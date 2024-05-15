@@ -33,9 +33,11 @@ class OpenGLRenderer : Renderer {
     /**
      * Clears the all required open GL buffers.
      */
-    fun clearScreenBuffers() {
+    override fun frame(handler : Renderer.() -> Unit) {
         glClearColor(0.1f, 0.1f, 0.1f, 1f)
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+
+        super.frame(handler)
     }
 
 }

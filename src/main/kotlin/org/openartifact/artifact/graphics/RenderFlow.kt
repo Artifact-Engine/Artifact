@@ -89,18 +89,5 @@ class RenderFlow {
         elements.forEach (::commit)
 }
 
-
-/**
- * Creates and executes a rendering flow using the provided block of code.
- *
- * @param block The block of code to execute within the rendering flow context.
- * @return The created [RenderFlow] instance after executing the block.
- */
-fun renderFlow(block : RenderFlow.() -> Unit) : RenderFlow {
-    val flow = RenderFlow()
-    flow.block()
-    return flow
-}
-
 // Maximum number of commits allowed
 var MAX_COMMITS = 320000
