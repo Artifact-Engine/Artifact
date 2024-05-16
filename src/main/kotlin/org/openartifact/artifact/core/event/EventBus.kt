@@ -18,8 +18,9 @@ import kotlin.reflect.KClass
 private val listeners = mutableMapOf<KClass<*>, MutableList<(Event) -> Unit>>()
 
 @Suppress("unchecked_cast")
-fun <T : Event> subscribe(eventType : KClass<T>, listener : (T) -> Unit) {
+fun <T : Event> subscribe(eventType : KClass<T>, listener : (T) -> Unit) : (T) -> Unit {
     listeners.getOrPut(eventType) { mutableListOf() }.add(listener as (Event) -> Unit)
+    return listener
 }
 
 fun <T : Event> unsubscribe(eventType: KClass<T>, listener: (T) -> Unit) {
