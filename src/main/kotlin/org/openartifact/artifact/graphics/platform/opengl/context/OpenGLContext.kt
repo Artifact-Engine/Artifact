@@ -49,7 +49,6 @@ class OpenGLContext(override var window : Window, var options : OpenGLContextOpt
     override fun swapBuffers() {
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LESS)
-        Artifact.instance.application.update()
 
         glfwSwapBuffers(window.handle)
     }

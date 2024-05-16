@@ -46,6 +46,8 @@ interface Renderer {
         handler()
     }
 
+    fun shutdown() {}
+
 }
 
 /**

@@ -10,6 +10,7 @@
 
 package org.openartifact.artifact.core
 
+import org.lwjgl.glfw.GLFW
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.Renderer
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLRenderer
@@ -30,8 +31,13 @@ open class Application(val api : RenderAPI, val windowConfig: WindowConfig) {
         }
     }
 
+    fun requestShutdown() {
+        GLFW.glfwSetWindowShouldClose(Artifact.instance.window.handle, true)
+        renderer.shutdown()
+    }
+
     open fun init() {}
-    open fun update() {}
+    open fun update(deltaTime : Double) {}
     open fun shutdown() {}
 
 }

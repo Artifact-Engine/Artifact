@@ -16,6 +16,8 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.core.event.events.FPSUpdateEvent
+import org.openartifact.artifact.core.event.deploy
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContext
@@ -88,8 +90,27 @@ class Window(val windowConfig : WindowConfig) {
     }
 
     private fun update() {
+        var lastTime = System.nanoTime()
+        var lastFpsTime = System.nanoTime()
+        var fps = 0
+
         while (!glfwWindowShouldClose(handle)) {
+            val currentTime = System.nanoTime()
+            val deltaTime = (currentTime - lastTime) / 1_000_000_000.0
+
+            lastTime = currentTime
+
             context.swapBuffers()
+
+            Artifact.instance.application.update(deltaTime)
+
+            fps++
+            if (currentTime - lastFpsTime >= 1_000_000_000) {
+                deploy(FPSUpdateEvent(fps))
+                fps = 0
+                lastFpsTime += 1_000_000_000
+            }
+
             glfwPollEvents()
         }
     }
