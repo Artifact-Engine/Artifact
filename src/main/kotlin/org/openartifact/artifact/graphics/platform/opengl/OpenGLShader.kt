@@ -25,15 +25,18 @@ import org.slf4j.LoggerFactory
  * Utility class for compiling and using OpenGL shaders.
  * @see ShaderModule
  */
-class OpenGLShader(vertexSource: String, fragmentSource: String) : IShader {
+class OpenGLShader : IShader {
 
     private var shaderModuleList : List<ShaderModule> = listOf()
 
-    init {
-        this.shaderModuleList = listOf(
-            ShaderModule(vertexSource, GL_VERTEX_SHADER),
-            ShaderModule(fragmentSource, GL_FRAGMENT_SHADER)
-        )
+    override fun create(sources : List<ShaderModule>) : IShader {
+        this.shaderModuleList = sources
+
+        program = glCreateProgram()
+
+        shaderModuleList.forEach(::compile)
+
+        return this
     }
 
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -41,7 +44,7 @@ class OpenGLShader(vertexSource: String, fragmentSource: String) : IShader {
     var program : Int = 0
 
     private fun compile(shaderModule : ShaderModule) {
-        val shader = glCreateShader(shaderModule.shaderType)
+        val shader = glCreateShader(shaderModule.shaderType.id)
         glShaderSource(shader, shaderModule.source)
         glCompileShader(shader)
 
@@ -75,14 +78,6 @@ class OpenGLShader(vertexSource: String, fragmentSource: String) : IShader {
 
     private fun getLocation(name : String) =
         glGetUniformLocation(program, name)
-
-    override fun create() : IShader {
-        program = glCreateProgram()
-
-        shaderModuleList.forEach(::compile)
-
-        return this
-    }
 
     override fun bind() {
         glUseProgram(program)
@@ -120,6 +115,11 @@ class OpenGLShader(vertexSource: String, fragmentSource: String) : IShader {
     override fun parameterMat4(name : String, value : Mat4) =
         glUniformMatrix4fv(getLocation(name), false, value.array)
 
-    class ShaderModule(val source : String, val shaderType : Int)
+    class ShaderModule(val source : String, val shaderType : ShaderType)
 
+}
+
+enum class ShaderType(val id : Int) {
+    FRAGMENT(GL_FRAGMENT_SHADER),
+    VERTEX(GL_VERTEX_SHADER)
 }

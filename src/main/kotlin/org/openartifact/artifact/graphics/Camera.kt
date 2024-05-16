@@ -18,4 +18,6 @@ interface Camera {
 
     fun calculateProjectionMatrix() : Mat4
 
+    fun calculateMVPMatrix(modelMatrix : Mat4) : Mat4
+
 }

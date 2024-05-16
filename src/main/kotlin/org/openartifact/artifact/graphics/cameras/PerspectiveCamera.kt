@@ -44,4 +44,7 @@ class PerspectiveCamera(private val fov : Float, position : Vec3, rotation : Vec
             0.1f,
             100f
         )
+
+    override fun calculateMVPMatrix(modelMatrix : Mat4) : Mat4 =
+        calculateProjectionMatrix() * calculateViewMatrix() * modelMatrix
 }
