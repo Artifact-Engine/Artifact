@@ -13,7 +13,7 @@ class Resource(val name : String, val path : String, internal var isCached : Boo
         cached.add(this)
     }
 
-    fun extract(): ExtractedResource =
+    fun extract() : ExtractedResource =
         (extracted ?: ExtractedResource(this))
             .apply { extracted = this }
 
