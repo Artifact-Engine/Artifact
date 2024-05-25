@@ -24,12 +24,6 @@ class OpenGLBufferLayout : IBufferLayout {
     override var stride : Int = 0
     override val bufferElements : MutableList<BufferElement> = mutableListOf()
 
-    override fun create(map : MultiValuedMap<DataType, String>) : IBufferLayout {
-        super.create(map)
-        println(map)
-        return this
-    }
-
     override fun push() {}
 
 }

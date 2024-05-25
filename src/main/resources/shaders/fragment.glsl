@@ -3,13 +3,9 @@
 layout(location = 0) out vec4 color;
 
 in vec3 v_Color;
-in vec3 v_LightColor;
+in vec3 v_Normal;
+in vec3 v_FragPosition;
 
 void main() {
-    float ambientStrenght = 0.1;
-    vec3 ambient = ambientStrenght * v_LightColor;
-
-    vec3 result = ambient * v_Color;
-
-    color = vec4(result, 1.0);
+    color = vec4(v_Color, 1.0);
 }
