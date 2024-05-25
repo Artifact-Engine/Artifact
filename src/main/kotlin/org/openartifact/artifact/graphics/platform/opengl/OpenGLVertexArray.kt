@@ -17,19 +17,17 @@ import org.openartifact.artifact.graphics.interfaces.IVertexBuffer
 
 class OpenGLVertexArray : IVertexArray {
 
-    override val vertexBuffers : MutableList<IVertexBuffer> = mutableListOf()
+    override lateinit var vertexBuffer : IVertexBuffer
     override lateinit var indexBuffer : IIndexBuffer
 
     private var id : Int = 0
 
-    override fun create() : IVertexArray {
+    override fun create(vertexBuffer : IVertexBuffer, indexBuffer : IIndexBuffer) : IVertexArray {
+        super.create(vertexBuffer, indexBuffer)
+
         id = glCreateVertexArrays()
         bind()
 
-        return this
-    }
-
-    override fun addVertexBuffer(vertexBuffer : IVertexBuffer) {
         glBindVertexArray(id)
         vertexBuffer.bind()
 
@@ -50,13 +48,9 @@ class OpenGLVertexArray : IVertexArray {
             }
         }
 
-        vertexBuffers += vertexBuffer
-    }
+        this.indexBuffer.bind()
 
-    override fun defineIndexBuffer(buffer : IIndexBuffer) {
-        super.defineIndexBuffer(buffer)
-
-        buffer.bind()
+        return this
     }
 
     override fun bind() {

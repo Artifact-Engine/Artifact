@@ -11,7 +11,6 @@
 package org.openartifact.artifact.core
 
 import org.lwjgl.glfw.GLFW
-import org.openartifact.artifact.graphics.Platform
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.Renderer
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLRenderer

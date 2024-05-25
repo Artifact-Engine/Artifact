@@ -14,14 +14,13 @@ import org.openartifact.artifact.graphics.IGraphicsComponent
 
 interface IVertexArray : IGraphicsComponent {
 
-    val vertexBuffers: MutableList<IVertexBuffer>
+    var vertexBuffer : IVertexBuffer
     var indexBuffer : IIndexBuffer
 
-    fun create() : IVertexArray
-
-    fun addVertexBuffer(vertexBuffer: IVertexBuffer)
-    fun defineIndexBuffer(buffer: IIndexBuffer) {
-        this.indexBuffer = buffer
+    fun create(vertexBuffer : IVertexBuffer, indexBuffer : IIndexBuffer) : IVertexArray {
+        this.vertexBuffer = vertexBuffer
+        this.indexBuffer = indexBuffer
+        return this
     }
 
     fun bind()
