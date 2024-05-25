@@ -1,9 +1,11 @@
-import org.openartifact.artifact.resource.Resource
+package org.openartifact.artifact.resource
+
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 
 class ExtractedResource(private val resource : Resource) {
+
     private lateinit var tempFile : Path
 
     fun extract() : ExtractedResource {

@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL46.*
 import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.openartifact.artifact.graphics.interfaces.ITexture
+import org.openartifact.artifact.resource.ExtractedResource
 import org.openartifact.artifact.resource.Resource
 
 class OpenGLTexture : ITexture {
@@ -22,7 +23,8 @@ class OpenGLTexture : ITexture {
 
     override fun create(resource : Resource) : ITexture {
 
-        val imagePath = ExtractedResource.from(resource).extract().file.absolutePath
+        val extractedResource = ExtractedResource.from(resource).extract()
+        val imagePath = extractedResource.file.absolutePath
 
         println(imagePath)
 
