@@ -15,9 +15,11 @@ import org.openartifact.artifact.graphics.IGraphicsComponent
 interface IVertexBuffer : IGraphicsComponent {
 
     var layout : IBufferLayout
+    var count : Int
 
     fun create(vertices : FloatArray, layout : IBufferLayout) : IVertexBuffer {
         this.layout = layout
+        this.count = vertices.count()
         return this
     }
 

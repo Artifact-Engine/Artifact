@@ -18,6 +18,7 @@ class OpenGLVertexBuffer : IVertexBuffer {
 
     private var id : Int = 0
     override lateinit var layout : IBufferLayout
+    override var count : Int = 0
 
     override fun create(vertices : FloatArray, layout : IBufferLayout) : IVertexBuffer {
         super.create(vertices, layout)

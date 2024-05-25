@@ -10,6 +10,9 @@
 
 package org.openartifact.artifact.graphics.interfaces
 
+import org.apache.commons.collections4.MultiValuedMap
+import org.openartifact.artifact.extensions.forEach
+import org.openartifact.artifact.extensions.isNotEmpty
 import org.openartifact.artifact.graphics.DataType
 import org.openartifact.artifact.graphics.IGraphicsComponent
 
@@ -26,7 +29,7 @@ interface IBufferLayout : IGraphicsComponent {
      * @param map A map where keys are org.openartifact.artifact.graphics.DataType instances and values are names for the buffer elements.
      * @return The created buffer layout.
      */
-    fun create(map: Map<DataType, String>): IBufferLayout {
+    fun create(map : MultiValuedMap<DataType, String>) : IBufferLayout {
         require(map.isNotEmpty()) { "Can't create buffer layout with empty map." }
 
         calculateOffsets(map)
@@ -39,11 +42,11 @@ interface IBufferLayout : IGraphicsComponent {
      * Calculates the offsets for each buffer element based on the provided map of data types to names.
      * Offsets are calculated sequentially based on the byte sizes of the data types.
      *
-     * @param map A map where keys are org.openartifact.artifact.graphics.DataType instances and values are names for the buffer elements.
+     * @param map A map where keys are DataType instances and values are names for the buffer elements.
      */
-    fun calculateOffsets(map : Map<DataType, String>) {
+    fun calculateOffsets(map : MultiValuedMap<DataType, String>) {
         var offset = 0
-        map.forEach { (dataType, name) ->
+        map.forEach { dataType, name ->
             val bufferElement = BufferElement(name, dataType, offset)
             bufferElements.add(bufferElement)
             offset += dataType.byteSize()

@@ -10,6 +10,7 @@
 
 package org.openartifact.artifact.graphics.platform.opengl.buffer.layout
 
+import org.apache.commons.collections4.MultiValuedMap
 import org.openartifact.artifact.graphics.DataType
 import org.openartifact.artifact.graphics.interfaces.BufferElement
 import org.openartifact.artifact.graphics.interfaces.IBufferLayout
@@ -23,8 +24,9 @@ class OpenGLBufferLayout : IBufferLayout {
     override var stride : Int = 0
     override val bufferElements : MutableList<BufferElement> = mutableListOf()
 
-    override fun create(map : Map<DataType, String>) : IBufferLayout {
+    override fun create(map : MultiValuedMap<DataType, String>) : IBufferLayout {
         super.create(map)
+        println(map)
         return this
     }
 

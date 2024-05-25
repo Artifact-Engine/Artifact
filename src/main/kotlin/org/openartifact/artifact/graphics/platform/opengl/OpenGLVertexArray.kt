@@ -57,9 +57,11 @@ class OpenGLVertexArray : IVertexArray {
         glBindVertexArray(id)
     }
 
-    override fun draw() {        glDrawElements(GL_TRIANGLES, indexBuffer.count, GL_UNSIGNED_INT, 0)
-
-        glDrawElements(GL_TRIANGLES, indexBuffer.count, GL_UNSIGNED_INT, 0)
+    override fun draw() {
+        if (indexBuffer.count > 0)
+            glDrawElements(GL_TRIANGLES, indexBuffer.count, GL_UNSIGNED_INT, 0)
+        else if (vertexBuffer.count > 0)
+            glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.count)
     }
 
     override fun unbind() {

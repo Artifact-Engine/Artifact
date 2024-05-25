@@ -54,6 +54,9 @@ dependencies {
     // Kotlinx
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1-Beta")
 
+    // Apache Commons
+    implementation("org.apache.commons:commons-collections4:4.5.0-M1")
+
     // LWJGL
     implementation(platform("org.lwjgl:lwjgl-bom:3.3.3"))
 
