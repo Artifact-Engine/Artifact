@@ -8,12 +8,26 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.openartifact.artifact.resource
+package org.openartifact.artifact.extensions
 
-internal val cached = mutableListOf<Resource>()
+import glm_.vec2.Vec2
+import glm_.vec3.Vec3
+import glm_.vec4.Vec4
 
-fun resource(name : String, path : String = name) : Resource =
-    Resource(name, path)
+fun Vec3.reset() {
+    x = 0f
+    y = 0f
+    z = 0f
+}
 
-fun getResource(name : String) : Resource =
-    cached.find { it.name == name && it.isCached }!!
+fun Vec2.reset() {
+    x = 0f
+    y = 0f
+}
+
+fun Vec4.reset() {
+    x = 0f
+    y = 0f
+    z = 0f
+    w = 0f
+}

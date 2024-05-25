@@ -27,7 +27,8 @@ class OpenGLRenderer : Renderer {
             IIndexBuffer::class to OpenGLIndexBuffer::class,
             IVertexArray::class to OpenGLVertexArray::class,
             IShader::class to OpenGLShader::class,
-            IBufferLayout::class to OpenGLBufferLayout::class
+            IBufferLayout::class to OpenGLBufferLayout::class,
+            ITexture::class to OpenGLTexture::class
         )
 
     /**

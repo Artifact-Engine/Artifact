@@ -8,26 +8,14 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.openartifact.artifact.globalext
+package org.openartifact.artifact.graphics.interfaces
 
-import glm_.vec2.Vec2
-import glm_.vec3.Vec3
-import glm_.vec4.Vec4
+import org.openartifact.artifact.graphics.IGraphicsComponent
 
-fun Vec3.reset() {
-    x = 0f
-    y = 0f
-    z = 0f
-}
+interface ITexture : IGraphicsComponent {
 
-fun Vec2.reset() {
-    x = 0f
-    y = 0f
-}
+    fun create(imagePath : String) : ITexture
+    fun bind()
+    fun unbind()
 
-fun Vec4.reset() {
-    x = 0f
-    y = 0f
-    z = 0f
-    w = 0f
 }

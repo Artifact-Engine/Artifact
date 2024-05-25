@@ -12,9 +12,10 @@ package org.openartifact.artifact.resource
 
 class Resource(val name : String, val path : String, internal var isCached : Boolean = false) {
 
-    fun cache() {
+    fun cache() : Resource {
         isCached = true
         cached.add(this)
+        return this
     }
 
     fun asText() : String {

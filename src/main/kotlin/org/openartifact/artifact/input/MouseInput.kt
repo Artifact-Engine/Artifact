@@ -50,13 +50,12 @@ object MouseInput {
         }
     }
 
-    // Function to handle mouse movement
     private lateinit var moveHandler: (Vec2) -> Unit
+
     fun move(handler: (Vec2) -> Unit) {
         moveHandler = handler
     }
 
-    // Function to handle mouse button hold
     fun hold(button: Int, handler: () -> Unit) {
         if (pressed.contains(button)) {
             handler()
