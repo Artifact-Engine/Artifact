@@ -11,16 +11,20 @@
 package org.openartifact.artifact.graphics.platform.opengl
 
 import org.lwjgl.opengl.GL46.*
-import org.lwjgl.stb.STBIIOCallbacks
 import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.openartifact.artifact.graphics.interfaces.ITexture
+import org.openartifact.artifact.resource.Resource
 
 class OpenGLTexture : ITexture {
 
     private var id = 0
 
-    override fun create(imagePath : String) : ITexture {
+    override fun create(resource : Resource) : ITexture {
+
+        val imagePath = ExtractedResource.from(resource).extract().file.absolutePath
+
+        println(imagePath)
 
         MemoryStack.stackPush().use { stack ->
             val width = stack.mallocInt(1)

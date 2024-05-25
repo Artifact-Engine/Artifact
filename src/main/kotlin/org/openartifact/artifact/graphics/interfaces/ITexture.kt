@@ -11,10 +11,11 @@
 package org.openartifact.artifact.graphics.interfaces
 
 import org.openartifact.artifact.graphics.IGraphicsComponent
+import org.openartifact.artifact.resource.Resource
 
 interface ITexture : IGraphicsComponent {
 
-    fun create(imagePath : String) : ITexture
+    fun create(resource : Resource) : ITexture
     fun bind()
     fun unbind()
 
