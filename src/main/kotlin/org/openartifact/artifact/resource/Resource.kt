@@ -23,7 +23,7 @@ class Resource(val name : String, val path : String, internal var isCached : Boo
 
     fun asText() : String {
         return javaClass.getResourceAsStream("/$path")?.reader()?.readText()
-            ?: throw IllegalStateException("org.openartifact.artifact.resource.Resource $path not found.")
+            ?: throw IllegalStateException("Resource $path not found.")
     }
 
     inner class ExtractedResource(private val resource : Resource) {
@@ -32,7 +32,7 @@ class Resource(val name : String, val path : String, internal var isCached : Boo
         fun extract() : ExtractedResource {
             val inputStream =
                 javaClass.getResourceAsStream("/${resource.path}")
-                    ?: throw IllegalStateException("org.openartifact.artifact.resource.Resource ${resource.path} not found.")
+                    ?: throw IllegalStateException("Resource ${resource.path} not found.")
 
             tempFile = Files.createTempFile("game-resource-", ".tmp")
             tempFile.toFile().deleteOnExit()
@@ -46,7 +46,7 @@ class Resource(val name : String, val path : String, internal var isCached : Boo
         val path : Path
             get() {
                 if (!::tempFile.isInitialized) {
-                    throw IllegalStateException("org.openartifact.artifact.resource.Resource has not been extracted yet.")
+                    throw IllegalStateException("Resource has not been extracted yet.")
                 }
                 return tempFile
             }
