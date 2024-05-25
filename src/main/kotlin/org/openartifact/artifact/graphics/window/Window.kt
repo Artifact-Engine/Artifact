@@ -57,7 +57,7 @@ class Window(val windowConfig : WindowConfig) {
 
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE)
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE)
 
         context.preInit()
 
