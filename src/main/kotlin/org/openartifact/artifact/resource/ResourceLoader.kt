@@ -12,8 +12,7 @@ package org.openartifact.artifact.resource
 
 internal val cached = mutableListOf<Resource>()
 
-fun resource(name : String, path : String = name) : Resource =
-    Resource(name, path)
-
-fun getResource(name : String) : Resource =
-    cached.find { it.name == name && it.isCached }!!
+fun resource(name: String, path: String = name): Resource {
+    val cachedResource = cached.find { it.name == name && it.isCached }
+    return cachedResource ?: Resource(name, path)
+}

@@ -14,7 +14,6 @@ import org.lwjgl.opengl.GL46.*
 import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.openartifact.artifact.graphics.interfaces.ITexture
-import org.openartifact.artifact.resource.ExtractedResource
 import org.openartifact.artifact.resource.Resource
 
 class OpenGLTexture : ITexture {
@@ -22,18 +21,12 @@ class OpenGLTexture : ITexture {
     private var id = 0
 
     override fun create(resource : Resource) : ITexture {
-
-        val extractedResource = ExtractedResource.from(resource).extract()
-        val imagePath = extractedResource.file.absolutePath
-
-        println(imagePath)
-
         MemoryStack.stackPush().use { stack ->
             val width = stack.mallocInt(1)
             val height = stack.mallocInt(1)
             val channels = stack.mallocInt(1)
 
-            val imageData = STBImage.stbi_load(imagePath, width, height, channels, 4)!!
+            val imageData = STBImage.stbi_load(resource.extract().file.absolutePath, width, height, channels, 4)!!
 
             id = glGenTextures()
 

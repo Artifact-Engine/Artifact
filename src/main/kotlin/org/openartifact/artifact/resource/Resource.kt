@@ -1,25 +1,58 @@
-/*
- * Copyright Artifact-Engine (c) 2024.
- *
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
-
 package org.openartifact.artifact.resource
+
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
 
 class Resource(val name : String, val path : String, internal var isCached : Boolean = false) {
 
-    fun cache() : Resource {
+    private var extractedResource : ExtractedResource? = null
+
+    init {
         isCached = true
         cached.add(this)
-        return this
+    }
+
+    fun extract() : ExtractedResource {
+        if (extractedResource == null) {
+            extractedResource = ExtractedResource(this)
+            extractedResource!!.extract()
+        }
+        return extractedResource!!
     }
 
     fun asText() : String {
-        return javaClass.getResourceAsStream("/$path")?.reader()?.readText() ?: throw IllegalStateException("Resource $path not found. ")
+        return javaClass.getResourceAsStream("/$path")?.reader()?.readText()
+            ?: throw IllegalStateException("org.openartifact.artifact.resource.Resource $path not found.")
     }
 
+    inner class ExtractedResource(private val resource : Resource) {
+        private lateinit var tempFile : Path
+
+        fun extract() : ExtractedResource {
+            val inputStream =
+                javaClass.getResourceAsStream("/${resource.path}")
+                    ?: throw IllegalStateException("org.openartifact.artifact.resource.Resource ${resource.path} not found.")
+
+            tempFile = Files.createTempFile("game-resource-", ".tmp")
+            tempFile.toFile().deleteOnExit()
+
+            Files.copy(inputStream, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            inputStream.close()
+
+            return this
+        }
+
+        val path : Path
+            get() {
+                if (!::tempFile.isInitialized) {
+                    throw IllegalStateException("org.openartifact.artifact.resource.Resource has not been extracted yet.")
+                }
+                return tempFile
+            }
+
+        val file : File
+            get() = path.toFile()
+
+    }
 }
