@@ -6,30 +6,28 @@ import java.nio.file.Path
 
 class Resource(val name : String, val path : String, internal var isCached : Boolean = false) {
 
-    private var extractedResource : ExtractedResource? = null
+    private var extracted : ExtractedResource? = null
 
     init {
         isCached = true
         cached.add(this)
     }
 
-    fun extract() : ExtractedResource {
-        if (extractedResource == null) {
-            extractedResource = ExtractedResource(this)
-            extractedResource!!.extract()
-        }
-        return extractedResource!!
-    }
+    fun extract(): ExtractedResource =
+        (extracted ?: ExtractedResource(this))
+            .apply { extracted = this }
+
 
     fun asText() : String {
         return javaClass.getResourceAsStream("/$path")?.reader()?.readText()
             ?: throw IllegalStateException("Resource $path not found.")
     }
 
-    inner class ExtractedResource(private val resource : Resource) {
-        private lateinit var tempFile : Path
+    inner class ExtractedResource(resource : Resource) {
 
-        fun extract() : ExtractedResource {
+        private var tempFile : Path
+
+        init {
             val inputStream =
                 javaClass.getResourceAsStream("/${resource.path}")
                     ?: throw IllegalStateException("Resource ${resource.path} not found.")
@@ -39,17 +37,12 @@ class Resource(val name : String, val path : String, internal var isCached : Boo
 
             Files.copy(inputStream, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
             inputStream.close()
-
-            return this
         }
 
         val path : Path
-            get() {
-                if (!::tempFile.isInitialized) {
-                    throw IllegalStateException("Resource has not been extracted yet.")
-                }
-                return tempFile
-            }
+            get() =
+                tempFile
+
 
         val file : File
             get() = path.toFile()
