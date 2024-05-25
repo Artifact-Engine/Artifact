@@ -18,7 +18,7 @@ import kotlin.reflect.KClass
 class VulkanRenderer : Renderer {
 
     override fun registerComponents() : Map<KClass<out IGraphicsComponent>, KClass<out IGraphicsComponent>> {
-        TODO("Not yet implemented; Will not be implemented anytime soon.")
+        TODO()
     }
 
 }

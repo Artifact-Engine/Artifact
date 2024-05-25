@@ -14,13 +14,8 @@ import glm_.func.toRadians
 import glm_.mat4x4.Mat4
 import glm_.vec3.Vec3
 
-fun calculateModelMatrix(pos : Vec3, rotation : Vec3) : Mat4 {
-    val modelViewMatrix = Mat4().identity()
-
-    modelViewMatrix.translateAssign(pos)
+fun calculateModelMatrix(pos : Vec3, rotation : Vec3) : Mat4 =
+    Mat4().identity().translateAssign(pos)
         .rotateXassign(toRadians(-rotation.x))
         .rotateYassign(toRadians(-rotation.y))
         .rotateZassign(toRadians(-rotation.z))
-
-    return modelViewMatrix
-}
