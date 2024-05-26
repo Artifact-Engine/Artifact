@@ -13,21 +13,21 @@ package org.openartifact.artifact.extensions
 import org.apache.commons.collections4.MultiValuedMap
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap
 
-fun <K, R> multiValuedMapOf(vararg pairs : Pair<K, R>) : MultiValuedMap<K, R> =
-    ArrayListValuedHashMap<K, R>()
+fun <K, V> multiValuedMapOf(vararg pairs : Pair<K, V>) : MultiValuedMap<K, V> =
+    ArrayListValuedHashMap<K, V>()
         .apply { pairs.forEach { put(it.first, it.second) } }
 
-fun <K, R> MultiValuedMap<K, R>.isNotEmpty() : Boolean {
-    return !isEmpty
-}
+fun <K, V> MultiValuedMap<K, V>.isNotEmpty() : Boolean =
+    !isEmpty
 
-inline fun <K, R> MultiValuedMap<K, R>.forEach(action : (K, R) -> Unit) {
+
+inline fun <K, V> MultiValuedMap<K, V>.forEach(action : (K, V) -> Unit) {
     for (entry in entries()) {
         action(entry.key, entry.value)
     }
 }
 
-inline fun <K, R> MultiValuedMap<K, R>.forEach(action : (Pair<K, R>) -> Unit) {
+inline fun <K, V> MultiValuedMap<K, V>.forEach(action : (Pair<K, V>) -> Unit) {
     for (entry in entries()) {
         action(Pair(entry.key, entry.value))
     }
