@@ -13,7 +13,8 @@ package org.openartifact.artifact.graphics.platform.opengl.context
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL20.*
-import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.core.event.notify
+import org.openartifact.artifact.core.event.events.ResizeEvent
 import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.window.Window
 import org.slf4j.LoggerFactory
@@ -37,6 +38,7 @@ class OpenGLContext(override var window : Window, var options : OpenGLContextOpt
             glViewport(0, 0, x, y)
             if (options.redrawOnResize)
                 swapBuffers()
+            notify(ResizeEvent(x, y))
         }
 
         logger.info("GPU Info (OpenGL):")

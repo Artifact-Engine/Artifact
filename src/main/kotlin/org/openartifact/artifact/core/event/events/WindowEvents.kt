@@ -13,3 +13,4 @@ package org.openartifact.artifact.core.event.events
 import org.openartifact.artifact.core.event.Event
 
 class FPSUpdateEvent(val fps : Int) : Event
+class ResizeEvent(val x : Int, val y : Int) : Event

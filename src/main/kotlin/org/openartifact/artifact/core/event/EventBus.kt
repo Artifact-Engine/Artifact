@@ -28,7 +28,7 @@ fun <T : Event> unsubscribe(eventType: KClass<T>, listener: (T) -> Unit) {
 }
 
 @OptIn(DelicateCoroutinesApi::class)
-fun deploy(event : Event) {
+fun notify(event : Event) {
     val type = event::class
     listeners[type]?.forEach { listener ->
         GlobalScope.launch {

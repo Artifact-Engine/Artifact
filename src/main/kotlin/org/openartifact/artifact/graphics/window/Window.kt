@@ -17,7 +17,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.core.event.events.FPSUpdateEvent
-import org.openartifact.artifact.core.event.deploy
+import org.openartifact.artifact.core.event.notify
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContext
@@ -111,7 +111,7 @@ class Window(val windowConfig : WindowConfig) {
 
             fps++
             if (currentTime - lastFpsTime >= 1_000_000_000) {
-                deploy(FPSUpdateEvent(fps))
+                notify(FPSUpdateEvent(fps))
                 fps = 0
                 lastFpsTime += 1_000_000_000
             }
