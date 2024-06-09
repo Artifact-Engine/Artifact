@@ -17,9 +17,11 @@ import org.openartifact.artifact.graphics.platform.opengl.OpenGLRenderer
 import org.openartifact.artifact.graphics.window.WindowConfig
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.Properties
 
 open class Application(val api : RenderAPI, val windowConfig: WindowConfig) {
 
+    lateinit var properties : Properties
     open val logger : Logger = LoggerFactory.getLogger(javaClass)
 
     lateinit var renderer : Renderer

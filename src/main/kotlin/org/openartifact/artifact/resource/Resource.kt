@@ -1,6 +1,7 @@
 package org.openartifact.artifact.resource
 
 import java.io.File
+import java.io.InputStream
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -13,13 +14,15 @@ class Resource(val name : String, val path : String, internal var isCached : Boo
         cached.add(this)
     }
 
+    val inputStream : InputStream? =
+        javaClass.getResourceAsStream("/$path")
+
     fun extract() : ExtractedResource =
         (extracted ?: ExtractedResource(this))
             .apply { extracted = this }
 
-
     fun asText() : String {
-        return javaClass.getResourceAsStream("/$path")?.reader()?.readText()
+        return inputStream?.reader()?.readText()
             ?: throw IllegalStateException("Resource $path not found.")
     }
 

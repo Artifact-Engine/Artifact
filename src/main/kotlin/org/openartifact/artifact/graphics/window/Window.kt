@@ -36,9 +36,14 @@ class Window(val windowConfig : WindowConfig) {
     fun run() {
         logger.info("Initializing window...")
         init()
+
+        val engineTime = System.currentTimeMillis()
+        logger.info("Engine startup took: ~${(engineTime - timeInit)}ms")
+
         Artifact.instance.application.init()
 
-        logger.info("Engine startup took: ~${(System.currentTimeMillis() - timeInit)}ms")
+        val applicationTime = System.currentTimeMillis()
+        logger.info("Application startup took: ~${(applicationTime - engineTime)}ms")
 
         update()
         Artifact.instance.application.shutdown()
