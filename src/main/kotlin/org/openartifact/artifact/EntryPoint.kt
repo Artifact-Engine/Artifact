@@ -10,9 +10,7 @@
 
 package org.openartifact.artifact
 
-import com.typesafe.config.ConfigFactory
-import kotlinx.serialization.hocon.Hocon
-import kotlinx.serialization.hocon.decodeFromConfig
+import com.google.gson.Gson
 import org.openartifact.artifact.core.application.Application
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.core.application.ApplicationConfig
@@ -28,21 +26,20 @@ internal var timeInit = System.currentTimeMillis()
  * Main function. Launches the engine and the application.
  */
 fun main() {
-    val applicationConfig = Hocon.decodeFromConfig<ApplicationConfig>(ConfigFactory
-        .parseString(resource("application.conf").asText()))
+    val applicationConfig = Gson().fromJson(resource("application.json").asText(), ApplicationConfig::class.java)
 
     val application: Application =
         createInstance<Application>(
             applicationConfig.mainClass
-        ) ?: throw IllegalStateException("mainClass property not set or misleading.")
+        ) ?: throw IllegalStateException("The mainClass property is either unset, misleading, or has failed instantiation.")
 
     application.config = applicationConfig
 
     logger.info(
         "Loading Artifact engine with Application " +
-                "'${applicationConfig.name}' " +
-                "${applicationConfig.version} from " +
-                "${applicationConfig.mainClass}."
+                "'${application.config.name}' " +
+                "${application.config.version} from " +
+                "${application.config.mainClass}."
     )
     Artifact.launch(application)
 }

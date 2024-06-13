@@ -10,14 +10,13 @@
 
 package org.openartifact.artifact.core
 
-import java.io.File
-import java.net.URLClassLoader
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 /**
  * Searched for a class in a specific package
  */
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T : Any> getClass(className : String) : KClass<T> {
     val kClass = Class.forName(className).kotlin
 
@@ -43,6 +42,7 @@ inline fun <reified T : Any> createInstance(className: String, classLoader: Clas
 /**
  * Extended version of getClass to accept a ClassLoader as the second argument
  */
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T : Any> getClass(className: String, classLoader: ClassLoader): KClass<T> {
     val kClass = Class.forName(className, true, classLoader).kotlin
 

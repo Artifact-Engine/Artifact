@@ -61,9 +61,7 @@ Yes, you can! Please contribute to improve the engine or fix bugs. Just make a P
 <br>
 [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 <br>
-[kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)
-<br>
-[Config](https://github.com/lightbend/config)
+[Gson](https://github.com/google/gson)
 <br>
 [Kotlin-reflect](https://kotlinlang.org/docs/reflection.html)
 <br>
