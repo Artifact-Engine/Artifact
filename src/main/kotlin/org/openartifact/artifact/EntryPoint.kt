@@ -11,7 +11,8 @@
 package org.openartifact.artifact
 
 import com.typesafe.config.ConfigFactory
-import io.github.config4k.extract
+import kotlinx.serialization.hocon.Hocon
+import kotlinx.serialization.hocon.decodeFromConfig
 import org.openartifact.artifact.core.application.Application
 import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.core.application.ApplicationConfig
@@ -27,8 +28,8 @@ internal var timeInit = System.currentTimeMillis()
  * Main function. Launches the engine and the application.
  */
 fun main() {
-    val applicationConfig = ConfigFactory
-        .parseString(resource("application.json").asText()).extract<ApplicationConfig>()
+    val applicationConfig = Hocon.decodeFromConfig<ApplicationConfig>(ConfigFactory
+        .parseString(resource("application.conf").asText()))
 
     val application: Application =
         createInstance<Application>(

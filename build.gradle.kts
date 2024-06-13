@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.23"
+    id("org.jetbrains.kotlin.plugin.serialization") version("1.9.23")
 }
 
 group = "org.openartifact"
@@ -41,8 +42,10 @@ dependencies {
     // Kotlin-reflect
     implementation(kotlin("reflect"))
 
-    // Config4k
-    implementation("io.github.config4k:config4k:0.7.0")
+    // Kotlinx.serialization + Config
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-hocon:1.6.2")
+    implementation("com.typesafe:config:1.4.3")
 
     // glm
     implementation("io.github.kotlin-graphics:glm:0.9.9.1-12")

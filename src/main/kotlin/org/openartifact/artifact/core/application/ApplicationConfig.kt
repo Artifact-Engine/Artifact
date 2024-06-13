@@ -10,4 +10,7 @@
 
 package org.openartifact.artifact.core.application
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ApplicationConfig(val name : String, val version : String, val mainClass : String)
