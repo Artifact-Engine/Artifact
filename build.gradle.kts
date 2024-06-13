@@ -41,8 +41,8 @@ dependencies {
     // Kotlin-reflect
     implementation(kotlin("reflect"))
 
-    // Gson
-    implementation("com.google.code.gson:gson:2.10.1")
+    // Config4k
+    implementation("io.github.config4k:config4k:0.7.0")
 
     // glm
     implementation("io.github.kotlin-graphics:glm:0.9.9.1-12")

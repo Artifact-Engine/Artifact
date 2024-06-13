@@ -41,13 +41,10 @@ Sorry :(
 Artifact uses a node- and component-based architecture, where a node is an object that can be placed in a scene.
 A component is an element that can be attached to a node.
 Nodes have the ability to have many children, but can only contain a single instance of each component type.
-The engine is capable of using [OpenGL](https://www.opengl.org/) (primary) and [Vulkan](https://www.vulkan.org/) (secondary).
+The engine is primarily using [OpenGL](https://www.opengl.org/).
 At the moment there is no working physics engine implemented.
 
 ## Q&A
-
-### Do you have a Roadmap?
-No, not at the moment. Although, I'm planning to open one.
 
 ### Can I contribute?
 Yes, you can! Please contribute to improve the engine or fix bugs. Just make a PR and we'll take a look.
@@ -64,9 +61,11 @@ Yes, you can! Please contribute to improve the engine or fix bugs. Just make a P
 <br>
 [kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 <br>
-[Gson](https://github.com/google/gson)
+[Config4k](https://config4k.github.io/config4k/)
 <br>
 [Kotlin-reflect](https://kotlinlang.org/docs/reflection.html)
+<br>
+[Apache Commons](https://commons.apache.org/)
 
 
 ## Example

@@ -10,6 +10,7 @@
 
 package org.openartifact.artifact.core
 
+import org.openartifact.artifact.core.application.Application
 import org.openartifact.artifact.graphics.window.Window
 import org.openartifact.artifact.graphics.window.WindowConfig
 

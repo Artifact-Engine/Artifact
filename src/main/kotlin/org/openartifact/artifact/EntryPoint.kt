@@ -10,37 +10,38 @@
 
 package org.openartifact.artifact
 
-import org.openartifact.artifact.core.Application
+import com.typesafe.config.ConfigFactory
+import io.github.config4k.extract
+import org.openartifact.artifact.core.application.Application
 import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.core.application.ApplicationConfig
 import org.openartifact.artifact.core.createInstance
 import org.openartifact.artifact.resource.resource
 import org.slf4j.LoggerFactory
-import java.util.*
 
 private val logger = LoggerFactory.getLogger("Artifact EntryPoint")
 
 internal var timeInit = System.currentTimeMillis()
 
-val applicationProperties = Properties()
-
-fun loadProperties() {
-    applicationProperties.load(resource("application.properties").inputStream)
-}
-
 /**
  * Main function. Launches the engine and the application.
  */
 fun main() {
-    loadProperties()
-    val application : Application =
-        createInstance<Application>(applicationProperties
-            .getProperty("mainClass")) ?: throw IllegalStateException("mainClass property not set or misleading.")
+    val applicationConfig = ConfigFactory
+        .parseString(resource("application.json").asText()).extract<ApplicationConfig>()
 
-    application.properties = applicationProperties
+    val application: Application =
+        createInstance<Application>(
+            applicationConfig.mainClass
+        ) ?: throw IllegalStateException("mainClass property not set or misleading.")
 
-    logger.info("Loading Artifact engine with Application " +
-            "'${application.properties.getProperty("name")}' " +
-            "${application.properties.getProperty("version")} from " +
-            "${application.properties.getProperty("mainClass")}.")
+    application.config = applicationConfig
+
+    logger.info(
+        "Loading Artifact engine with Application " +
+                "'${applicationConfig.name}' " +
+                "${applicationConfig.version} from " +
+                "${applicationConfig.mainClass}."
+    )
     Artifact.launch(application)
 }

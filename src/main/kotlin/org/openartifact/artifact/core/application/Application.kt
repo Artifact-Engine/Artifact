@@ -8,9 +8,10 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.openartifact.artifact.core
+package org.openartifact.artifact.core.application
 
 import org.lwjgl.glfw.GLFW
+import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.Renderer
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLRenderer
@@ -21,7 +22,7 @@ import java.util.Properties
 
 open class Application(val api : RenderAPI, val windowConfig: WindowConfig) {
 
-    lateinit var properties : Properties
+    lateinit var config : ApplicationConfig
     open val logger : Logger = LoggerFactory.getLogger(javaClass)
 
     lateinit var renderer : Renderer
