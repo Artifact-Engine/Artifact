@@ -8,23 +8,10 @@
  * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.openartifact.artifact.graphics
+package org.openartifact.artifact.graphics.mesh
 
-import glm_.mat4x4.Mat4
-import org.openartifact.artifact.core.Artifact
-import org.openartifact.artifact.graphics.cameras.PerspectiveCamera
+class Model {
 
-interface Camera {
 
-    fun calculateViewMatrix() : Mat4
-
-    fun calculateProjectionMatrix() : Mat4
-
-    fun calculateMVPMatrix(modelMatrix : Mat4) : Mat4
-
-    companion object {
-        fun get() : PerspectiveCamera =
-            Artifact.instance.application.camera
-    }
 
 }

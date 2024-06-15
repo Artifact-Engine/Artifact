@@ -87,7 +87,7 @@ class OpenGLShader : IShader {
         glUseProgram(0)
     }
 
-    override fun push() {
+    override fun commit() {
         bind()
     }
 

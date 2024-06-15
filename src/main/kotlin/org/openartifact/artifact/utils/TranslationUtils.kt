@@ -19,3 +19,7 @@ fun calculateModelMatrix(pos : Vec3, rotation : Vec3) : Mat4 =
         .rotateXassign(toRadians(-rotation.x))
         .rotateYassign(toRadians(-rotation.y))
         .rotateZassign(toRadians(-rotation.z))
+
+
+fun calculateModelMatrix() : Mat4 =
+    calculateModelMatrix(Vec3(0, 0, 0), Vec3(0, 0, 0))

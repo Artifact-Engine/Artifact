@@ -24,6 +24,6 @@ class OpenGLBufferLayout : IBufferLayout {
     override var stride : Int = 0
     override val bufferElements : MutableList<BufferElement> = mutableListOf()
 
-    override fun push() {}
+    override fun commit() {}
 
 }

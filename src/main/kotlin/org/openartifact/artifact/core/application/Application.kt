@@ -12,8 +12,10 @@ package org.openartifact.artifact.core.application
 
 import org.lwjgl.glfw.GLFW
 import org.openartifact.artifact.core.Artifact
+import org.openartifact.artifact.graphics.Camera
 import org.openartifact.artifact.graphics.RenderAPI
 import org.openartifact.artifact.graphics.Renderer
+import org.openartifact.artifact.graphics.cameras.PerspectiveCamera
 import org.openartifact.artifact.graphics.platform.opengl.OpenGLRenderer
 import org.openartifact.artifact.graphics.window.WindowConfig
 import org.slf4j.Logger
@@ -26,6 +28,7 @@ open class Application(val api : RenderAPI, val windowConfig: WindowConfig) {
     open val logger : Logger = LoggerFactory.getLogger(javaClass)
 
     lateinit var renderer : Renderer
+    lateinit var camera : PerspectiveCamera
 
     fun createRenderer() : Renderer {
         return when (api) {

@@ -43,6 +43,6 @@ class OpenGLVertexBuffer : IVertexBuffer {
         glDeleteBuffers(id)
     }
 
-    override fun push() {}
+    override fun commit() {}
 
 }

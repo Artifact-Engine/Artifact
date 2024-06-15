@@ -10,8 +10,13 @@
 
 package org.openartifact.artifact.graphics
 
+import org.openartifact.artifact.core.Artifact
+
 interface IGraphicsComponent {
 
-    fun push()
+    fun commit()
+
+    val renderer
+        get() = Artifact.instance.application.renderer
 
 }

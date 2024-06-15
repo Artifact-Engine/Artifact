@@ -53,7 +53,7 @@ class OpenGLTexture : ITexture {
         glBindTexture(GL_TEXTURE_2D, 0)
     }
 
-    override fun push() {
+    override fun commit() {
         bind()
     }
 
