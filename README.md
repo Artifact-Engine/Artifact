@@ -33,8 +33,8 @@ I strongly advise against using this engine at the moment.
 Artifact is a desktop 3D game engine written in Kotlin.
 
 ## Getting started
-Currently, Artifact is in a too early stage of development to be used as a real game engine.
-Sorry :(
+There is a [Template](https://github.com/Artifact-Engine/Template) that you can use to generate some basic code.
+If you need an example, take a look at [Sandbox](https://github.com/Artifact-Engine/Sandbox).
 
 ## Technology
 
