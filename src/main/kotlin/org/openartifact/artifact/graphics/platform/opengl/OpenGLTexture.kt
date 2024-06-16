@@ -18,7 +18,7 @@ import org.openartifact.artifact.resource.Resource
 
 class OpenGLTexture : ITexture {
 
-    private var id = 0
+    private var id = -12
 
     override fun create(resource : Resource) : ITexture {
         MemoryStack.stackPush().use { stack ->
@@ -42,7 +42,7 @@ class OpenGLTexture : ITexture {
             STBImage.stbi_image_free(imageData)
         }
 
-        return OpenGLTexture()
+        return this
     }
 
     override fun bind() {
