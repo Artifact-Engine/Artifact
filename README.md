@@ -2,7 +2,6 @@
 
 ![GitHub License](https://img.shields.io/github/license/Artifact-Engine/Artifact)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Artifact-Engine/Artifact)
-[![wakatime](https://wakatime.com/badge/user/8a1e0c8a-eea8-45b2-a408-ab9228e0ee06/project/49481bf8-200d-4d50-b8d9-09d74073950d.svg)](https://wakatime.com/badge/user/8a1e0c8a-eea8-45b2-a408-ab9228e0ee06/project/49481bf8-200d-4d50-b8d9-09d74073950d)
 
 <details>
     <summary>Table of Contents</summary>
