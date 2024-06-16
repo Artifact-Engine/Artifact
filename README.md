@@ -11,10 +11,19 @@
             <a href="#about-artifact">About Artifact</a>
         </li>
         <li>
+            <a href="#getting-started">Getting started</a>
+        </li>
+        <li>
             <a href="#technology">Technology</a>
         </li>
         <li>
+            <a href="#qa">Q&A</a>
+        </li>
+        <li>
             <a href="#dependencies">Dependencies</a>
+        </li>
+        <li>
+            <a href="#example">Example</a>
         </li>
         <li>
             <a href="#acknowledgements">Acknowledgements</a>
@@ -48,6 +57,10 @@ At the moment there is no working physics engine implemented.
 
 ### Can I contribute?
 Yes, you can! Please contribute to improve the engine or fix bugs. Just make a PR and we'll take a look.
+
+### Does this run on x os?
+Artifact is currently compatible with Windows and Gnu/Linux.
+However, it should be noted that windows support may be somewhat limited.
 
 ## Dependencies
 (Might not be 100% accurate)
