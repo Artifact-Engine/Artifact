@@ -16,6 +16,7 @@ import org.openartifact.artifact.core.Artifact
 import org.openartifact.artifact.core.application.ApplicationConfig
 import org.openartifact.artifact.core.createInstance
 import org.openartifact.artifact.resource.resource
+import org.openartifact.artifact.utils.Internals
 import org.slf4j.LoggerFactory
 
 private val logger = LoggerFactory.getLogger("Artifact EntryPoint")
@@ -26,7 +27,7 @@ internal var timeInit = System.currentTimeMillis()
  * Main function. Launches the engine and the application.
  */
 fun main() {
-    val applicationConfig = Gson().fromJson(resource("application.json").asText(), ApplicationConfig::class.java)
+    val applicationConfig = Gson().fromJson(Internals.APPLICATION_JSON.asText(), ApplicationConfig::class.java)
 
     val application: Application =
         createInstance<Application>(

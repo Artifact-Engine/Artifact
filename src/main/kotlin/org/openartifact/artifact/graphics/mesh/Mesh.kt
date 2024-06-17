@@ -47,10 +47,10 @@ class Mesh(private val resource : Resource, private val texture : ITexture) : IG
         aiReleaseImport(aiScene)
 
         val bufferLayout = renderer.choose<IBufferLayout>().create(
-            multiValuedMapOf(
-                DataType.Vec3 to "a_Position",
-                DataType.Vec3 to "a_Normal",
-                DataType.Vec2 to "a_TexCoord"
+            mapOf(
+                "a_Position" to DataType.Vec3,
+                "a_Normal" to DataType.Vec3,
+                "a_TexCoord" to DataType.Vec2,
             )
         )
 
@@ -119,10 +119,6 @@ class Mesh(private val resource : Resource, private val texture : ITexture) : IG
             parameterMat4("u_Projection", Camera.get().calculateProjectionMatrix())
             parameterMat4("u_View", Camera.get().calculateViewMatrix())
             parameterMat4("u_Model", calculateModelMatrix())
-
-            parameterVec3("u_Color", Vec3(.4, .4, .4))
-            parameterVec3("u_Light_Pos", Vec3(0, 0, 0))
-            parameterVec3("u_Light_Color", Vec3(1, 1, 1))
         }
 
         commit(texture)

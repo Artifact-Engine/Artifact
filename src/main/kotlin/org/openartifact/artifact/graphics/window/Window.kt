@@ -13,6 +13,8 @@ package org.openartifact.artifact.graphics.window
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
+import org.lwjgl.glfw.GLFWImage
+import org.lwjgl.stb.STBImage
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.NULL
 import org.openartifact.artifact.core.Artifact
@@ -23,8 +25,13 @@ import org.openartifact.artifact.graphics.interfaces.IContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContext
 import org.openartifact.artifact.graphics.platform.opengl.context.OpenGLContextOptions
 import org.openartifact.artifact.input.MouseInput
+import org.openartifact.artifact.resource.resource
 import org.openartifact.artifact.timeInit
+import org.openartifact.artifact.utils.STBImageUtil
 import org.slf4j.LoggerFactory
+import java.nio.ByteBuffer
+import java.nio.IntBuffer
+
 
 class Window(val windowConfig : WindowConfig) {
 
@@ -87,6 +94,14 @@ class Window(val windowConfig : WindowConfig) {
                 (vidmode.height() - pHeight.get(0)) / 2
             )
         }
+
+        val image = STBImageUtil(resource("artifact/assets/artifact48.png"))
+
+        val glfwImage = GLFWImage.malloc()
+        glfwImage.set(image.width, image.height, image.image)
+        val buffer = GLFWImage.malloc(1)
+        buffer.put(0, glfwImage)
+        glfwSetWindowIcon(handle, buffer)
 
         glfwSwapInterval(1)
         glfwShowWindow(handle)

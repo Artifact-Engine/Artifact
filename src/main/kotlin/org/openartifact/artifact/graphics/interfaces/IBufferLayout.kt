@@ -29,7 +29,7 @@ interface IBufferLayout : IGraphicsComponent {
      * @param map A map where keys are org.openartifact.artifact.graphics.DataType instances and values are names for the buffer elements.
      * @return The created buffer layout.
      */
-    fun create(map : MultiValuedMap<DataType, String>) : IBufferLayout {
+    fun create(map : Map<String, DataType>) : IBufferLayout {
         require(map.isNotEmpty()) { "Can't create buffer layout with empty map." }
 
         calculateOffsets(map)
@@ -44,9 +44,9 @@ interface IBufferLayout : IGraphicsComponent {
      *
      * @param map A map where keys are DataType instances and values are names for the buffer elements.
      */
-    fun calculateOffsets(map : MultiValuedMap<DataType, String>) {
+    fun calculateOffsets(map : Map<String, DataType>) {
         var offset = 0
-        map.forEach { dataType, name ->
+        map.forEach { (name, dataType) ->
             val bufferElement = BufferElement(name, dataType, offset)
             bufferElements.add(bufferElement)
             offset += dataType.byteSize()

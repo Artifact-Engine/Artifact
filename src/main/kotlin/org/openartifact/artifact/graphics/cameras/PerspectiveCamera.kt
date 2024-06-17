@@ -24,12 +24,8 @@ class PerspectiveCamera(private val fov : Float, position : Vec3, rotation : Vec
         val viewMatrix = Mat4()
         viewMatrix.identity()
 
-        viewMatrix.rotateAssign(
-            toRadians(rotation.x), Vec3(1, 0, 0)
-        )
-            .rotateAssign(
-                toRadians(rotation.y), Vec3(0, 1, 0)
-            )
+        viewMatrix.rotateXassign(toRadians(rotation.x))
+        viewMatrix.rotateYassign(toRadians(rotation.y))
 
         viewMatrix.translateAssign(-position.x, -position.y, -position.z)
 

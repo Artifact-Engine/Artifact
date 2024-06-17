@@ -29,15 +29,15 @@ class OpenGLTexture : ITexture {
             val imageData = STBImage.stbi_load(resource.extract().file.absolutePath, width, height, channels, 4)!!
 
             id = glGenTextures()
+            bind()
+
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width.get(), height.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData)
+            glGenerateMipmap(GL_TEXTURE_2D)
 
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width.get(), height.get(), 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData)
-
-            glGenerateMipmap(GL_TEXTURE_2D)
 
             STBImage.stbi_image_free(imageData)
         }
